@@ -13,7 +13,7 @@ export default function Navbar() {
                 <div className="flex justify-between items-center h-16">
                     <div className="flex items-center gap-2">
                         <Briefcase className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                        <span className="text-xl font-bold text-gray-900 dark:text-white">Part-Time Match</span>
+                        <span className="text-xl font-bold text-gray-900 dark:text-white">MatchWork</span>
                     </div>
 
                     <div className="flex items-center gap-3">

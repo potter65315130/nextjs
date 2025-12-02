@@ -6,10 +6,10 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto text-center">
                 <div className="flex items-center justify-center gap-2 mb-4">
                     <Briefcase className="w-6 h-6 text-blue-400" />
-                    <span className="text-lg font-bold text-white">Part-Time Match</span>
+                    <span className="text-lg font-bold text-white">MatchWork</span>
                 </div>
                 <p className="text-sm">
-                    © 2024 Part-Time Match. All rights reserved.
+                    © 2024 MatchWork. All rights reserved.
                 </p>
             </div>
         </footer>
