@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
     try {
-        const { email, password, roleName } = await req.json();
+        const { fullName, email, password, roleName } = await req.json();
 
         // 1. ตรวจสอบ User ซ้ำ
         const existingUser = await prisma.user.findUnique({
@@ -31,14 +31,11 @@ export async function POST(req: Request) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // 4. สร้าง User
-        // ใส่ fullName ชั่วคราวไปก่อนตาม Schema
-        const tempName = email.split('@')[0];
-
         const newUser = await prisma.user.create({
             data: {
                 email,
                 passwordHash: hashedPassword,
-                fullName: tempName,
+                fullName: fullName || email.split('@')[0], // ใช้ fullName จากฟอร์ม หรือ fallback เป็น email prefix
                 roleId: role.id,
             },
         });

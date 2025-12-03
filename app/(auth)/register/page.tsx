@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Navbar from '@/components/home/Navbar';
 import Link from 'next/link';
-import { Mail, Lock, Briefcase, Store } from 'lucide-react';
+import { Mail, Lock, Briefcase, Store, User } from 'lucide-react';
 import InputField from '@/components/auth/InputField';
 import { useRouter } from 'next/navigation';
 
@@ -11,6 +11,7 @@ export default function RegisterPage() {
     const router = useRouter();
     const [role, setRole] = useState<'job_seeker' | 'shop_owner'>('job_seeker');
     const [formData, setFormData] = useState({
+        fullName: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -30,6 +31,7 @@ export default function RegisterPage() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    fullName: formData.fullName,
                     email: formData.email,
                     password: formData.password,
                     roleName: role,
@@ -94,6 +96,15 @@ export default function RegisterPage() {
                     {/* Form */}
                     <form className="space-y-4 text-left" onSubmit={handleSubmit}>
                         <p className="text-sm text-gray-600 dark:text-gray-400 text-center">กรุณากรอกข้อมูลของคุณ</p>
+
+                        <InputField
+                            id="fullName"
+                            type="text"
+                            placeholder="ชื่อ-นามสกุล"
+                            icon={User}
+                            value={formData.fullName}
+                            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                        />
 
                         <InputField
                             id="email"
