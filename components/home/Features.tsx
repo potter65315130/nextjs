@@ -47,18 +47,28 @@ export default function Features() {
     return (
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-800 transition-colors">
             <div className="max-w-7xl mx-auto">
+
+                {/* ===== HEAD TEXT WITH ANIMATION ===== */}
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                        ฟีเจอร์เด่นของเรา
-                    </h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-300">
-                        ทุกสิ่งที่คุณต้องการสำหรับการหางาน Part-time
-                    </p>
+
+                    <AnimateOnScroll delay={0}>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                            ฟีเจอร์เด่นของเรา
+                        </h2>
+                    </AnimateOnScroll>
+
+                    <AnimateOnScroll delay={0.15}>
+                        <p className="text-lg text-gray-600 dark:text-gray-300">
+                            ทุกสิ่งที่คุณต้องการสำหรับการหางาน Part-time
+                        </p>
+                    </AnimateOnScroll>
+
                 </div>
 
+                {/* ===== FEATURE CARDS ===== */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {features.map((feature, index) => (
-                        <AnimateOnScroll key={index} delay={index * 0.15}>
+                        <AnimateOnScroll key={index} delay={index * 0.15 + 0.2}>
                             <div className="h-full">
                                 <FeatureCard
                                     icon={feature.icon}

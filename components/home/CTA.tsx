@@ -1,4 +1,4 @@
-import Link from 'next/link';
+/*import Link from 'next/link';
 
 export default function CTA() {
     return (
@@ -19,4 +19,4 @@ export default function CTA() {
             </div>
         </section>
     );
-}
+}*/
