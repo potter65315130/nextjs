@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Prompt } from "next/font/google";
+import { ThemeProvider } from "./providers/ThemeProvider";
 
 const prompt = Prompt({
   subsets: ["latin", "thai"],
@@ -15,7 +16,16 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th" className={prompt.variable} suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

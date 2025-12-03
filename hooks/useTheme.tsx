@@ -1,32 +1,45 @@
-'use client';
+/*'use client';
 
 import { useEffect, useState } from 'react';
 
 export function useTheme() {
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
+    const [mounted, setMounted] = useState(false);
 
-    // โหลดธีมตอนเริ่มเข้าเว็บ
+    // โหลดธีมตอนเริ่มต้น
     useEffect(() => {
+        setMounted(true);
+
         const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
         const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+
         setTheme(initialTheme);
 
-        document.documentElement.classList.toggle('dark', initialTheme === 'dark');
+        // ตั้งค่า class ให้ html element
+        if (initialTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     }, []);
 
-    // ⭐ วิธีแก้แบบง่ายที่สุด — ใช้ functional update
     const toggleTheme = () => {
-        setTheme((prev) => {
-            const newTheme = prev === 'light' ? 'dark' : 'light';
+        const newTheme = theme === 'light' ? 'dark' : 'light';
 
-            localStorage.setItem('theme', newTheme);
-            document.documentElement.classList.toggle('dark', newTheme === 'dark');
+        // อัพเดท state
+        setTheme(newTheme);
 
-            return newTheme; // state ใหม่
-        });
+        // บันทึกลง localStorage
+        localStorage.setItem('theme', newTheme);
+
+        // อัพเดท DOM ทันที - นี่คือจุดสำคัญ!
+        if (newTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     };
 
-    return { theme, toggleTheme };
-}
+    return { theme, toggleTheme, mounted };
+}*/
