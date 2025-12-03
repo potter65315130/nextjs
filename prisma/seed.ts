@@ -11,15 +11,15 @@ async function main() {
     // ====================================================
     // ใช้ Upsert เพื่อให้แน่ใจว่ามีข้อมูลและได้ Object กลับมาใช้
     const roleSeeker = await prisma.role.upsert({
-        where: { name: "seeker" },
+        where: { name: "job_seeker" },
         update: {},
-        create: { name: "seeker" },
+        create: { name: "job_seeker" },
     });
 
     const roleShop = await prisma.role.upsert({
-        where: { name: "shop" },
+        where: { name: "shop_owner" },
         update: {},
-        create: { name: "shop" },
+        create: { name: "shop_owner" },
     });
     console.log("✔ Roles ready");
 
