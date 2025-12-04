@@ -37,9 +37,9 @@ const features = [
         description: "อ่านและเขียนรีวิวร้านค้าเพื่อสร้างความเชื่อมั่น",
     },
     {
-        icon: TrendingUp,
-        title: "Dashboard แบบ Real-time",
-        description: "ติดตามงาน สถิติ และรายได้ของคุณในที่เดียว",
+    icon: TrendingUp,
+    title: "ติดตามสถานะงาน",
+    description: "ตรวจสอบสถานะการสมัครงานแบบ Real-time",
     },
 ];
 
