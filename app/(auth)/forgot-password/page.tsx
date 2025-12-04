@@ -2,81 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Mail, Lock, AlertCircle, CheckCircle, KeyRound } from 'lucide-react';
+import { Mail, Lock, AlertCircle, CheckCircle, KeyRound, UserPlus } from 'lucide-react';
 import Navbar from '@/components/home/Navbar';
 import InputField from '@/components/auth/InputField';
-
-// Shared Components
-const AuthBackground = ({ children }: { children: React.ReactNode }) => (
-    <div className="min-h-screen flex items-center justify-center bg-blue-500 dark:bg-gray-900 px-4 pt-20 transition-colors duration-300">
-        {children}
-    </div>
-);
-
-const AuthCard = ({ children }: { children: React.ReactNode }) => (
-    <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 space-y-6 text-center transition-colors duration-300">
-        {children}
-    </div>
-);
-
-const AuthHeader = ({
-    icon: Icon,
-    title,
-    subtitle
-}: {
-    icon: React.ComponentType<{ className?: string }>;
-    title: string;
-    subtitle?: string;
-}) => (
-    <div className="space-y-2">
-        <div className="flex justify-center mb-4">
-            <Icon className="w-10 h-10 text-blue-500 dark:text-blue-400" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
-        {subtitle && <p className="text-sm text-gray-500 dark:text-gray-400">{subtitle}</p>}
-    </div>
-);
-
-const AuthButton = ({
-    children,
-    loading = false,
-    type = 'button',
-    variant = 'primary',
-    onClick
-}: {
-    children: React.ReactNode;
-    loading?: boolean;
-    type?: 'button' | 'submit';
-    variant?: 'primary' | 'secondary';
-    onClick?: () => void;
-}) => {
-    const baseStyles = "w-full py-3 px-4 font-medium rounded-full shadow-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
-    const variants = {
-        primary: "bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-500",
-        secondary: "bg-gray-200 hover:bg-gray-300 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 focus:ring-gray-400"
-    };
-
-    return (
-        <button
-            type={type}
-            onClick={onClick}
-            disabled={loading}
-            className={`${baseStyles} ${variants[variant]}`}
-        >
-            {children}
-        </button>
-    );
-};
-
-const AuthLink = ({ text, linkText, href }: { text: string; linkText: string; href: string }) => (
-    <p className="text-sm text-gray-600 dark:text-gray-400">
-        {text}{' '}
-        <Link href={href} className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500 font-medium transition-colors">
-            {linkText}
-        </Link>
-    </p>
-);
+import { AuthLink } from '@/components/auth/AuthLink';
+import { AuthHeader } from '@/components/auth/AuthHeader';
+import { AuthButton } from '@/components/auth/AuthButton';
+import { AuthBackground } from '@/components/auth/AuthBackground';
+import { AuthCard } from '@/components/auth/AuthCard';
+import { ProgressSteps } from '@/components/auth/ProgressSteps';
 
 const AlertMessage = ({
     type,
@@ -98,29 +32,6 @@ const AlertMessage = ({
         </div>
     );
 };
-
-const ProgressSteps = ({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) => (
-    <div className="flex justify-between mb-8">
-        {Array.from({ length: totalSteps }, (_, i) => i + 1).map((s) => (
-            <div key={s} className="flex items-center flex-1">
-                <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold transition-colors ${currentStep >= s
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-200 text-gray-400 dark:bg-gray-700 dark:text-gray-500'
-                        }`}
-                >
-                    {s}
-                </div>
-                {s < totalSteps && (
-                    <div
-                        className={`flex-1 h-1 mx-2 transition-colors ${currentStep > s ? 'bg-blue-500' : 'bg-gray-200 dark:bg-gray-700'
-                            }`}
-                    />
-                )}
-            </div>
-        ))}
-    </div>
-);
 
 export default function ForgotPasswordPage() {
     const router = useRouter();
