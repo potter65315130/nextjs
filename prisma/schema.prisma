@@ -9,12 +9,12 @@ datasource db {
 }
 
 // --------------------------------------------------------
-// 1) Roles — ประเภทผู้ใช้งาน
+// 1) Roles — ประเภทผู้ใช้งาน (เหลือแค่ 2 แบบ)
 // --------------------------------------------------------
 model Role {
   id        Int      @id @default(autoincrement()) @map("role_id")
-  name      String   @unique @map("role_name") // admin / job_seeker / shop_owner
-  
+  name      String   @unique @map("role_name") // job_seeker / shop_owner
+
   // Relations
   users     User[]
 
@@ -32,7 +32,7 @@ model User {
   email        String   @unique
   passwordHash String   @map("password_hash")
   phone        String?
-  
+
   isActive     Boolean  @default(true) @map("is_active")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
@@ -40,8 +40,8 @@ model User {
   // Relations
   role              Role               @relation(fields: [roleId], references: [id])
   passwordResets    PasswordReset[]
-  jobSeekerProfile  JobSeekerProfile?  // 1:1 relation
-  shop              Shop?              // 1:1 relation (User as Shop Owner)
+  jobSeekerProfile  JobSeekerProfile?
+  shop              Shop?
 
   @@index([email])
   @@map("users")
@@ -53,7 +53,7 @@ model User {
 model PasswordReset {
   id        Int      @id @default(autoincrement())
   userId    Int      @map("user_id")
-  
+
   otpCode   String   @map("otp_code")
   otpExpiry DateTime @map("otp_expiry")
   isUsed    Boolean  @default(false) @map("is_used")
@@ -68,13 +68,12 @@ model PasswordReset {
 }
 
 // --------------------------------------------------------
-// 4) Work Categories — หมวดหมู่งาน
+// 4) Work Categories
 // --------------------------------------------------------
 model Category {
   id   Int    @id @default(autoincrement()) @map("category_id")
   name String @unique @map("category_name")
 
-  // Relations
   jobSeekerCategories JobSeekerCategory[]
   shopJobPosts        ShopJobPost[]
 
@@ -82,28 +81,26 @@ model Category {
 }
 
 // --------------------------------------------------------
-// 5) Job Seeker Profiles — โปรไฟล์ผู้หางาน
+// 5) Job Seeker Profiles
 // --------------------------------------------------------
 model JobSeekerProfile {
   id            Int     @id @default(autoincrement()) @map("seeker_id")
   userId        Int     @unique @map("user_id")
-  
+
   profileImage  String? @map("profile_image")
   age           Int?
   gender        String?
   phone         String?
   email         String?
   address       String?
-  
+
   latitude      Float?
   longitude     Float?
-  
-  // เก็บเป็น String (JSON หรือ Comma separated) ตามโจทย์ "text"
-  availableDays String? @map("available_days") @db.Text 
-  
+
+  availableDays String? @map("available_days") @db.Text
   skills        String? @db.Text
   experience    String? @db.Text
-  
+
   createdAt     DateTime? @default(now()) @map("created_at")
   updatedAt     DateTime? @updatedAt @map("updated_at")
 
@@ -119,14 +116,13 @@ model JobSeekerProfile {
 }
 
 // --------------------------------------------------------
-// 6) Job Seeker Categories — Many-to-Many Link
+// 6) JobSeekerCategory — Many-to-Many Link
 // --------------------------------------------------------
 model JobSeekerCategory {
   id         Int @id @default(autoincrement())
   seekerId   Int @map("seeker_id")
   categoryId Int @map("category_id")
 
-  // Relations
   seeker   JobSeekerProfile @relation(fields: [seekerId], references: [id])
   category Category         @relation(fields: [categoryId], references: [id])
 
@@ -140,16 +136,16 @@ model JobSeekerCategory {
 model Shop {
   id          Int      @id @default(autoincrement()) @map("shop_id")
   userId      Int      @unique @map("user_id")
-  
+
   shopName    String   @map("shop_name")
   description String?  @db.Text
   phone       String?
   email       String?
   address     String?
-  
+
   latitude    Float?
   longitude   Float?
-  
+
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
@@ -163,24 +159,24 @@ model Shop {
 }
 
 // --------------------------------------------------------
-// 8) Shop Job Posts — ประกาศรับสมัครงาน
+// 8) ShopJobPost — โพสต์งาน
 // --------------------------------------------------------
 model ShopJobPost {
   id             Int      @id @default(autoincrement()) @map("post_id")
   shopId         Int      @map("shop_id")
   categoryId     Int      @map("category_id")
-  
+
   jobName        String   @map("job_name")
   description    String?  @db.Text
   contactPhone   String?  @map("contact_phone")
   address        String?
   availableDays  String?  @map("available_days") @db.Text
-  
-  workDate       DateTime @map("work_date") @db.Date // ใช้ type Date ของ Postgres
+
+  workDate       DateTime @map("work_date") @db.Date
   requiredPeople Int      @map("required_people")
-  wage           Decimal  @db.Decimal(10, 2) // กำหนด Precision ของเงิน
-  
-  status         String   @default("open") // open / closed / cancelled
+  wage           Decimal  @db.Decimal(10, 2)
+
+  status         String   @default("open")
   createdAt      DateTime @default(now()) @map("created_at")
 
   // Relations
@@ -203,19 +199,18 @@ model Match {
   id               Int      @id @default(autoincrement()) @map("match_id")
   seekerId         Int      @map("seeker_id")
   postId           Int      @map("post_id")
-  
+
   matchDate        DateTime @default(now()) @map("match_date")
-  
+
   distanceKm       Float?   @map("distance_km")
   isWithinDistance Boolean? @map("is_within_distance")
-  
+
   dateMatch        Boolean? @map("date_match")
   categoryMatch    Boolean? @map("category_match")
-  
-  overallScore     Float    @map("overall_score")
-  status           String   @default("pending") // pending / accepted / rejected
 
-  // Relations
+  overallScore     Float    @map("overall_score")
+  status           String   @default("pending")
+
   seeker JobSeekerProfile @relation(fields: [seekerId], references: [id])
   post   ShopJobPost      @relation(fields: [postId], references: [id])
 
@@ -231,11 +226,10 @@ model Application {
   id              Int      @id @default(autoincrement()) @map("application_id")
   seekerId        Int      @map("seeker_id")
   postId          Int      @map("post_id")
-  
-  applicationDate DateTime @default(now()) @map("application_date")
-  status          String   @default("pending") // pending / approved / rejected
 
-  // Relations
+  applicationDate DateTime @default(now()) @map("application_date")
+  status          String   @default("pending")
+
   seeker JobSeekerProfile @relation(fields: [seekerId], references: [id])
   post   ShopJobPost      @relation(fields: [postId], references: [id])
 
@@ -251,14 +245,13 @@ model WorkHistory {
   seekerId  Int      @map("seeker_id")
   shopId    Int      @map("shop_id")
   postId    Int      @map("post_id")
-  
+
   workDate  DateTime @map("work_date") @db.Date
   wage      Decimal  @db.Decimal(10, 2)
   createdAt DateTime @default(now()) @map("created_at")
   review    String?  @db.Text
   rating    Int?
 
-  // Relations
   seeker JobSeekerProfile @relation(fields: [seekerId], references: [id])
   shop   Shop             @relation(fields: [shopId], references: [id])
   post   ShopJobPost      @relation(fields: [postId], references: [id])
