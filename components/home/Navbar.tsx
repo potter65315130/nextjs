@@ -18,12 +18,14 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm z-50 transition-colors">
+        <nav className="fixed top-0 w-full bg-white dark:bg-gray-900 shadow-sm z-50 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">
-                        MatchWork
-                    </span>
+                    <Link href="/">
+                        <span className="text-xl font-bold text-gray-900 dark:text-white cursor-pointer">
+                            MatchWork
+                        </span>
+                    </Link>
 
                     <div className="flex items-center gap-3">
                         <button
