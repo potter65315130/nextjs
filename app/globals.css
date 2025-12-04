@@ -7,19 +7,15 @@
   --foreground: #171717;
 
   /* Button Colors */
-  --button-primary: #2563eb;
+  --button-primary: #5D87FF;
   --button-primary-hover: #1d4ed8;
   --button-secondary: #e5e7eb;
   --button-secondary-hover: #d1d5db;
   --button-secondary-text: #374151;
 
   /* Gradient Colors */
-  --gradient-from: #2563eb;
+  --gradient-from: #5D87FF;
   --gradient-to: #9333ea;
-
-  /* Badge Colors */
-  --badge-bg: #dbeafe;
-  --badge-text: #1d4ed8;
 }
 
 .dark {
@@ -40,6 +36,17 @@
   /* Badge Colors Dark */
   --badge-bg: rgba(30, 58, 138, 0.3);
   --badge-text: #93c5fd;
+}
+
+/* Auth Background Colors */
+.auth-bg {
+  background-color: #5D87FF;
+  /* เทียบเท่า bg-blue-500 */
+}
+
+.dark .auth-bg {
+  background-color: #111827;
+  /* เทียบเท่า dark:bg-gray-900 */
 }
 
 html,
@@ -91,4 +98,33 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
+}
+
+/* Role Button */
+.role-btn {
+  background-color: var(--button-secondary);
+  color: var(--button-secondary-text);
+  transition: all 0.2s ease;
+}
+
+.role-btn:hover {
+  background-color: var(--button-secondary-hover);
+}
+
+/* Active / Selected Button */
+.role-btn-active {
+  background-color: var(--button-primary);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Mode Support */
+.dark .role-btn {
+  background-color: var(--button-secondary);
+  color: var(--button-secondary-text);
+}
+
+.dark .role-btn:hover {
+  background-color: var(--button-secondary-hover);
 }

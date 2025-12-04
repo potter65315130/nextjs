@@ -24,14 +24,12 @@ export const RoleSelector = ({ roles, selectedRole, onRoleChange }: RoleSelector
                             key={role.value}
                             onClick={() => onRoleChange(role.value)}
                             type="button"
-                            className={`flex-1 py-4 rounded-xl flex flex-col items-center gap-2 transition-all ${selectedRole === role.value
-                                    ? 'bg-blue-500 text-white shadow-lg scale-105'
-                                    : 'bg-blue-100 text-blue-500 dark:bg-gray-700 dark:text-gray-300 hover:bg-blue-200 dark:hover:bg-gray-600'
-                                }`}
+                            className={`flex-1 py-4 rounded-xl flex flex-col items-center gap-2 transition-all ${selectedRole === role.value ? 'role-btn-active' : 'role-btn'}`}
                         >
                             <Icon className="w-6 h-6" />
                             <span className="font-medium text-sm">{role.label}</span>
                         </button>
+
                     );
                 })}
             </div>
