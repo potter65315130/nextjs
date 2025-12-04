@@ -7,9 +7,9 @@ export default function Hero() {
         <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto text-center">
 
-                {/* Badge */}
+                {/* Badge - ใช้สีจาก config */}
                 <AnimateOnScroll delay={0}>
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-badge-bg dark:bg-badge-bg-dark text-badge-text dark:text-badge-text-dark rounded-full text-sm font-medium mb-6">
                         <TrendingUp className="w-4 h-4" />
                         ระบบจับคู่งาน Part-time ให้คุณ
                     </div>
@@ -19,7 +19,7 @@ export default function Hero() {
                 <AnimateOnScroll delay={0.15}>
                     <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
                         หางาน Part-time<br />
-                        <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+                        <span className="gradient-text">
                             ที่ใช่สำหรับคุณ
                         </span>
                     </h1>
@@ -37,7 +37,7 @@ export default function Hero() {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link
                             href="/register"
-                            className="px-8 py-4 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 font-semibold text-lg transition-all shadow-lg hover:shadow-xl"
+                            className="btn-primary px-8 py-4 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl"
                         >
                             เริ่มต้นใช้งานฟรี
                         </Link>
