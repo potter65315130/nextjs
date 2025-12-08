@@ -10,10 +10,8 @@ CREATE TABLE "roles" (
 CREATE TABLE "users" (
     "user_id" SERIAL NOT NULL,
     "role_id" INTEGER NOT NULL,
-    "full_name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password_hash" TEXT NOT NULL,
-    "phone" TEXT,
     "is_active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -45,6 +43,7 @@ CREATE TABLE "categories" (
 CREATE TABLE "job_seeker_profiles" (
     "seeker_id" SERIAL NOT NULL,
     "user_id" INTEGER NOT NULL,
+    "full_name" TEXT,
     "profile_image" TEXT,
     "age" INTEGER,
     "gender" TEXT,

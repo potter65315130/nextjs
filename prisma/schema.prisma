@@ -171,6 +171,9 @@ model ShopJobPost {
   address        String?
   availableDays  String?  @map("available_days") @db.Text
 
+  latitude       Float?
+  longitude      Float?
+
   workDate       DateTime @map("work_date") @db.Date
   requiredPeople Int      @map("required_people")
   wage           Decimal  @db.Decimal(10, 2)
@@ -188,6 +191,7 @@ model ShopJobPost {
   @@index([workDate])
   @@index([categoryId])
   @@index([shopId, workDate])
+  @@index([latitude, longitude])
   @@map("shop_job_posts")
 }
 
