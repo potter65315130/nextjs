@@ -49,7 +49,7 @@ export default function Navbar() {
 
                         <Link
                             href="/register"
-                            className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 font-medium transition-colors shadow-md"
+                            className="btn-primary px-6 py-2 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl"
                         >
                             สมัครสมาชิก
                         </Link>
