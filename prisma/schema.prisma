@@ -28,10 +28,8 @@ model User {
   id           Int      @id @default(autoincrement()) @map("user_id")
   roleId       Int      @map("role_id")
   
-  fullName     String   @map("full_name")
   email        String   @unique
   passwordHash String   @map("password_hash")
-  phone        String?
 
   isActive     Boolean  @default(true) @map("is_active")
   createdAt    DateTime @default(now()) @map("created_at")
@@ -87,6 +85,7 @@ model JobSeekerProfile {
   id            Int     @id @default(autoincrement()) @map("seeker_id")
   userId        Int     @unique @map("user_id")
 
+  fullName      String? @map("full_name")
   profileImage  String? @map("profile_image")
   age           Int?
   gender        String?

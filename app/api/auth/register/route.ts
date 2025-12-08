@@ -1,11 +1,11 @@
-// app/api/register/route.ts
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { createSession } from '@/lib/auth';
 
 export async function POST(req: Request) {
     try {
-        const { fullName, email, password, roleName } = await req.json();
+        const { email, password, roleName } = await req.json();
 
         if (!email || !password || !roleName) {
             return NextResponse.json(
@@ -14,7 +14,6 @@ export async function POST(req: Request) {
             );
         }
 
-        // เช็ก user ซ้ำ
         const existingUser = await prisma.user.findUnique({
             where: { email },
         });
@@ -26,37 +25,34 @@ export async function POST(req: Request) {
             );
         }
 
-        // หา role
         let role = await prisma.role.findUnique({
-            where: { name: roleName }, // "job_seeker" | "shop_owner"
+            where: { name: roleName },
         });
 
-        // ถ้าไม่มี role ให้สร้างอัตโนมัติ
         if (!role) {
             role = await prisma.role.create({
                 data: { name: roleName },
             });
         }
 
-        // แฮชรหัสผ่าน
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // สร้างผู้ใช้ใหม่
         const newUser = await prisma.user.create({
             data: {
-                fullName: fullName || email.split("@")[0],
                 email,
                 passwordHash: hashedPassword,
                 roleId: role.id,
             },
             select: {
                 id: true,
-                fullName: true,
                 email: true,
                 role: true,
                 createdAt: true,
             }
         });
+
+        // 🔥 สร้าง Session Cookie ให้ User ทันที
+        await createSession(newUser.id, newUser.role.name);
 
         return NextResponse.json(
             { message: 'สมัครสมาชิกสำเร็จ', user: newUser },

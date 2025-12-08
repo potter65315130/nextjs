@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, Briefcase, Store, User, UserPlus } from 'lucide-react';
 import Navbar from '@/components/home/Navbar';
+import Footer from '@/components/home/Footer';
 import InputField from '@/components/auth/InputField';
 import { AuthLink } from '@/components/auth/AuthLink';
 import { AuthHeader } from '@/components/auth/AuthHeader';
@@ -50,8 +51,15 @@ export default function RegisterPage() {
 
             const data = await res.json();
             if (res.ok) {
-                alert('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ');
-                router.push('/login');
+                alert('สมัครสมาชิกสำเร็จ!');
+
+                // 🔥 Redirect ตาม Role
+                const redirectPath = {
+                    job_seeker: '/job-seeker/profile',
+                    shop_owner: '/shop-owner/profile',
+                }[role];
+
+                router.push(redirectPath);
             } else {
                 alert(data.message);
             }
@@ -61,6 +69,7 @@ export default function RegisterPage() {
             setLoading(false);
         }
     };
+
 
     return (
         <>
@@ -82,15 +91,6 @@ export default function RegisterPage() {
                         <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
                             กรุณากรอกข้อมูลของคุณ
                         </p>
-
-                        <InputField
-                            id="fullName"
-                            type="text"
-                            placeholder="ชื่อ-นามสกุล"
-                            icon={User}
-                            value={formData.fullName}
-                            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        />
 
                         <InputField
                             id="email"
@@ -131,6 +131,7 @@ export default function RegisterPage() {
                     />
                 </AuthCard>
             </AuthBackground>
+            <Footer />
         </>
     );
 }

@@ -1,109 +1,143 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 
-// GET: ดึงโปรไฟล์ผู้หางาน
-export async function GET(req: Request) {
+const prisma = new PrismaClient();
+
+// 1. กำหนด Schema สำหรับรับข้อมูล (Validation)
+const profileSchema = z.object({
+    userId: z.number(), // ในระบบจริงควรดึงจาก Session/Token ไม่ได้รับตรงๆ จาก Body
+    fullName: z.string().optional(),
+    profileImage: z.string().optional(),
+    age: z.number().optional(),
+    gender: z.string().optional(),
+    phone: z.string().optional(),
+    email: z.string().email().optional(),
+    address: z.string().optional(),
+    latitude: z.number().optional(),
+    longitude: z.number().optional(),
+    availableDays: z.string().optional(), // รับเป็น String ตาม DB หรือ JSON.stringify จากหน้าบ้าน
+    skills: z.string().optional(),
+    experience: z.string().optional(),
+    categoryIds: z.array(z.number()).optional(), // รับ ID ของหมวดงานที่สนใจเป็น Array เช่น [1, 2]
+});
+
+export async function POST(request: Request) {
     try {
-        const { searchParams } = new URL(req.url);
-        const userId = searchParams.get('userId');
+        const body = await request.json();
 
-        if (!userId) {
-            return NextResponse.json({ message: 'User ID is required' }, { status: 400 });
+        // 2. Validate ข้อมูล
+        const validation = profileSchema.safeParse(body);
+        if (!validation.success) {
+            return NextResponse.json(
+                { error: validation.error.format() },
+                { status: 400 }
+            );
         }
 
-        const profile = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: parseInt(userId) },
-            include: {
-                user: {
-                    select: {
-                        fullName: true,
-                        email: true,
-                        phone: true,
+        const data = validation.data;
+
+        // 3. เตรียมข้อมูลสำหรับ Categories (Many-to-Many)
+        // ถ้ามีการส่ง categoryIds มา เราจะแปลงให้อยู่ในรูปแบบที่ Prisma เข้าใจ
+        const categoryConnect = data.categoryIds?.map((catId) => ({
+            categoryId: catId,
+        }));
+
+        // 4. ใช้คำสั่ง UPSERT (Create หรือ Update)
+        const profile = await prisma.jobSeekerProfile.upsert({
+            where: {
+                userId: data.userId, // ค้นหาจาก userId
+            },
+            // กรณี: อัปเดตข้อมูลเดิม
+            update: {
+                fullName: data.fullName,
+                profileImage: data.profileImage,
+                age: data.age,
+                gender: data.gender,
+                phone: data.phone,
+                email: data.email,
+                address: data.address,
+                latitude: data.latitude,
+                longitude: data.longitude,
+                availableDays: data.availableDays,
+                skills: data.skills,
+                experience: data.experience,
+                // จัดการ Categories: ลบอันเก่าออกทั้งหมด แล้วใส่ชุดใหม่เข้าไป (Sync)
+                categories: data.categoryIds
+                    ? {
+                        deleteMany: {}, // ลบความสัมพันธ์เก่าของ User นี้
+                        create: categoryConnect, // สร้างความสัมพันธ์ใหม่
                     }
-                }
-            }
+                    : undefined,
+            },
+            // กรณี: สร้างใหม่
+            create: {
+                userId: data.userId,
+                fullName: data.fullName,
+                profileImage: data.profileImage,
+                age: data.age,
+                gender: data.gender,
+                phone: data.phone,
+                email: data.email,
+                address: data.address,
+                latitude: data.latitude,
+                longitude: data.longitude,
+                availableDays: data.availableDays,
+                skills: data.skills,
+                experience: data.experience,
+                // สร้าง Categories
+                categories: {
+                    create: categoryConnect,
+                },
+            },
+            // Select เพื่อดึงข้อมูล Categories กลับไปแสดงผลด้วย
+            include: {
+                categories: {
+                    include: {
+                        category: true, // ดึงชื่อ Category ออกมา
+                    },
+                },
+            },
         });
 
-        if (!profile) {
-            return NextResponse.json({ message: 'Profile not found' }, { status: 404 });
-        }
+        return NextResponse.json({ success: true, data: profile });
 
-        return NextResponse.json(profile);
     } catch (error) {
-        console.error('Error fetching profile:', error);
-        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+        console.error("Error saving profile:", error);
+        return NextResponse.json(
+            { error: "Internal Server Error" },
+            { status: 500 }
+        );
     }
 }
 
-// PUT: อัปเดตโปรไฟล์ (หรือสร้างใหม่ถ้ายังไม่มี)
-export async function PUT(req: Request) {
+// (Optional) GET Method เพื่อดึงข้อมูลโปรไฟล์
+export async function GET(request: Request) {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+
+    if (!userId) {
+        return NextResponse.json({ error: "userId is required" }, { status: 400 });
+    }
+
     try {
-        const body = await req.json();
-        const {
-            userId,
-            profileImage,
-            age,
-            gender,
-            phone,
-            email,
-            address,
-            latitude,
-            longitude,
-            availableDays,
-            skills,
-            experience
-        } = body;
-
-        if (!userId) {
-            return NextResponse.json({ message: 'User ID is required' }, { status: 400 });
-        }
-
-        // Upsert profile
-        const profile = await prisma.jobSeekerProfile.upsert({
-            where: { userId: parseInt(userId) },
-            update: {
-                profileImage,
-                age: age ? parseInt(age) : undefined,
-                gender,
-                phone,
-                email,
-                address,
-                latitude: latitude ? parseFloat(latitude) : undefined,
-                longitude: longitude ? parseFloat(longitude) : undefined,
-                availableDays,
-                skills,
-                experience,
-            },
-            create: {
-                userId: parseInt(userId),
-                profileImage,
-                age: age ? parseInt(age) : undefined,
-                gender,
-                phone,
-                email,
-                address,
-                latitude: latitude ? parseFloat(latitude) : undefined,
-                longitude: longitude ? parseFloat(longitude) : undefined,
-                availableDays,
-                skills,
-                experience,
+        const profile = await prisma.jobSeekerProfile.findUnique({
+            where: { userId: Number(userId) },
+            include: {
+                categories: {
+                    include: {
+                        category: true,
+                    },
+                },
             },
         });
 
-        // Optional: Update User table contact info if needed
-        if (phone || email) {
-            await prisma.user.update({
-                where: { id: parseInt(userId) },
-                data: {
-                    phone: phone || undefined,
-                    // email: email || undefined // Email usually unique/login, maybe don't update here easily
-                }
-            });
+        if (!profile) {
+            return NextResponse.json({ error: "Profile not found" }, { status: 404 });
         }
 
-        return NextResponse.json({ message: 'Profile updated successfully', profile });
+        return NextResponse.json({ success: true, data: profile });
     } catch (error) {
-        console.error('Error updating profile:', error);
-        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ error: "Error fetching data" }, { status: 500 });
     }
 }

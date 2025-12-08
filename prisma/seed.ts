@@ -160,8 +160,7 @@ async function main() {
         create: {
             email: "jobseeker1@example.com",
             passwordHash: password,
-            fullName: "สมชาย ใจดี",
-            roleId: roleSeeker.id, // ใช้ ID จาก Role ที่ค้นมา
+            roleId: roleSeeker.id,
         },
     });
 
@@ -171,8 +170,7 @@ async function main() {
         create: {
             email: "shopowner1@example.com",
             passwordHash: password,
-            fullName: "เจ้าของร้าน ใจดี",
-            roleId: roleShop.id, // ใช้ ID จาก Role ที่ค้นมา
+            roleId: roleShop.id,
         },
     });
     console.log("✔ Users seeded");

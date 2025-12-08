@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Mail, Lock, UserCheck, UserPlus } from 'lucide-react';
 import Navbar from '@/components/home/Navbar';
+import Footer from '@/components/home/Footer';
 import InputField from '@/components/auth/InputField';
 import { AuthLink } from '@/components/auth/AuthLink';
 import { AuthHeader } from '@/components/auth/AuthHeader';
@@ -33,9 +34,9 @@ export default function LoginPage() {
                 alert('เข้าสู่ระบบสำเร็จ');
 
                 if (data.user.role === 'shop_owner') {
-                    router.push('/shop/dashboard');
+                    router.push('/shop-owner/dashboard');
                 } else {
-                    router.push('/profile/setup');
+                    router.push('/job-seeker/profile');
                 }
             } else {
                 alert(data.message);
@@ -107,6 +108,7 @@ export default function LoginPage() {
                     />
                 </AuthCard>
             </AuthBackground>
+            <Footer />
         </>
     );
 }
