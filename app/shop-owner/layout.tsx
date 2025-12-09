@@ -1,7 +1,6 @@
 import { validateUser } from '@/lib/auth';
 import { ReactNode } from 'react';
-import Navbar from '@/components/home/Navbar';
-import Footer from '@/components/home/Footer';
+import ShopOwnerNavbar from '@/components/shop-owner/ShopOwnerNavbar';
 
 export default async function ShopOwnerLayout({
     children,
@@ -12,11 +11,8 @@ export default async function ShopOwnerLayout({
 
     return (
         <>
-            <Navbar />
-            <div className="min-h-[calc(100vh-80px)] flex flex-col">
-                <main className="flex-1">{children}</main>
-                <Footer />
-            </div>
+            <ShopOwnerNavbar />
+            <main>{children}</main>
         </>
     );
 }

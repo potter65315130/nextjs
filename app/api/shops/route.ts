@@ -47,21 +47,33 @@ const shopUpdateSchema = z.object({
 // --------------------------------------------------------
 export async function GET(request: NextRequest) {
     try {
-        // 1. Verify JWT token
-        const decoded = verifyToken(request);
-        if (!decoded) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message: 'Unauthorized',
-                },
-                { status: 401 }
-            );
+        // ตรวจสอบว่ามี userId จาก query params หรือไม่
+        const { searchParams } = new URL(request.url);
+        const userIdParam = searchParams.get('userId');
+
+        let userId: number;
+
+        if (userIdParam) {
+            // ใช้ userId จาก query params
+            userId = parseInt(userIdParam);
+        } else {
+            // ดึงจาก JWT token
+            const decoded = verifyToken(request);
+            if (!decoded) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message: 'Unauthorized',
+                    },
+                    { status: 401 }
+                );
+            }
+            userId = decoded.userId;
         }
 
         // 2. Find shop by ownerId (userId)
         const shop = await prisma.shop.findUnique({
-            where: { userId: decoded.userId },
+            where: { userId },
             select: {
                 id: true,
                 shopName: true,
@@ -89,7 +101,7 @@ export async function GET(request: NextRequest) {
         // 4. Return shop data with imageUrl mapped from profileImage
         return NextResponse.json({
             success: true,
-            data: {
+            shop: {
                 id: shop.id,
                 shopName: shop.shopName,
                 phone: shop.phone,
@@ -117,13 +129,15 @@ export async function GET(request: NextRequest) {
 // --------------------------------------------------------
 export async function PUT(request: NextRequest) {
     try {
-        // 1. Verify JWT token
-        const decoded = verifyToken(request);
-        if (!decoded) {
+        // 1. Get current user from session cookie
+        const { getCurrentUser } = await import('@/lib/auth');
+        const currentUser = await getCurrentUser();
+
+        if (!currentUser) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: 'Unauthorized',
+                    message: 'Unauthorized - Please login',
                 },
                 { status: 401 }
             );
@@ -135,7 +149,7 @@ export async function PUT(request: NextRequest) {
 
         // 3. Find shop by ownerId
         const existingShop = await prisma.shop.findUnique({
-            where: { userId: decoded.userId },
+            where: { userId: currentUser.id },
         });
 
         if (!existingShop) {
@@ -150,7 +164,7 @@ export async function PUT(request: NextRequest) {
 
         // 4. Update shop data
         const updatedShop = await prisma.shop.update({
-            where: { userId: decoded.userId },
+            where: { userId: currentUser.id },
             data: {
                 shopName: validatedData.shopName,
                 phone: validatedData.phone,

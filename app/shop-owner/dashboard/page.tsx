@@ -2,28 +2,52 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Plus, Briefcase } from "lucide-react";
 
-type DashboardStats = {
-    totalPosts: number;
-    totalApplications: number;
-    pendingApplications: number;
-    matched: number;
+type JobPost = {
+    id: number;
+    jobName: string;
+    categoryName: string;
+    wage: number;
+    createdAt: string;
+    workDate: string;
+    status: string;
 };
 
 export default function ShopOwnerDashboard() {
-    const [stats, setStats] = useState<DashboardStats | null>(null);
+    const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
     const [loading, setLoading] = useState(true);
-
-    // Mock shopId (ควรเปลี่ยนเป็นค่าจาก session/login)
-    const shopId = "1";
+    const [shopId, setShopId] = useState<number | null>(null);
 
     useEffect(() => {
-        async function fetchStats() {
+        async function fetchData() {
             try {
-                const res = await fetch(`/api/shops/${shopId}/dashboard`);
-                if (!res.ok) throw new Error("Failed to fetch stats");
-                const data = await res.json();
-                setStats(data);
+                // ดึงข้อมูล user และ shop
+                const userRes = await fetch('/api/auth/me');
+                if (!userRes.ok) throw new Error('Not authenticated');
+
+                const userData = await userRes.json();
+
+                // ดึงข้อมูล shop
+                const shopRes = await fetch(`/api/shops?userId=${userData.user.id}`);
+                if (!shopRes.ok) throw new Error('Shop not found');
+
+                const shopData = await shopRes.json();
+                const currentShopId = shopData.shop?.id;
+
+                if (!currentShopId) {
+                    throw new Error('No shop found for this user');
+                }
+
+                setShopId(currentShopId);
+
+                // ดึงรายการงาน (ในอนาคตจะเพิ่ม API นี้)
+                // const postsRes = await fetch(`/api/shops/${currentShopId}/posts`);
+                // if (postsRes.ok) {
+                //     const postsData = await postsRes.json();
+                //     setJobPosts(postsData.posts || []);
+                // }
+
             } catch (err) {
                 console.error("Error:", err);
             } finally {
@@ -31,53 +55,135 @@ export default function ShopOwnerDashboard() {
             }
         }
 
-        fetchStats();
+        fetchData();
     }, []);
 
-    if (loading) return <p className="text-center p-6">Loading...</p>;
-
-    if (!stats)
-        return <p className="text-center p-6 text-red-500">No Data Found</p>;
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+                <p className="text-gray-600 dark:text-gray-400">กำลังโหลด...</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="max-w-5xl mx-auto p-6 space-y-6">
-            <h1 className="text-3xl font-bold">Shop Dashboard</h1>
-            <p className="text-gray-500">
-                จัดการโพสต์งาน และตรวจสอบใบสมัครที่ได้รับ
-            </p>
-
-            {/* Stat Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <StatCard title="งานที่ประกาศ" value={stats.totalPosts} />
-                <StatCard title="ใบสมัครทั้งหมด" value={stats.totalApplications} />
-                <StatCard title="กำลังพิจารณา" value={stats.pendingApplications} />
-                <StatCard title="แมตช์สำเร็จแล้ว" value={stats.matched} />
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+            {/* Header */}
+            <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-8 px-4">
+                <div className="max-w-7xl mx-auto flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+                            ประการรับสมัคร
+                        </h1>
+                        <p className="text-gray-600 dark:text-gray-400">
+                            งานของคุณ
+                        </p>
+                    </div>
+                    <Link
+                        href="/shop-owner/posts/create"
+                        className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors shadow-lg hover:shadow-xl"
+                    >
+                        <Plus className="w-5 h-5" />
+                        <span>สร้างประกาศงาน</span>
+                    </Link>
+                </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex gap-4">
-                <Link
-                    href={`/shop-owner/posts`}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-                >
-                    จัดการโพสต์งาน
-                </Link>
-                <Link
-                    href={`/shop-owner/applications`}
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
-                >
-                    ดูใบสมัครที่ได้รับ
-                </Link>
-            </div>
-        </div>
-    );
-}
+            {/* Main Content */}
+            <div className="max-w-7xl mx-auto px-4 py-8">
+                {/* Table Container */}
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-2 border-purple-200 dark:border-purple-700 overflow-hidden">
+                    {/* Table Header */}
+                    <div className="grid grid-cols-5 gap-4 px-6 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 font-semibold text-gray-700 dark:text-gray-300 text-sm">
+                        <div>ชื่องาน</div>
+                        <div>ประเภทงาน</div>
+                        <div>ค่าจ้าง/วัน</div>
+                        <div>ลงประกาศเมื่อ</div>
+                        <div>วันที่ต้องการ</div>
+                    </div>
 
-function StatCard({ title, value }: { title: string; value: number }) {
-    return (
-        <div className="p-4 bg-white rounded-lg shadow text-center">
-            <h3 className="text-lg text-gray-600">{title}</h3>
-            <p className="text-3xl font-bold mt-2">{value}</p>
+                    {/* Table Body - Empty State */}
+                    {jobPosts.length === 0 && (
+                        <div className="py-20 text-center">
+                            <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full flex items-center justify-center">
+                                <Briefcase className="w-16 h-16 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <h3 className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                                ไม่มีรายการประกาศรับสมัคร
+                            </h3>
+                            <p className="text-gray-500 dark:text-gray-500 mb-6">
+                                คุณยังไม่ได้สร้างประกาศรับสมัครงาน กด "สร้างงาน"<br />
+                                เพื่อสร้างประกาศรับสมัครของคุณ
+                            </p>
+                            <Link
+                                href="/shop-owner/posts/create"
+                                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-colors"
+                            >
+                                <Plus className="w-5 h-5" />
+                                <span>สร้างงาน</span>
+                            </Link>
+                        </div>
+                    )}
+
+                    {/* Table Body - With Data (Will show when there are posts) */}
+                    {jobPosts.length > 0 && (
+                        <div>
+                            {jobPosts.map((post) => (
+                                <div
+                                    key={post.id}
+                                    className="grid grid-cols-5 gap-4 px-6 py-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                                >
+                                    <div className="font-medium text-gray-900 dark:text-white">
+                                        {post.jobName}
+                                    </div>
+                                    <div className="text-gray-600 dark:text-gray-400">
+                                        {post.categoryName}
+                                    </div>
+                                    <div className="text-green-600 dark:text-green-400 font-semibold">
+                                        {post.wage} บาท
+                                    </div>
+                                    <div className="text-gray-600 dark:text-gray-400">
+                                        {new Date(post.createdAt).toLocaleDateString('th-TH')}
+                                    </div>
+                                    <div className="text-gray-600 dark:text-gray-400">
+                                        {new Date(post.workDate).toLocaleDateString('th-TH')}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Pagination (Will implement later) */}
+                    {jobPosts.length > 0 && (
+                        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
+                            <div className="flex items-center justify-center gap-2">
+                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    ←
+                                </button>
+                                <button className="px-3 py-1 rounded bg-blue-600 text-white">
+                                    1
+                                </button>
+                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    2
+                                </button>
+                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    3
+                                </button>
+                                <span className="px-2">...</span>
+                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    5
+                                </button>
+                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    6
+                                </button>
+                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                    Next →
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
