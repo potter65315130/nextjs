@@ -23,26 +23,72 @@ const JOB_CATEGORIES = [
 export default function JobSeekerProfilePage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [loadingUser, setLoadingUser] = useState(true);
+    const [currentUserId, setCurrentUserId] = useState<number | null>(null);
 
     const [formData, setFormData] = useState({
-        userId: 1, // *ควรดึงจาก Session จริง
+        userId: 0,
         fullName: '',
         gender: '',
-        age: '',
         phone: '',
         email: '',
-        jobCategoryId: '', // หน้าบ้านรับค่าเดียว (Dropdown) แต่หลังบ้านรับ Array
+        jobCategoryId: '',
         skills: '',
         experience: '',
         address: '',
-        latitude: null as number | null, // เพิ่ม latitude
-        longitude: null as number | null, // เพิ่ม longitude
+        latitude: null as number | null,
+        longitude: null as number | null,
         availableDays: [] as string[],
-        profileImage: null as string | null, // <-- เพิ่ม State รูปภาพ
+        profileImage: null as string | null,
+        age: '',
     });
 
-    // (Optional) useEffect เพื่อดึงข้อมูลเดิมมาแสดง ถ้าเป็นการแก้ไข
-    // useEffect(() => { ... fetch /api/job-seeker/profile ... }, [])
+    // ดึงข้อมูล user จาก session
+    useEffect(() => {
+        async function fetchCurrentUser() {
+            try {
+                const res = await fetch('/api/auth/me');
+                if (!res.ok) {
+                    router.push('/login');
+                    return;
+                }
+                const data = await res.json();
+                setCurrentUserId(data.user.id);
+                setFormData(prev => ({ ...prev, userId: data.user.id }));
+
+                // ลองดึงข้อมูล profile ที่มีอยู่แล้ว
+                const profileRes = await fetch(`/api/job-seeker/profile?userId=${data.user.id}`);
+                if (profileRes.ok) {
+                    const profileData = await profileRes.json();
+                    if (profileData.success && profileData.data) {
+                        const profile = profileData.data;
+                        setFormData({
+                            userId: data.user.id,
+                            fullName: profile.fullName || '',
+                            gender: profile.gender || '',
+                            age: profile.age?.toString() || '',
+                            phone: profile.phone || '',
+                            email: profile.email || '',
+                            jobCategoryId: profile.categories?.[0]?.categoryId?.toString() || '',
+                            skills: profile.skills || '',
+                            experience: profile.experience || '',
+                            address: profile.address || '',
+                            latitude: profile.latitude,
+                            longitude: profile.longitude,
+                            availableDays: profile.availableDays ? JSON.parse(profile.availableDays) : [],
+                            profileImage: profile.profileImage,
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                router.push('/login');
+            } finally {
+                setLoadingUser(false);
+            }
+        }
+        fetchCurrentUser();
+    }, [router])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -80,18 +126,35 @@ export default function JobSeekerProfilePage() {
                 body: JSON.stringify(payload),
             });
 
-            if (!res.ok) throw new Error('Failed to save profile');
+            const responseData = await res.json();
+
+            if (!res.ok) {
+                console.error('❌ API Error:', responseData);
+                alert(`เกิดข้อผิดพลาด: ${JSON.stringify(responseData.error || responseData.message || 'Unknown error')}`);
+                throw new Error('Failed to save profile');
+            }
 
             alert('บันทึกข้อมูลเรียบร้อยแล้ว!');
             // router.push('/dashboard'); // หรือพาไปหน้าอื่น
 
         } catch (error) {
-            console.error(error);
+            console.error('Full error:', error);
             alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
         } finally {
             setLoading(false);
         }
     };
+
+    if (loadingUser) {
+        return (
+            <div className="min-h-screen bg-surface dark:bg-surface-dark flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                    <p className="text-gray-600 dark:text-gray-400">กำลังโหลดข้อมูล...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-surface dark:bg-surface-dark py-10 px-4 flex justify-center">

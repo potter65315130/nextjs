@@ -6,29 +6,31 @@ const prisma = new PrismaClient();
 
 // 1. กำหนด Schema สำหรับรับข้อมูล (Validation)
 const profileSchema = z.object({
-    userId: z.number(), // ในระบบจริงควรดึงจาก Session/Token ไม่ได้รับตรงๆ จาก Body
-    fullName: z.string().optional(),
-    profileImage: z.string().optional(),
-    age: z.number().optional(),
-    gender: z.string().optional(),
-    phone: z.string().optional(),
-    email: z.string().email().optional(),
-    address: z.string().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    availableDays: z.string().optional(), // รับเป็น String ตาม DB หรือ JSON.stringify จากหน้าบ้าน
-    skills: z.string().optional(),
-    experience: z.string().optional(),
-    categoryIds: z.array(z.number()).optional(), // รับ ID ของหมวดงานที่สนใจเป็น Array เช่น [1, 2]
+    userId: z.number(),
+    fullName: z.string().optional().nullable(),
+    profileImage: z.string().optional().nullable(),
+    age: z.number().optional().nullable(),
+    gender: z.string().optional().nullable(),
+    phone: z.string().optional().nullable(),
+    email: z.string().email().optional().or(z.literal('')).nullable(),
+    address: z.string().optional().nullable(),
+    latitude: z.number().optional().nullable(),
+    longitude: z.number().optional().nullable(),
+    availableDays: z.string().optional().nullable(),
+    skills: z.string().optional().nullable(),
+    experience: z.string().optional().nullable(),
+    categoryIds: z.array(z.number()).optional(),
 });
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
+        console.log('📥 Received profile data:', JSON.stringify(body, null, 2));
 
         // 2. Validate ข้อมูล
         const validation = profileSchema.safeParse(body);
         if (!validation.success) {
+            console.error('❌ Validation failed:', validation.error.format());
             return NextResponse.json(
                 { error: validation.error.format() },
                 { status: 400 }

@@ -65,3 +65,36 @@ export async function deleteSession() {
     // แก้ไข: ต้อง await cookies() ก่อนเรียก .delete
     (await cookies()).delete('session');
 }
+
+// 4. ดึงข้อมูล User ปัจจุบัน (ไม่ redirect ถ้าไม่มี)
+export async function getCurrentUser() {
+    try {
+        const cookieStore = await cookies();
+        const token = cookieStore.get('session')?.value;
+
+        if (!token) {
+            return null;
+        }
+
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+        const userId = Number(payload.userId);
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { role: true },
+        });
+
+        if (!user || !user.isActive) {
+            return null;
+        }
+
+        return {
+            id: user.id,
+            email: user.email,
+            role: user.role.name,
+            isActive: user.isActive,
+        };
+    } catch (error) {
+        return null;
+    }
+}
