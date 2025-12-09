@@ -1,92 +1,69 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getCurrentUser } from '@/lib/auth';
 
-// GET: ดูงานที่สมัคร
-export async function GET(req: Request) {
+export async function GET() {
     try {
-        const { searchParams } = new URL(req.url);
-        const userId = searchParams.get('userId');
-
-        if (!userId) {
-            return NextResponse.json({ message: 'User ID is required' }, { status: 400 });
+        // ดึงข้อมูล user ปัจจุบัน
+        const currentUser = await getCurrentUser();
+        if (!currentUser) {
+            return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const seeker = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: parseInt(userId) },
+        // หา JobSeekerProfile
+        const seekerProfile = await prisma.jobSeekerProfile.findUnique({
+            where: { userId: currentUser.id },
         });
 
-        if (!seeker) {
-            return NextResponse.json({ message: 'Job Seeker Profile not found' }, { status: 404 });
+        if (!seekerProfile) {
+            return NextResponse.json({ message: 'Profile not found' }, { status: 404 });
         }
 
+        // ดึงการสมัครงานทั้งหมด
         const applications = await prisma.application.findMany({
-            where: { seekerId: seeker.id },
+            where: {
+                seekerId: seekerProfile.id,
+            },
             include: {
                 post: {
                     include: {
-                        shop: {
-                            select: { shopName: true }
-                        },
-                        category: true
-                    }
-                }
-            },
-            orderBy: { applicationDate: 'desc' }
-        });
-
-        return NextResponse.json(applications);
-    } catch (error) {
-        console.error('Error fetching applications:', error);
-        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
-    }
-}
-
-// POST: สมัครงาน
-export async function POST(req: Request) {
-    try {
-        const body = await req.json();
-        const { userId, postId } = body;
-
-        if (!userId || !postId) {
-            return NextResponse.json({ message: 'User ID and Post ID are required' }, { status: 400 });
-        }
-
-        const seeker = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: parseInt(userId) },
-        });
-
-        if (!seeker) {
-            return NextResponse.json({ message: 'Job Seeker Profile not found' }, { status: 404 });
-        }
-
-        // Check if already applied
-        const existing = await prisma.application.findUnique({
-            where: {
-                seekerId_postId: {
-                    seekerId: seeker.id,
-                    postId: parseInt(postId),
+                        shop: true,
+                        category: true,
+                    },
                 },
             },
-        });
-
-        if (existing) {
-            return NextResponse.json({ message: 'Already applied to this job' }, { status: 400 });
-        }
-
-        const application = await prisma.application.create({
-            data: {
-                seekerId: seeker.id,
-                postId: parseInt(postId),
-                status: 'pending'
+            orderBy: {
+                applicationDate: 'desc',
             },
-            include: {
-                post: true
-            }
         });
 
-        return NextResponse.json({ message: 'Application submitted', application });
+        // จัดรูปแบบข้อมูล
+        const formattedApplications = applications.map((app) => ({
+            id: app.id,
+            applicationDate: app.applicationDate.toISOString(),
+            status: app.status,
+            job: {
+                id: app.post.id,
+                jobName: app.post.jobName,
+                categoryName: app.post.category.name,
+                shopName: app.post.shop.shopName,
+                address: app.post.address || app.post.shop.address,
+                wage: Number(app.post.wage),
+                workDate: app.post.workDate.toISOString(),
+                shopImage: app.post.shop.profileImage,
+            },
+        }));
+
+        return NextResponse.json({
+            success: true,
+            applications: formattedApplications,
+            total: formattedApplications.length,
+        });
     } catch (error) {
-        console.error('Error submitting application:', error);
-        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+        console.error('Error fetching applications:', error);
+        return NextResponse.json(
+            { message: 'Internal server error' },
+            { status: 500 }
+        );
     }
 }
