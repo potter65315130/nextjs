@@ -39,7 +39,7 @@ export async function GET() {
 
         return NextResponse.json({
             success: true,
-            data: categories,
+            categories: categories,
         });
     } catch (error) {
         return NextResponse.json(
