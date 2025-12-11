@@ -8,6 +8,9 @@
   /* สีตัวหนังสือหลักของทั้งเว็บ */
   --foreground: #171717;
 
+  /* --- BRAND COLOR --- */
+  --brand-primary: #5D87FF;
+
   /* Button Colors */
   --button-primary: #5D87FF;
   --button-primary-hover: #1d4ed8;
@@ -26,6 +29,10 @@
   --background: #0a0a0a;
   /* สีตัวหนังสือหลักของทั้งเว็บ */
   --foreground: #ededed;
+
+  /* --- BRAND COLOR DARK --- */
+  --brand-primary: #5D87FF;
+  /* ใช้สีเดิมเพื่อความสม่ำเสมอ */
 
   /* Button Colors Dark */
   --button-primary: #3b82f6;

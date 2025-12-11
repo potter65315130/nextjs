@@ -13,6 +13,9 @@ const config: Config = {
                 prompt: ['var(--font-prompt)', 'sans-serif'],
             },
             colors: {
+                // เพิ่มสี Brand หลัก (#5D87FF)
+                'brand-primary': 'var(--brand-primary)',
+
                 // กำหนดสีหลักของแอป
                 brand: {
                     // Primary gradient colors

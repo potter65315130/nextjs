@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { User, LogOut, Settings, Menu, X } from 'lucide-react';
+import { User, LogOut, Settings, Menu, X, Sun, Moon } from 'lucide-react';
 import Image from 'next/image';
+import { useTheme } from '@/providers/ThemeProvider';
 
 interface UserProfile {
     profileImage: string | null;
@@ -13,6 +14,7 @@ interface UserProfile {
 
 export default function JobSeekerNavbar() {
     const pathname = usePathname();
+    const { theme, toggleTheme } = useTheme(); // ใช้ Hook จาก ThemeProvider
     const [showUserMenu, setShowUserMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -58,12 +60,13 @@ export default function JobSeekerNavbar() {
     };
 
     return (
-        <nav className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
+        <nav className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link href="/job-seeker/matching" className="flex items-center">
-                        <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+                        {/* ใช้ text-brand-primary ที่ตั้งค่าใน tailwind.config.ts และ globals.css */}
+                        <span className="text-2xl font-bold text-brand-primary">
                             MatchWork
                         </span>
                     </Link>
@@ -75,8 +78,8 @@ export default function JobSeekerNavbar() {
                                 key={item.href}
                                 href={item.href}
                                 className={`text-sm font-medium transition-colors ${pathname === item.href
-                                    ? 'text-blue-600 dark:text-blue-400'
-                                    : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                                    ? 'text-brand-primary' // ใช้สี Brand เมื่อ Active
+                                    : 'text-gray-600 dark:text-gray-300 hover:text-brand-primary dark:hover:text-blue-400'
                                     }`}
                             >
                                 {item.label}
@@ -84,13 +87,27 @@ export default function JobSeekerNavbar() {
                         ))}
                     </div>
 
-                    {/* User Menu */}
-                    <div className="flex items-center gap-4">
+                    {/* User Menu & Theme Toggle */}
+                    <div className="flex items-center gap-3">
+
+                        {/* Theme Toggle Button */}
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 text-gray-600 dark:text-gray-300 hover:text-brand-primary dark:hover:text-blue-400 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                            aria-label="Toggle theme"
+                        >
+                            {theme === 'dark' ? (
+                                <Sun className="w-5 h-5" />
+                            ) : (
+                                <Moon className="w-5 h-5" />
+                            )}
+                        </button>
+
                         {/* Desktop User Menu */}
                         <div className="hidden md:block relative">
                             <button
                                 onClick={() => setShowUserMenu(!showUserMenu)}
-                                className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white hover:shadow-lg transition-shadow overflow-hidden relative"
+                                className="flex items-center justify-center w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 text-white hover:shadow-lg transition-shadow overflow-hidden relative"
                             >
                                 {userProfile?.profileImage ? (
                                     <Image
@@ -163,7 +180,7 @@ export default function JobSeekerNavbar() {
                                     key={item.href}
                                     href={item.href}
                                     className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${pathname === item.href
-                                        ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                                        ? 'bg-blue-50 dark:bg-blue-900/20 text-brand-primary'
                                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                                         }`}
                                     onClick={() => setShowMobileMenu(false)}
