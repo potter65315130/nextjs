@@ -98,18 +98,6 @@ export default function ShopOwnerApplicationsPage() {
                 <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
             </div>
 
-            {/* Header */}
-            <div className="relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-purple-200/50 dark:border-purple-700/50 py-8 px-4 shadow-xl">
-                <div className="max-w-7xl mx-auto">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                        ผู้สมัครงาน
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        จัดการผู้สมัครงานทั้งหมด
-                    </p>
-                </div>
-            </div>
-
             {/* Main Content */}
             <div className="relative max-w-7xl mx-auto px-4 py-8">
                 {/* Search Bar */}

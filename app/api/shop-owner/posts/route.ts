@@ -97,9 +97,11 @@ export async function GET() {
 // --------------------------------------------------------
 export async function POST(request: NextRequest) {
     try {
-        // 1. Verify JWT token
-        const decoded = verifyToken(request);
-        if (!decoded) {
+        // 1. Get current user from session cookie
+        const { getCurrentUser } = await import('@/lib/auth');
+        const currentUser = await getCurrentUser();
+
+        if (!currentUser) {
             return NextResponse.json(
                 {
                     success: false,
@@ -110,7 +112,7 @@ export async function POST(request: NextRequest) {
         }
 
         // 2. Check role
-        if (decoded.role !== 'shop_owner') {
+        if (currentUser.role !== 'shop_owner') {
             return NextResponse.json(
                 {
                     success: false,
@@ -140,7 +142,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        if (shop.userId !== decoded.userId) {
+        if (shop.userId !== currentUser.id) {
             return NextResponse.json(
                 {
                     success: false,

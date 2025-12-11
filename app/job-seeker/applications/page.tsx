@@ -88,28 +88,6 @@ export default function ApplicationsPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
-            {/* Stats Cards */}
-            <div className="max-w-6xl mx-auto px-4 -mt-8 mb-8">
-                <br></br>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700">
-                        <div className="text-2xl font-bold text-gray-800 dark:text-white">{stats.total}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">ทั้งหมด</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-yellow-200 dark:border-yellow-700">
-                        <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{stats.pending}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">รอดำเนินการ</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-green-200 dark:border-green-700">
-                        <div className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.approved}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">อนุมัติ</div>
-                    </div>
-                    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-red-200 dark:border-red-700">
-                        <div className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.rejected}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">ไม่ผ่าน</div>
-                    </div>
-                </div>
-            </div>
 
             {/* Main Content */}
             <div className="max-w-6xl mx-auto px-4 pb-12">

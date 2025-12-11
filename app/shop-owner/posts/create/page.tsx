@@ -110,16 +110,16 @@ export default function CreateJobPostPage() {
                 .map(([day, _]) => day);
 
             const payload = {
-                shopId,
-                jobName: formData.jobName,
-                categoryId: parseInt(formData.categoryId),
+                shop_id: shopId,
+                job_name: formData.jobName,
+                category_id: parseInt(formData.categoryId),
                 description: formData.description,
-                contactPhone: formData.contactPhone,
+                contact_phone: formData.contactPhone,
                 address: formData.address,
-                requiredPeople: parseInt(formData.requiredPeople),
+                required_people: parseInt(formData.requiredPeople),
                 wage: parseFloat(formData.wage),
-                workDate: formData.workDate,
-                availableDays: JSON.stringify(selectedDays),
+                work_date: formData.workDate,
+                available_days: JSON.stringify(selectedDays),
                 status: 'open',
             };
 
@@ -250,8 +250,8 @@ export default function CreateJobPostPage() {
                                         type="button"
                                         onClick={() => handleDayToggle(day)}
                                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${formData.availableDays[day as keyof typeof formData.availableDays]
-                                                ? 'bg-blue-600 text-white'
-                                                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
                                             }`}
                                     >
                                         {day}
