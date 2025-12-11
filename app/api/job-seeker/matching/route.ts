@@ -40,63 +40,64 @@ export async function GET() {
             },
         });
 
-        // คำนวณ match score สำหรับแต่ละงาน
-        const jobsWithScores = jobPosts.map((post) => {
-            let matchScore = 0;
+      const jobsWithScores = jobPosts.map((post) => {
+    let matchScore = 0;
 
-            // 1. Category match (40 points)
-            const seekerCategoryIds = seekerProfile.categories.map(c => c.categoryId);
-            if (seekerCategoryIds.includes(post.categoryId)) {
-                matchScore += 40;
+    // 1. Category match (40 points)
+    const seekerCategoryIds = seekerProfile.categories.map(c => c.categoryId);
+    if (seekerCategoryIds.includes(post.categoryId)) {
+        matchScore += 40;
+    }
+
+    // 2. Date match (30 points)
+    if (seekerProfile.availableDays && post.availableDays) {
+        try {
+            const seekerDays = JSON.parse(seekerProfile.availableDays);
+            const postDays = JSON.parse(post.availableDays);
+            const hasCommonDays = seekerDays.some((day: string) => postDays.includes(day));
+            if (hasCommonDays) {
+                matchScore += 30;
             }
+        } catch (e) {
+            // ignore JSON parse errors
+        }
+    }
 
-            // 2. Date match - ถ้าวันทำงานตรงกับ available days (30 points)
-            if (seekerProfile.availableDays && post.availableDays) {
-                try {
-                    const seekerDays = JSON.parse(seekerProfile.availableDays);
-                    const postDays = JSON.parse(post.availableDays);
-                    const hasCommonDays = seekerDays.some((day: string) => postDays.includes(day));
-                    if (hasCommonDays) {
-                        matchScore += 30;
-                    }
-                } catch (e) {
-                    // ignore JSON parse errors
-                }
-            }
+    // 3. Location match (30 points)
+    let distanceKm: number | undefined;
+    if (seekerProfile.latitude && seekerProfile.longitude && post.latitude && post.longitude) {
+        distanceKm = calculateDistance(
+            seekerProfile.latitude,
+            seekerProfile.longitude,
+            post.latitude,
+            post.longitude
+        );
+        if (distanceKm <= 10) {
+            matchScore += 30;
+        } else if (distanceKm <= 20) {
+            matchScore += 15;
+        }
+    }
 
-            // 3. Location match (30 points) - ถ้าอยู่ใกล้กัน (< 10km)
-            let distanceKm: number | undefined;
-            if (seekerProfile.latitude && seekerProfile.longitude && post.latitude && post.longitude) {
-                distanceKm = calculateDistance(
-                    seekerProfile.latitude,
-                    seekerProfile.longitude,
-                    post.latitude,
-                    post.longitude
-                );
-                if (distanceKm <= 10) {
-                    matchScore += 30;
-                } else if (distanceKm <= 20) {
-                    matchScore += 15;
-                }
-            }
+    return {
+        id: post.id,
+        shopId: post.shopId,
+        jobName: post.jobName,
+        description: post.description,
+        categoryName: post.category.name,
+        shopName: post.shop.shopName,
+        address: post.address || post.shop.address,
+        requiredPeople: post.requiredPeople,
+        wage: Number(post.wage),
+        workDate: post.workDate.toISOString(),
+        availableDays: post.availableDays,
+        shopImage: post.shop.profileImage,
+        distanceKm: distanceKm !== undefined ? Number(distanceKm.toFixed(1)) : null,
+        distanceText: distanceKm !== undefined ? `${distanceKm.toFixed(1)} km` : null,
+        matchScore,
+    };
+});
 
-            return {
-                id: post.id,
-                shopId: post.shopId,
-                jobName: post.jobName,
-                description: post.description,
-                categoryName: post.category.name,
-                shopName: post.shop.shopName,
-                address: post.address || post.shop.address,
-                requiredPeople: post.requiredPeople,
-                wage: Number(post.wage),
-                workDate: post.workDate.toISOString(),
-                availableDays: post.availableDays,
-                shopImage: post.shop.profileImage,
-                distanceKm,
-                matchScore,
-            };
-        });
 
         // เรียงตาม match score จากมากไปน้อย
         jobsWithScores.sort((a, b) => b.matchScore - a.matchScore);
