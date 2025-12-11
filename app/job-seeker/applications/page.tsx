@@ -88,20 +88,9 @@ export default function ApplicationsPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
-            {/* Header */}
-            <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-8 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-3 text-gray-800 dark:text-white">
-                        สถานะการสมัครงาน
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        ติดตามสถานะการสมัครงานของคุณได้ที่นี่
-                    </p>
-                </div>
-            </div>
-
             {/* Stats Cards */}
             <div className="max-w-6xl mx-auto px-4 -mt-8 mb-8">
+                <br></br>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700">
                         <div className="text-2xl font-bold text-gray-800 dark:text-white">{stats.total}</div>

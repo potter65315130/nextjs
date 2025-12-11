@@ -49,16 +49,6 @@ export default function WorkHistoryPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-700 dark:to-blue-700 text-white py-12 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <h1 className="text-4xl font-bold mb-4">ประวัติการทำงาน</h1>
-                    <p className="text-blue-100 text-lg">
-                        ดูประวัติการทำงานที่ผ่านมาทั้งหมด และให้คะแนนรีวิวร้านค้า
-                    </p>
-                </div>
-            </div>
-
             {/* Main Content */}
             <div className="max-w-6xl mx-auto px-4 py-12">
                 {/* Stats */}
@@ -275,8 +265,8 @@ function WorkHistoryCard({ work, onReviewed }: { work: WorkHistory; onReviewed: 
                                     >
                                         <Star
                                             className={`w-8 h-8 ${star <= rating
-                                                    ? 'fill-yellow-500 text-yellow-500'
-                                                    : 'text-gray-300 dark:text-gray-600'
+                                                ? 'fill-yellow-500 text-yellow-500'
+                                                : 'text-gray-300 dark:text-gray-600'
                                                 }`}
                                         />
                                     </button>
