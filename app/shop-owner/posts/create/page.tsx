@@ -2,7 +2,19 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { MapPin } from 'lucide-react';
+// ลบ MapPin ออกเพราะเราจะใช้ Map จริงแทน
+// import { MapPin } from 'lucide-react'; 
+import dynamic from 'next/dynamic';
+
+// 1. Import LocationMap แบบ Dynamic (แก้ปัญหา SSR)
+const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-[300px] bg-gray-200 dark:bg-gray-700 animate-pulse rounded-xl flex items-center justify-center text-gray-400">
+            กำลังโหลดแผนที่...
+        </div>
+    )
+});
 
 interface Category {
     id: number;
@@ -16,6 +28,7 @@ export default function CreateJobPostPage() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [shopId, setShopId] = useState<number | null>(null);
 
+    // 2. เพิ่ม latitude, longitude ใน State
     const [formData, setFormData] = useState({
         jobName: '',
         categoryId: '',
@@ -25,6 +38,8 @@ export default function CreateJobPostPage() {
         requiredPeople: '',
         wage: '',
         workDate: '',
+        latitude: null as number | null, // เพิ่ม
+        longitude: null as number | null, // เพิ่ม
         availableDays: {
             จันทร์: false,
             อังคาร: false,
@@ -42,18 +57,15 @@ export default function CreateJobPostPage() {
 
     const fetchInitialData = async () => {
         try {
-            // ดึง user และ shop
             const userRes = await fetch('/api/auth/me');
             if (!userRes.ok) throw new Error('Not authenticated');
 
             const userData = await userRes.json();
-            console.log('User data:', userData);
 
             const shopRes = await fetch(`/api/shops?userId=${userData.user.id}`);
             if (!shopRes.ok) throw new Error('Shop not found');
 
             const shopData = await shopRes.json();
-            console.log('Shop data:', shopData);
 
             if (shopData.shop) {
                 setShopId(shopData.shop.id);
@@ -61,20 +73,16 @@ export default function CreateJobPostPage() {
                     ...prev,
                     address: shopData.shop.address || '',
                     contactPhone: shopData.shop.phone || '',
+                    // ถ้าในร้านมีพิกัดเดิม อาจจะ set ค่าเริ่มต้นตรงนี้ได้
+                    // latitude: shopData.shop.latitude, 
+                    // longitude: shopData.shop.longitude,
                 }));
             }
 
-            // ดึง categories
-            console.log('Fetching categories...');
             const catRes = await fetch('/api/categories');
-            console.log('Categories response status:', catRes.status);
-
             if (catRes.ok) {
                 const catData = await catRes.json();
-                console.log('Categories data:', catData);
                 setCategories(catData.categories || []);
-            } else {
-                console.error('Failed to fetch categories:', await catRes.text());
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -94,11 +102,26 @@ export default function CreateJobPostPage() {
         }));
     };
 
+    // 3. ฟังก์ชันรับค่าเมื่อมีการเลือกตำแหน่งบนแผนที่
+    const handleLocationSelect = (lat: number, lng: number) => {
+        setFormData(prev => ({
+            ...prev,
+            latitude: lat,
+            longitude: lng
+        }));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!shopId) {
             alert('ไม่พบข้อมูลร้าน');
+            return;
+        }
+
+        // เช็คว่าเลือกพิกัดหรือยัง (ถ้าจำเป็น)
+        if (!formData.latitude || !formData.longitude) {
+            alert('กรุณาปักหมุดตำแหน่งร้านบนแผนที่');
             return;
         }
 
@@ -120,10 +143,11 @@ export default function CreateJobPostPage() {
                 wage: parseFloat(formData.wage),
                 work_date: formData.workDate,
                 available_days: JSON.stringify(selectedDays),
+                // 4. ส่งค่าพิกัดไปด้วย
+                latitude: formData.latitude,
+                longitude: formData.longitude,
                 status: 'open',
             };
-
-            console.log('Submitting payload:', payload);
 
             const res = await fetch('/api/shop-owner/posts', {
                 method: 'POST',
@@ -136,7 +160,6 @@ export default function CreateJobPostPage() {
                 router.push('/shop-owner/posts');
             } else {
                 const error = await res.json();
-                console.error('API Error:', error);
                 alert(`เกิดข้อผิดพลาด: ${error.message || 'ไม่สามารถสร้างได้'}`);
             }
         } catch (error) {
@@ -149,14 +172,14 @@ export default function CreateJobPostPage() {
 
     if (loadingCategories) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 flex items-center justify-center">
+            <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 flex items-center justify-center">
                 <p className="text-gray-600 dark:text-gray-400">กำลังโหลด...</p>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
             <div className="max-w-4xl mx-auto px-4">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
                     <h1 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-8 text-center">
@@ -172,7 +195,7 @@ export default function CreateJobPostPage() {
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* ชื่องาน & ประเภทงาน */}
+                        {/* ... (ส่วน Input ชื่องาน/ประเภทงาน/คน/ค่าจ้าง/วันที่ เดิม ไม่มีการเปลี่ยนแปลง) ... */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -189,7 +212,7 @@ export default function CreateJobPostPage() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    ประเภทงาน ({categories.length} รายการ)
+                                    ประเภทงาน
                                 </label>
                                 <select
                                     value={formData.categoryId}
@@ -205,7 +228,6 @@ export default function CreateJobPostPage() {
                             </div>
                         </div>
 
-                        {/* จำนวนที่รับสมัคร & ค่าจ้าง */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -216,14 +238,13 @@ export default function CreateJobPostPage() {
                                     min="1"
                                     value={formData.requiredPeople}
                                     onChange={(e) => setFormData(prev => ({ ...prev, requiredPeople: e.target.value }))}
-                                    placeholder="จำนวนคน"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                                     required
                                 />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    ค่าจ้าง
+                                    ค่าจ้าง (บาท/วัน)
                                 </label>
                                 <input
                                     type="number"
@@ -231,14 +252,12 @@ export default function CreateJobPostPage() {
                                     step="0.01"
                                     value={formData.wage}
                                     onChange={(e) => setFormData(prev => ({ ...prev, wage: e.target.value }))}
-                                    placeholder="บาท"
                                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                                     required
                                 />
                             </div>
                         </div>
 
-                        {/* วันที่ทำงาน */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 วันที่ต้องการทำงาน/เลือกได้
@@ -260,10 +279,9 @@ export default function CreateJobPostPage() {
                             </div>
                         </div>
 
-                        {/* วันที่ต้องการ */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                วันที่ต้องการ
+                                วันที่เริ่มงาน
                             </label>
                             <input
                                 type="date"
@@ -274,41 +292,43 @@ export default function CreateJobPostPage() {
                             />
                         </div>
 
-                        {/* ที่อยู่ */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                ที่อยู่
+                                ที่อยู่ (รายละเอียดเพิ่มเติม)
                             </label>
                             <textarea
                                 value={formData.address}
                                 onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
-                                placeholder="ที่อยู่"
-                                rows={3}
+                                placeholder="เช่น เลขที่บ้าน ซอย หมู่บ้าน..."
+                                rows={2}
                                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none"
                             />
                         </div>
 
-                        {/* แผนที่ร้าน */}
+                        {/* 5. ส่วนแสดงแผนที่ใหม่ */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                แผนที่ร้าน
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                ปักหมุดตำแหน่งร้าน <span className="text-red-500 text-xs">(จำเป็น)</span>
                             </label>
-                            <div className="relative w-full h-48 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center border border-gray-300 dark:border-gray-600">
-                                <MapPin className="w-12 h-12 text-gray-400" />
-                                <span className="ml-2 text-gray-500 dark:text-gray-400">
-                                    แผนที่ (Google Maps)
-                                </span>
+                            <div className="relative w-full rounded-xl overflow-hidden border border-gray-300 dark:border-gray-600 shadow-xs">
+                                <LocationMap
+                                    latitude={formData.latitude}
+                                    longitude={formData.longitude}
+                                    onLocationSelect={handleLocationSelect}
+                                />
                             </div>
+                            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                                * คลิกหรือลากหมุดบนแผนที่เพื่อระบุตำแหน่งที่ตั้งจริงของร้าน
+                            </p>
                         </div>
 
-                        {/* Submit Button */}
                         <div className="flex justify-center pt-4">
                             <button
                                 type="submit"
                                 disabled={loading || categories.length === 0}
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
                             >
-                                {loading ? 'กำลังสร้าง...' : 'สร้างประกาศงาน'}
+                                {loading ? 'กำลังบันทึก...' : 'สร้างประกาศงาน'}
                             </button>
                         </div>
                     </form>
