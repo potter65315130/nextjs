@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Prompt } from "next/font/google";
 import { ThemeProvider } from "./providers/ThemeProvider";
+import Footer from "@/components/home/Footer";
 
 const prompt = Prompt({
   subsets: ["latin", "thai"],
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           disableTransitionOnChange
         >
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

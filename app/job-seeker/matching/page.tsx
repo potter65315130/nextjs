@@ -61,37 +61,39 @@ export default function JobMatchingPage() {
     });
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
             {/* Search Section */}
-            <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-8 px-4">
+            <div className="bg-blue-600 dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-11 px-4">
                 <div className="max-w-6xl mx-auto">
-                    <center><h1 className="text-3xl md:text-4xl font-bold mb-3 text-gray-800 dark:text-white">
+                    <center><h1 className="text-3xl md:text-4xl font-bold mb-3 text-white dark:text-white">
                         ค้นหางาน สมัครงาน ทั้งหมด
                     </h1>
-                        <p className="text-gray-600 dark:text-gray-400 mb-6">
-                            ค้นหางานพาร์ทไทม์ที่ใช่สำหรับคุณได้ง่าย ๆ ไม่ยากอีกต่อไป! เลือกงานที่เหมาะกับคุณ แล้วสมัครได้ทันที
+                        <p className="text-white dark:text-gray-400 mb-6">
+                            ค้นหางานพาร์ทไทม์ที่ใช่สำหรับคุณได้ง่าย ๆ ไม่ยากอีกต่อไป!<br></br> เลือกงานที่เหมาะกับคุณ แล้วสมัครได้ทันที
                         </p></center>
-
-                    {/* Search Bar */}
-                    <center><div className="max-w-2xl">
-                        <div className="bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-2 flex items-center gap-3">
-                            <div className="flex-1 flex items-center gap-3 px-4">
-                                <Search className="w-5 h-5 text-gray-400" />
-                                <input
-                                    type="text"
-                                    placeholder="เลือกตรวจหาด้วยคำที่คุณต้องการค้นหา"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="flex-1 bg-transparent border-none outline-none text-gray-700 dark:text-gray-300 placeholder-gray-400"
-                                />
-                            </div>
-                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
-                                ค้นหา
-                            </button>
-                        </div>
-                    </div></center>
                 </div>
+
             </div>
+            <br></br>
+
+            {/* Search Bar */}
+            <center><div className="max-w-2xl">
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-2 flex items-center gap-3">
+                    <div className="flex-1 flex items-center gap-3 px-4">
+                        <Search className="w-5 h-5 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="เลือกตรวจหาด้วยคำที่คุณต้องการค้นหา"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="flex-1 bg-transparent border-none outline-none text-gray-700 dark:text-gray-300 placeholder-gray-400"
+                        />
+                    </div>
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
+                        ค้นหา
+                    </button>
+                </div>
+            </div></center>
 
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 py-8">
@@ -180,7 +182,7 @@ function JobCard({ job }: { job: JobPost }) {
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 cursor-pointer group border border-gray-100 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500">
                 <div className="flex gap-4">
                     {/* Job Image */}
-                    <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-linear-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800">
                         {job.shopImage ? (
                             <Image
                                 src={job.shopImage}
