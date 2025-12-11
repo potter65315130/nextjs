@@ -37,9 +37,9 @@ const shopUpdateSchema = z.object({
     email: z.string().email('Invalid email format').optional().or(z.literal('')),
     address: z.string().optional(),
     description: z.string().optional(),
-    imageUrl: z.string().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
+    profileImage: z.string().optional(),
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional(),
 });
 
 // --------------------------------------------------------
@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        // 4. Return shop data with imageUrl mapped from profileImage
+        // 4. Return shop data
         return NextResponse.json({
             success: true,
             shop: {
@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
                 email: shop.email,
                 address: shop.address,
                 description: shop.description,
-                imageUrl: shop.profileImage,
+                profileImage: shop.profileImage,
                 latitude: shop.latitude,
                 longitude: shop.longitude,
             },
@@ -171,7 +171,7 @@ export async function PUT(request: NextRequest) {
                 email: validatedData.email,
                 address: validatedData.address,
                 description: validatedData.description,
-                profileImage: validatedData.imageUrl,
+                profileImage: validatedData.profileImage,
                 latitude: validatedData.latitude,
                 longitude: validatedData.longitude,
             },
@@ -188,7 +188,7 @@ export async function PUT(request: NextRequest) {
             },
         });
 
-        // 5. Return updated shop with imageUrl mapped from profileImage
+        // 5. Return updated shop
         return NextResponse.json({
             success: true,
             data: {
@@ -198,7 +198,7 @@ export async function PUT(request: NextRequest) {
                 email: updatedShop.email,
                 address: updatedShop.address,
                 description: updatedShop.description,
-                imageUrl: updatedShop.profileImage,
+                profileImage: updatedShop.profileImage,
                 latitude: updatedShop.latitude,
                 longitude: updatedShop.longitude,
             },
