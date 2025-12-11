@@ -176,7 +176,7 @@ export default function JobMatchingPage() {
 
 function JobCard({ job }: { job: JobPost }) {
     return (
-        <Link href={`/job-seeker/jobs/${job.id}`}>
+        <Link href={`/job-seeker/matching/${job.id}`}>
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 cursor-pointer group border border-gray-100 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500">
                 <div className="flex gap-4">
                     {/* Job Image */}
@@ -216,7 +216,7 @@ function JobCard({ job }: { job: JobPost }) {
                             </div>
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
                                 <Users className="w-4 h-4 flex-shrink-0" />
-                                <span>ทำงาน {job.requiredPeople} ที่/สัปดาห์</span>
+                                <span>จำนวนที่ต้องการ {job.requiredPeople} คน</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
                                 <DollarSign className="w-4 h-4 flex-shrink-0" />

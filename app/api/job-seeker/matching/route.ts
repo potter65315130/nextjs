@@ -4,28 +4,6 @@ import { getCurrentUser } from '@/lib/auth';
 
 export async function GET() {
     try {
-        // ดึงข้อมูล user ปัจจุบัน
-        const currentUser = await getCurrentUser();
-        if (!currentUser) {
-            return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-        }
-
-        // หา JobSeekerProfile
-        const seekerProfile = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: currentUser.id },
-            include: {
-                categories: {
-                    include: {
-                        category: true,
-                    },
-                },
-            },
-        });
-
-        if (!seekerProfile) {
-            return NextResponse.json({ message: 'Profile not found' }, { status: 404 });
-        }
-
         // ดึง job posts ทั้งหมดที่ status = 'open'
         const jobPosts = await prisma.shopJobPost.findMany({
             where: {
@@ -40,77 +18,115 @@ export async function GET() {
             },
         });
 
-      const jobsWithScores = jobPosts.map((post) => {
-    let matchScore = 0;
+        // ถ้าไม่มีงานเลย
+        if (jobPosts.length === 0) {
+            return NextResponse.json({
+                success: true,
+                jobs: [],
+                total: 0,
+            });
+        }
 
-    // 1. Category match (40 points)
-    const seekerCategoryIds = seekerProfile.categories.map(c => c.categoryId);
-    if (seekerCategoryIds.includes(post.categoryId)) {
-        matchScore += 40;
-    }
-
-    // 2. Date match (30 points)
-    if (seekerProfile.availableDays && post.availableDays) {
+        // พยายามดึงข้อมูล user และ profile สำหรับคำนวณ match score
+        let seekerProfile = null;
         try {
-            const seekerDays = JSON.parse(seekerProfile.availableDays);
-            const postDays = JSON.parse(post.availableDays);
-            const hasCommonDays = seekerDays.some((day: string) => postDays.includes(day));
-            if (hasCommonDays) {
-                matchScore += 30;
+            const currentUser = await getCurrentUser();
+            if (currentUser) {
+                seekerProfile = await prisma.jobSeekerProfile.findUnique({
+                    where: { userId: currentUser.id },
+                    include: {
+                        categories: {
+                            include: {
+                                category: true,
+                            },
+                        },
+                    },
+                });
             }
-        } catch (e) {
-            // ignore JSON parse errors
+        } catch (error) {
+            // ถ้าไม่มี user หรือ profile ก็ไม่เป็นไร แสดงงานทั้งหมดได้
+            console.log('No user profile, showing all jobs');
         }
-    }
 
-    // 3. Location match (30 points)
-    let distanceKm: number | undefined;
-    if (seekerProfile.latitude && seekerProfile.longitude && post.latitude && post.longitude) {
-        distanceKm = calculateDistance(
-            seekerProfile.latitude,
-            seekerProfile.longitude,
-            post.latitude,
-            post.longitude
-        );
-        if (distanceKm <= 10) {
-            matchScore += 30;
-        } else if (distanceKm <= 20) {
-            matchScore += 15;
-        }
-    }
+        // คำนวณ match score สำหรับแต่ละงาน
+        const jobsWithScores = jobPosts.map((post) => {
+            let matchScore = 0;
+            let distanceKm: number | undefined;
 
-    return {
-        id: post.id,
-        shopId: post.shopId,
-        jobName: post.jobName,
-        description: post.description,
-        categoryName: post.category.name,
-        shopName: post.shop.shopName,
-        address: post.address || post.shop.address,
-        requiredPeople: post.requiredPeople,
-        wage: Number(post.wage),
-        workDate: post.workDate.toISOString(),
-        availableDays: post.availableDays,
-        shopImage: post.shop.profileImage,
-        distanceKm: distanceKm !== undefined ? Number(distanceKm.toFixed(1)) : null,
-        distanceText: distanceKm !== undefined ? `${distanceKm.toFixed(1)} km` : null,
-        matchScore,
-    };
-});
+            // ถ้ามี profile ถึงจะคำนวณ match score
+            if (seekerProfile) {
+                // 1. Category match (40 points)
+                const seekerCategoryIds = seekerProfile.categories.map(c => c.categoryId);
+                if (seekerCategoryIds.includes(post.categoryId)) {
+                    matchScore += 40;
+                }
 
+                // 2. Date match - ถ้าวันทำงานตรงกับ available days (30 points)
+                if (seekerProfile.availableDays && post.availableDays) {
+                    try {
+                        const seekerDays = JSON.parse(seekerProfile.availableDays);
+                        const postDays = JSON.parse(post.availableDays);
+                        const hasCommonDays = seekerDays.some((day: string) => postDays.includes(day));
+                        if (hasCommonDays) {
+                            matchScore += 30;
+                        }
+                    } catch (e) {
+                        // ignore JSON parse errors
+                    }
+                }
 
-        // เรียงตาม match score จากมากไปน้อย
-        jobsWithScores.sort((a, b) => b.matchScore - a.matchScore);
+                // 3. Location match (30 points) และคำนวณระยะทาง
+                if (seekerProfile.latitude && seekerProfile.longitude && post.latitude && post.longitude) {
+                    distanceKm = calculateDistance(
+                        seekerProfile.latitude,
+                        seekerProfile.longitude,
+                        post.latitude,
+                        post.longitude
+                    );
+                    if (distanceKm <= 10) {
+                        matchScore += 30;
+                    } else if (distanceKm <= 20) {
+                        matchScore += 15;
+                    }
+                }
+            }
+
+            return {
+                id: post.id,
+                shopId: post.shopId,
+                jobName: post.jobName,
+                description: post.description,
+                categoryName: post.category.name,
+                shopName: post.shop.shopName,
+                address: post.address || post.shop.address,
+                requiredPeople: post.requiredPeople,
+                wage: Number(post.wage),
+                workDate: post.workDate.toISOString(),
+                availableDays: post.availableDays,
+                shopImage: post.shop.profileImage,
+                distanceKm, // ส่งค่า distanceKm ออกมา (จะเป็น undefined ถ้าไม่มี profile หรือไม่มี lat/lng)
+                matchScore,
+            };
+        });
+
+        // เรียงตาม match score จากมากไปน้อย (ถ้ามี profile) หรือ createdAt (ถ้าไม่มี)
+        jobsWithScores.sort((a, b) => {
+            if (seekerProfile) {
+                return b.matchScore - a.matchScore;
+            }
+            return 0; // เรียงตาม createdAt desc ที่ query มาแล้ว
+        });
 
         return NextResponse.json({
             success: true,
             jobs: jobsWithScores,
             total: jobsWithScores.length,
+            hasProfile: !!seekerProfile,
         });
     } catch (error) {
         console.error('Error fetching matching jobs:', error);
         return NextResponse.json(
-            { message: 'Internal server error' },
+            { message: 'Internal server error', error: String(error) },
             { status: 500 }
         );
     }
