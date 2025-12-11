@@ -89,12 +89,12 @@ export default function ApplicationsPage() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 text-white py-12 px-4">
+            <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-8 px-4">
                 <div className="max-w-6xl mx-auto">
-                    <div className="flex items-center gap-3 mb-4">
-                        <h1 className="text-4xl font-bold">สถานะการสมัครงาน</h1>
-                    </div>
-                    <p className="text-blue-100 text-lg">
+                    <h1 className="text-3xl md:text-4xl font-bold mb-3 text-gray-800 dark:text-white">
+                        สถานะการสมัครงาน
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400">
                         ติดตามสถานะการสมัครงานของคุณได้ที่นี่
                     </p>
                 </div>
