@@ -104,7 +104,11 @@ export async function GET() {
                 workDate: post.workDate.toISOString(),
                 availableDays: post.availableDays,
                 shopImage: post.shop.profileImage,
-                distanceKm, // ส่งค่า distanceKm ออกมา (จะเป็น undefined ถ้าไม่มี profile หรือไม่มี lat/lng)
+
+                // เพิ่มการแสดงระยะทางสวยๆ
+                distanceKm: distanceKm !== undefined ? Number(distanceKm.toFixed(1)) : null,
+                distanceText: distanceKm !== undefined ? `${distanceKm.toFixed(1)} km` : 'ไม่ทราบ',
+
                 matchScore,
             };
         });
