@@ -27,7 +27,7 @@ const DaySelector: React.FC<DaySelectorProps> = ({ selectedDays, onChange }) => 
 
     return (
         <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">วันที่พร้อมทำงาน</label>
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">วันที่พร้อมทำงาน</label>
             <div className="flex flex-wrap gap-2">
                 {DAYS.map((day) => {
                     const isSelected = selectedDays.includes(day.id);
@@ -39,8 +39,8 @@ const DaySelector: React.FC<DaySelectorProps> = ({ selectedDays, onChange }) => 
                             className={`
                 px-4 py-1.5 rounded-full text-sm font-medium transition-all shadow-sm
                 ${isSelected
-                                    ? 'bg-brand-primary-from text-white shadow-md transform scale-105'
-                                    : 'bg-surface dark:bg-surface-dark text-foreground border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'}
+                                    ? 'bg-blue-600 text-white shadow-md transform scale-105'
+                                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'}
               `}
                         >
                             {day.label}

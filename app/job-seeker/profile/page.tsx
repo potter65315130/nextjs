@@ -12,19 +12,17 @@ import ImageUpload from '@/components/forms/ImageUpload';
 // Import LocationMap แบบ dynamic เพื่อหลีกเลี่ยงปัญหา SSR กับ Leaflet
 const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), { ssr: false });
 
-// Mock Data Categories
-const JOB_CATEGORIES = [
-    { label: 'พนักงานเสิร์ฟ', value: 1 },
-    { label: 'พนักงานแคชเชียร์', value: 2 },
-    { label: 'ผู้ช่วยกุ๊ก', value: 3 },
-    { label: 'พนักงานล้างจาน', value: 4 },
-];
+interface Category {
+    id: number;
+    name: string;
+}
 
 export default function JobSeekerProfilePage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [loadingUser, setLoadingUser] = useState(true);
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+    const [categories, setCategories] = useState<Category[]>([]);
 
     const [formData, setFormData] = useState({
         userId: 0,
@@ -42,6 +40,22 @@ export default function JobSeekerProfilePage() {
         profileImage: null as string | null,
         age: '',
     });
+
+    // ดึงข้อมูล categories จาก API
+    useEffect(() => {
+        async function fetchCategories() {
+            try {
+                const res = await fetch('/api/categories');
+                if (res.ok) {
+                    const data = await res.json();
+                    setCategories(data.categories || []); // ใช้ data.categories แทน data
+                }
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        }
+        fetchCategories();
+    }, []);
 
     // ดึงข้อมูล user จาก session
     useEffect(() => {
@@ -147,9 +161,9 @@ export default function JobSeekerProfilePage() {
 
     if (loadingUser) {
         return (
-            <div className="min-h-screen bg-surface dark:bg-surface-dark flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400">กำลังโหลดข้อมูล...</p>
                 </div>
             </div>
@@ -157,146 +171,155 @@ export default function JobSeekerProfilePage() {
     }
 
     return (
-        <div className="min-h-screen bg-surface dark:bg-surface-dark py-10 px-4 flex justify-center">
-            <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-8">
-
-                {/* ----- Left Column: Profile Image ----- */}
-                <div className="md:col-span-4 flex flex-col items-center gap-4">
-
-                    {/* เรียกใช้ Component ImageUpload ตรงนี้ */}
-                    <ImageUpload
-                        value={formData.profileImage}
-                        onChange={(base64) => setFormData(prev => ({ ...prev, profileImage: base64 }))}
-                        label="แก้ไขรูปโปรไฟล์"
-                    />
-
-                </div>
-
-                {/* ----- Right Column: Form ----- */}
-                <div className="md:col-span-8">
-                    <h1 className="text-2xl font-bold mb-6">
-                        <span className="gradient-text">โปรไฟล์</span>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+            {/* Header */}
+            <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-8 px-4">
+                <div className="max-w-4xl mx-auto">
+                    <h1 className="text-3xl md:text-4xl font-bold mb-3 text-gray-800 dark:text-white">
+                        โปรไฟล์ผู้ใช้งาน
                     </h1>
+                    <p className="text-gray-600 dark:text-gray-400">
+                        จัดการข้อมูลส่วนตัวและการตั้งค่าของคุณ
+                    </p>
+                </div>
+            </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                        {/* ... (ส่วน InputField ต่างๆ เหมือนเดิม) ... */}
+            {/* Main Content */}
+            <div className="max-w-4xl mx-auto px-4 py-8">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
-                        <InputField
-                            name="fullName"
-                            label="ชื่อ-นามสกุล"
-                            placeholder="ชื่อ-นามสกุล"
-                            value={formData.fullName}
-                            onChange={handleChange}
+                    {/* ----- Left Column: Profile Image ----- */}
+                    <div className="md:col-span-4 flex flex-col items-center gap-4">
+                        <ImageUpload
+                            value={formData.profileImage}
+                            onChange={(base64) => setFormData(prev => ({ ...prev, profileImage: base64 }))}
+                            label="แก้ไขรูปโปรไฟล์"
                         />
+                    </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <SelectField
-                                name="gender"
-                                label="เพศ"
-                                options={[
-                                    { label: 'ชาย', value: 'male' },
-                                    { label: 'หญิง', value: 'female' },
-                                    { label: 'ไม่ระบุ', value: 'other' },
-                                ]}
-                                value={formData.gender}
+                    {/* ----- Right Column: Form ----- */}
+                    <div className="md:col-span-8">
+                        <form onSubmit={handleSubmit} className="space-y-5">
+                            <InputField
+                                name="fullName"
+                                label="ชื่อ-นามสกุล"
+                                placeholder="ชื่อ-นามสกุล"
+                                value={formData.fullName}
+                                onChange={handleChange}
+                            />
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <SelectField
+                                    name="gender"
+                                    label="เพศ"
+                                    options={[
+                                        { label: 'ชาย', value: 'male' },
+                                        { label: 'หญิง', value: 'female' },
+                                        { label: 'ไม่ระบุ', value: 'other' },
+                                    ]}
+                                    value={formData.gender}
+                                    onChange={handleChange}
+                                />
+                                <InputField
+                                    name="age"
+                                    type="number"
+                                    label="อายุ"
+                                    placeholder="18"
+                                    value={formData.age}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <InputField
+                                name="phone"
+                                type="tel"
+                                label="เบอร์โทร"
+                                placeholder="098xxxxxxx"
+                                value={formData.phone}
                                 onChange={handleChange}
                             />
                             <InputField
-                                name="age"
-                                type="number"
-                                label="อายุ"
-                                placeholder="18"
-                                value={formData.age}
+                                name="email"
+                                type="email"
+                                label="อีเมล"
+                                placeholder="email@example.com"
+                                value={formData.email}
                                 onChange={handleChange}
                             />
-                        </div>
 
-                        <InputField
-                            name="phone"
-                            type="tel"
-                            label="เบอร์โทร"
-                            placeholder="098xxxxxxx"
-                            value={formData.phone}
-                            onChange={handleChange}
-                        />
-                        <InputField
-                            name="email"
-                            type="email"
-                            label="อีเมล"
-                            placeholder="email@example.com"
-                            value={formData.email}
-                            onChange={handleChange}
-                        />
-
-                        <SelectField
-                            name="jobCategoryId"
-                            label="ประเภทงาน"
-                            options={JOB_CATEGORIES}
-                            value={formData.jobCategoryId}
-                            onChange={handleChange}
-                        />
-
-                        <DaySelector
-                            selectedDays={formData.availableDays}
-                            onChange={(days) => setFormData(prev => ({ ...prev, availableDays: days }))}
-                        />
-
-                        <InputField
-                            name="skills"
-                            label="ทักษะ"
-                            placeholder="ทักษะที่มี (เช่น ชงกาแฟ, ขับรถยนต์)"
-                            value={formData.skills}
-                            onChange={handleChange}
-                        />
-
-                        <TextAreaField
-                            name="experience"
-                            label="ประสบการณ์"
-                            value={formData.experience}
-                            onChange={handleChange}
-                        />
-
-                        <TextAreaField
-                            name="address"
-                            label="ที่อยู่"
-                            value={formData.address}
-                            onChange={handleChange}
-                        />
-
-                        {/* Location Map */}
-                        <div>
-                            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                                ระบุตำแหน่งที่อยู่บนแผนที่
-                            </label>
-                            <LocationMap
-                                latitude={formData.latitude}
-                                longitude={formData.longitude}
-                                onLocationSelect={(lat, lng) => {
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        latitude: lat,
-                                        longitude: lng
-                                    }));
-                                }}
+                            <SelectField
+                                name="jobCategoryId"
+                                label="ประเภทงาน"
+                                options={(Array.isArray(categories) ? categories : []).map(cat => ({
+                                    label: cat.name,
+                                    value: cat.id
+                                }))}
+                                value={formData.jobCategoryId}
+                                onChange={handleChange}
                             />
-                            {formData.latitude && formData.longitude && (
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                    พิกัด: {formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)}
-                                </p>
-                            )}
-                        </div>
 
-                        {/* Submit Button */}
-                        <div className="pt-4">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="btn-primary w-full md:w-auto px-8 py-3 rounded-xl font-medium shadow-lg shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {loading ? 'กำลังบันทึก...' : 'บันทึกโปรไฟล์'}
-                            </button>
-                        </div>
-                    </form>
+                            <DaySelector
+                                selectedDays={formData.availableDays}
+                                onChange={(days) => setFormData(prev => ({ ...prev, availableDays: days }))}
+                            />
+
+                            <InputField
+                                name="skills"
+                                label="ทักษะ"
+                                placeholder="ทักษะที่มี (เช่น ชงกาแฟ, ขับรถยนต์)"
+                                value={formData.skills}
+                                onChange={handleChange}
+                            />
+
+                            <TextAreaField
+                                name="experience"
+                                label="ประสบการณ์"
+                                value={formData.experience}
+                                onChange={handleChange}
+                            />
+
+                            <TextAreaField
+                                name="address"
+                                label="ที่อยู่"
+                                value={formData.address}
+                                onChange={handleChange}
+                            />
+
+                            {/* Location Map */}
+                            <div>
+                                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                                    ระบุตำแหน่งที่อยู่บนแผนที่
+                                </label>
+                                <LocationMap
+                                    latitude={formData.latitude}
+                                    longitude={formData.longitude}
+                                    onLocationSelect={(lat, lng) => {
+                                        setFormData(prev => ({
+                                            ...prev,
+                                            latitude: lat,
+                                            longitude: lng
+                                        }));
+                                    }}
+                                />
+                                {formData.latitude && formData.longitude && (
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                        พิกัด: {formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)}
+                                    </p>
+                                )}
+                            </div>
+
+                            {/* Submit Button */}
+                            <div className="pt-4">
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white w-full md:w-auto px-8 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {loading ? 'กำลังบันทึก...' : 'บันทึกโปรไฟล์'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
