@@ -19,6 +19,7 @@ export default function ShopOwnerProfilePage() {
     const [saving, setSaving] = useState(false);
     const [shopId, setShopId] = useState<number | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const [formData, setFormData] = useState({
         shopName: '',
@@ -74,10 +75,11 @@ export default function ShopOwnerProfilePage() {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            setSelectedFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result as string);
-                setFormData(prev => ({ ...prev, profileImage: reader.result as string }));
+                // Don't set formData.profileImage to base64, we'll upload the file separately
             };
             reader.readAsDataURL(file);
         }
@@ -88,6 +90,26 @@ export default function ShopOwnerProfilePage() {
         setSaving(true);
 
         try {
+            let imageUrl = formData.profileImage;
+
+            if (selectedFile) {
+                const uploadData = new FormData();
+                uploadData.append('image', selectedFile);
+
+                const uploadRes = await fetch('/api/shops/upload', {
+                    method: 'POST',
+                    body: uploadData,
+                });
+
+                if (!uploadRes.ok) {
+                    const error = await uploadRes.json();
+                    throw new Error(error.message || 'Failed to upload image');
+                }
+
+                const uploadJson = await uploadRes.json();
+                imageUrl = uploadJson.data.imageUrl;
+            }
+
             const res = await fetch('/api/shops', {
                 method: 'PUT',
                 headers: {
@@ -101,7 +123,7 @@ export default function ShopOwnerProfilePage() {
                     description: formData.description,
                     latitude: formData.latitude,
                     longitude: formData.longitude,
-                    imageUrl: formData.profileImage,
+                    imageUrl: imageUrl,
                 }),
             });
 

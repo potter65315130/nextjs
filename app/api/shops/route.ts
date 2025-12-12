@@ -214,10 +214,12 @@ export async function PUT(request: NextRequest) {
             );
         }
 
+        console.error('Update shop error:', error);
         return NextResponse.json(
             {
                 success: false,
-                message: 'Failed to update shop',
+                message: error instanceof Error ? error.message : 'Failed to update shop',
+                debug: String(error),
             },
             { status: 500 }
         );
