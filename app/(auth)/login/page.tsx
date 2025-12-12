@@ -108,7 +108,6 @@ export default function LoginPage() {
                     />
                 </AuthCard>
             </AuthBackground>
-            <Footer />
         </>
     );
 }

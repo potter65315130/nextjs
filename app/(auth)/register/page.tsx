@@ -131,7 +131,6 @@ export default function RegisterPage() {
                     />
                 </AuthCard>
             </AuthBackground>
-            <Footer />
         </>
     );
 }
