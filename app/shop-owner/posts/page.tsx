@@ -1,4 +1,4 @@
-/*'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -46,13 +46,13 @@ export default function ShopOwnerPostsPage() {
 
     return (
         <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
-            
+            {/* Animated Background Elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 left-0 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
                 <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
             </div>
 
-            
+            {/* Header with Glassmorphism */}
             <div className="relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-purple-200/50 dark:border-purple-700/50 py-8 px-4 shadow-xl">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <div>
@@ -75,9 +75,9 @@ export default function ShopOwnerPostsPage() {
                 </div>
             </div>
 
-            
+            {/* Main Content */}
             <div className="relative max-w-7xl mx-auto px-4 py-8">
-                
+                {/* Filter Tabs with Premium Design */}
                 <div className="flex flex-wrap gap-4 mb-8">
                     {[
                         { id: 'all', label: 'ทั้งหมด', icon: Briefcase, count: jobPosts.length, gradient: 'from-blue-500 to-cyan-500' },
@@ -109,7 +109,7 @@ export default function ShopOwnerPostsPage() {
                     })}
                 </div>
 
-                
+                {/* Loading State with Animation */}
                 {loading && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -122,7 +122,7 @@ export default function ShopOwnerPostsPage() {
                     </div>
                 )}
 
-                
+                {/* Empty State */}
                 {!loading && filteredPosts.length === 0 && (
                     <div className="text-center py-20">
                         <div className="relative w-48 h-48 mx-auto mb-8">
@@ -147,7 +147,7 @@ export default function ShopOwnerPostsPage() {
                     </div>
                 )}
 
-                
+                {/* Job Cards Grid */}
                 {!loading && filteredPosts.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredPosts.map((post, index) => (
@@ -158,7 +158,7 @@ export default function ShopOwnerPostsPage() {
                                     animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`
                                 }}
                             >
-                                
+                                {/* Status Badge */}
                                 <div className="absolute top-4 right-4">
                                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${post.status === 'open'
                                         ? 'bg-linear-to-r from-green-400 to-emerald-400 text-white'
@@ -168,19 +168,19 @@ export default function ShopOwnerPostsPage() {
                                     </span>
                                 </div>
 
-                                
+                                {/* Job Title */}
                                 <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 pr-20 line-clamp-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                                     {post.jobName}
                                 </h3>
 
-                                
+                                {/* Category Badge */}
                                 <div className="inline-block px-3 py-1 bg-linear-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg mb-4">
                                     <span className="text-sm font-semibold text-purple-700 dark:text-purple-300">
                                         {post.categoryName}
                                     </span>
                                 </div>
 
-                                
+                                {/* Info Grid */}
                                 <div className="space-y-3 mb-6">
                                     <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
                                         <div className="w-10 h-10 rounded-xl bg-linear-to-r from-green-400 to-emerald-400 flex items-center justify-center">
@@ -219,7 +219,7 @@ export default function ShopOwnerPostsPage() {
                                     </div>
                                 </div>
 
-                                
+                                {/* Action Buttons */}
                                 <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                                     <button
                                         className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 rounded-xl transition-colors text-blue-700 dark:text-blue-400 font-medium"
@@ -243,14 +243,14 @@ export default function ShopOwnerPostsPage() {
                                     </button>
                                 </div>
 
-                                
+                                {/* Hover Effect Overlay */}
                                 <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>
                 )}
 
-                
+                {/* Pagination */}
                 {!loading && filteredPosts.length > 0 && (
                     <div className="mt-8 flex items-center justify-center gap-2">
                         <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors font-medium">
@@ -273,7 +273,7 @@ export default function ShopOwnerPostsPage() {
                 )}
             </div>
 
-            
+            {/* Add keyframes for animations */}
             <style jsx>{`
                 @keyframes fadeInUp {
                     from {
@@ -288,4 +288,4 @@ export default function ShopOwnerPostsPage() {
             `}</style>
         </div>
     );
-}*/
+}
