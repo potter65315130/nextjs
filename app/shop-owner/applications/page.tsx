@@ -91,7 +91,7 @@ export default function ShopOwnerApplicationsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
+        <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
             {/* Animated Background */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>
@@ -112,7 +112,7 @@ export default function ShopOwnerApplicationsPage() {
                             className="w-full pl-12 pr-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-200 dark:border-purple-700 rounded-2xl focus:ring-2 focus:ring-purple-500 outline-none text-gray-800 dark:text-white"
                         />
                     </div>
-                    <button className="px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
+                    <button className="px-6 py-4 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
                         แก้ไขสถานะ
                     </button>
                 </div>
@@ -148,7 +148,7 @@ export default function ShopOwnerApplicationsPage() {
                                 <div className="flex items-start gap-6">
                                     {/* Avatar */}
                                     <div className="relative">
-                                        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-400 p-0.5">
+                                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-purple-400 to-pink-400 p-0.5">
                                             <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                                 {app.seekerImage ? (
                                                     <Image
@@ -219,7 +219,7 @@ export default function ShopOwnerApplicationsPage() {
                                 </div>
 
                                 {/* Hover Effect */}
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>
@@ -229,8 +229,8 @@ export default function ShopOwnerApplicationsPage() {
                 {!loading && filteredApplications.length === 0 && (
                     <div className="text-center py-20">
                         <div className="relative w-48 h-48 mx-auto mb-8">
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
-                            <div className="absolute inset-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                            <div className="absolute inset-0 bg-linear-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
+                            <div className="absolute inset-4 bg-linear-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                                 <User className="w-20 h-20 text-white" />
                             </div>
                         </div>

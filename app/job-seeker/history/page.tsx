@@ -48,7 +48,7 @@ export default function WorkHistoryPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
             {/* Main Content */}
             <div className="max-w-6xl mx-auto px-4 py-12">
                 {/* Stats */}
@@ -113,7 +113,7 @@ export default function WorkHistoryPage() {
                 {/* Empty State */}
                 {!loading && workHistory.length === 0 && (
                     <div className="text-center py-20">
-                        <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900 dark:to-blue-900 rounded-full flex items-center justify-center">
+                        <div className="w-32 h-32 mx-auto mb-6 bg-linear-to-br from-indigo-100 to-blue-100 dark:from-indigo-900 dark:to-blue-900 rounded-full flex items-center justify-center">
                             <Briefcase className="w-16 h-16 text-indigo-600 dark:text-indigo-400" />
                         </div>
                         <h3 className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
@@ -179,7 +179,7 @@ function WorkHistoryCard({ work, onReviewed }: { work: WorkHistory; onReviewed: 
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-200 dark:border-gray-700">
                 <div className="flex gap-6 flex-col md:flex-row">
                     {/* Shop Image */}
-                    <div className="relative w-full md:w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900 dark:to-blue-900">
+                    <div className="relative w-full md:w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-linear-to-br from-indigo-100 to-blue-100 dark:from-indigo-900 dark:to-blue-900">
                         {work.shop.profileImage ? (
                             <Image
                                 src={work.shop.profileImage}
@@ -205,19 +205,19 @@ function WorkHistoryCard({ work, onReviewed }: { work: WorkHistory; onReviewed: 
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm mb-4">
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                <Briefcase className="w-4 h-4 flex-shrink-0" />
+                                <Briefcase className="w-4 h-4 shrink-0" />
                                 <span className="truncate">{work.shop.shopName}</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                <Calendar className="w-4 h-4 flex-shrink-0" />
+                                <Calendar className="w-4 h-4 shrink-0" />
                                 <span>วันที่: {new Date(work.workDate).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                <MapPin className="w-4 h-4 flex-shrink-0" />
+                                <MapPin className="w-4 h-4 shrink-0" />
                                 <span className="truncate">{work.shop.address}</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                <DollarSign className="w-4 h-4 flex-shrink-0" />
+                                <DollarSign className="w-4 h-4 shrink-0" />
                                 <span className="font-semibold text-green-600 dark:text-green-400">{work.wage} บาท</span>
                             </div>
                         </div>

@@ -130,7 +130,7 @@ export default function ShopOwnerProfilePage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
             <div className="max-w-6xl mx-auto px-4">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
                     <h1 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-8 text-center">
@@ -142,7 +142,7 @@ export default function ShopOwnerProfilePage() {
                             {/* Left Column - Image */}
                             <div className="flex flex-col items-center">
                                 <div className="w-full max-w-md">
-                                    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-700 mb-4">
+                                    <div className="relative w-full aspect-4/3 rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-700 mb-4">
                                         {imagePreview ? (
                                             <Image
                                                 src={imagePreview}

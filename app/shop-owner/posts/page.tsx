@@ -45,7 +45,7 @@ export default function ShopOwnerPostsPage() {
     });
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
+        <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
             {/* Animated Background Elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 left-0 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
@@ -56,7 +56,7 @@ export default function ShopOwnerPostsPage() {
             <div className="relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-purple-200/50 dark:border-purple-700/50 py-8 px-4 shadow-xl">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <div>
-                        <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                        <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-2">
                             ประกาศรับสมัครงาน
                         </h1>
                         <p className="text-gray-600 dark:text-gray-400 flex items-center gap-2">
@@ -66,7 +66,7 @@ export default function ShopOwnerPostsPage() {
                     </div>
                     <Link
                         href="/shop-owner/posts/create"
-                        className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 hover:scale-105"
+                        className="group relative inline-flex items-center gap-2 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 hover:scale-105"
                     >
                         <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
                         <span>สร้างประกาศใหม่</span>
@@ -90,16 +90,16 @@ export default function ShopOwnerPostsPage() {
                                 key={tab.id}
                                 onClick={() => setFilter(tab.id)}
                                 className={`group relative px-6 py-3 rounded-xl font-medium transition-all duration-300 ${filter === tab.id
-                                        ? `bg-gradient-to-r ${tab.gradient} text-white shadow-2xl scale-105`
-                                        : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:scale-105 hover:shadow-xl backdrop-blur-sm'
+                                    ? `bg-linear-to-r ${tab.gradient} text-white shadow-2xl scale-105`
+                                    : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:scale-105 hover:shadow-xl backdrop-blur-sm'
                                     }`}
                             >
                                 <div className="flex items-center gap-3">
                                     <Icon className={`w-5 h-5 ${filter === tab.id ? 'animate-bounce' : 'group-hover:rotate-12'} transition-transform`} />
                                     <span>{tab.label}</span>
                                     <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${filter === tab.id
-                                            ? 'bg-white/30'
-                                            : 'bg-gray-200 dark:bg-gray-700'
+                                        ? 'bg-white/30'
+                                        : 'bg-gray-200 dark:bg-gray-700'
                                         }`}>
                                         {tab.count}
                                     </span>
@@ -126,8 +126,8 @@ export default function ShopOwnerPostsPage() {
                 {!loading && filteredPosts.length === 0 && (
                     <div className="text-center py-20">
                         <div className="relative w-48 h-48 mx-auto mb-8">
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
-                            <div className="absolute inset-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                            <div className="absolute inset-0 bg-linear-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
+                            <div className="absolute inset-4 bg-linear-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                                 <Briefcase className="w-20 h-20 text-white" />
                             </div>
                         </div>
@@ -139,7 +139,7 @@ export default function ShopOwnerPostsPage() {
                         </p>
                         <Link
                             href="/shop-owner/posts/create"
-                            className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
+                            className="inline-flex items-center gap-2 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
                         >
                             <Plus className="w-5 h-5" />
                             <span>สร้างประกาศแรก</span>
@@ -161,8 +161,8 @@ export default function ShopOwnerPostsPage() {
                                 {/* Status Badge */}
                                 <div className="absolute top-4 right-4">
                                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${post.status === 'open'
-                                            ? 'bg-gradient-to-r from-green-400 to-emerald-400 text-white'
-                                            : 'bg-gradient-to-r from-gray-400 to-slate-400 text-white'
+                                        ? 'bg-linear-to-r from-green-400 to-emerald-400 text-white'
+                                        : 'bg-linear-to-r from-gray-400 to-slate-400 text-white'
                                         }`}>
                                         {post.status === 'open' ? '🟢 เปิดรับ' : '⏸️ ปิดรับ'}
                                     </span>
@@ -174,7 +174,7 @@ export default function ShopOwnerPostsPage() {
                                 </h3>
 
                                 {/* Category Badge */}
-                                <div className="inline-block px-3 py-1 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg mb-4">
+                                <div className="inline-block px-3 py-1 bg-linear-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg mb-4">
                                     <span className="text-sm font-semibold text-purple-700 dark:text-purple-300">
                                         {post.categoryName}
                                     </span>
@@ -183,7 +183,7 @@ export default function ShopOwnerPostsPage() {
                                 {/* Info Grid */}
                                 <div className="space-y-3 mb-6">
                                     <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-green-400 to-emerald-400 flex items-center justify-center">
+                                        <div className="w-10 h-10 rounded-xl bg-linear-to-r from-green-400 to-emerald-400 flex items-center justify-center">
                                             <DollarSign className="w-5 h-5 text-white" />
                                         </div>
                                         <div>
@@ -193,7 +193,7 @@ export default function ShopOwnerPostsPage() {
                                     </div>
 
                                     <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-400 to-cyan-400 flex items-center justify-center">
+                                        <div className="w-10 h-10 rounded-xl bg-linear-to-r from-blue-400 to-cyan-400 flex items-center justify-center">
                                             <Users className="w-5 h-5 text-white" />
                                         </div>
                                         <div>
@@ -203,7 +203,7 @@ export default function ShopOwnerPostsPage() {
                                     </div>
 
                                     <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-400 to-red-400 flex items-center justify-center">
+                                        <div className="w-10 h-10 rounded-xl bg-linear-to-r from-orange-400 to-red-400 flex items-center justify-center">
                                             <Calendar className="w-5 h-5 text-white" />
                                         </div>
                                         <div>
@@ -244,7 +244,7 @@ export default function ShopOwnerPostsPage() {
                                 </div>
 
                                 {/* Hover Effect Overlay */}
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>
@@ -256,7 +256,7 @@ export default function ShopOwnerPostsPage() {
                         <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors font-medium">
                             ← ก่อนหน้า
                         </button>
-                        <button className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold">
+                        <button className="px-4 py-2 rounded-xl bg-linear-to-r from-purple-600 to-pink-600 text-white font-bold">
                             1
                         </button>
                         <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">

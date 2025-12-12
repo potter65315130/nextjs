@@ -38,7 +38,7 @@ export default function InputField({
                 {/* 4. Input Field */}
                 <input
                     id={id}
-                    {...props} // กระจาย props (เช่น name="fullName") เข้าไปใน input โดยตรง
+                    {...props}
                     className={`
             block w-full py-2.5 border border-gray-300 dark:border-gray-700
             rounded-xl leading-5 
