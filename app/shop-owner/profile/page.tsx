@@ -2,7 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Upload, MapPin } from 'lucide-react';
+import { Upload } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-[300px] bg-gray-200 dark:bg-gray-700 animate-pulse rounded-xl flex items-center justify-center text-gray-400">
+            กำลังโหลดแผนที่...
+        </div>
+    )
+});
 
 export default function ShopOwnerProfilePage() {
     const [loading, setLoading] = useState(true);
@@ -240,15 +250,19 @@ export default function ShopOwnerProfilePage() {
 
                                 {/* แผนที่ร้าน */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        แผนที่ร้าน
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        แผนที่ร้าน <span className="text-red-500 text-xs">(จำเป็น)</span>
                                     </label>
-                                    <div className="relative w-full h-48 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center border border-gray-300 dark:border-gray-600">
-                                        <MapPin className="w-12 h-12 text-gray-400" />
-                                        <span className="ml-2 text-gray-500 dark:text-gray-400">
-                                            แผนที่ (Google Maps)
-                                        </span>
+                                    <div className="relative w-full rounded-xl overflow-hidden border border-gray-300 dark:border-gray-600">
+                                        <LocationMap
+                                            latitude={formData.latitude}
+                                            longitude={formData.longitude}
+                                            onLocationSelect={(lat, lng) => setFormData(prev => ({ ...prev, latitude: lat, longitude: lng }))}
+                                        />
                                     </div>
+                                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                                        * คลิกหรือลากหมุดบนแผนที่เพื่อระบุตำแหน่งที่ตั้งจริงของร้าน
+                                    </p>
                                 </div>
                             </div>
                         </div>
