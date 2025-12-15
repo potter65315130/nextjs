@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Plus, Briefcase } from "lucide-react";
 
 type JobPost = {
@@ -17,6 +18,7 @@ type JobPost = {
 };
 
 export default function ShopOwnerDashboard() {
+    const router = useRouter();
     const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [shopId, setShopId] = useState<number | null>(null);
@@ -32,13 +34,21 @@ export default function ShopOwnerDashboard() {
 
                 // ดึงข้อมูล shop
                 const shopRes = await fetch(`/api/shops?userId=${userData.user.id}`);
+
+                if (shopRes.status === 404) {
+                    router.push('/shop-owner/profile');
+                    return;
+                }
+
                 if (!shopRes.ok) throw new Error('Shop not found');
 
                 const shopData = await shopRes.json();
                 const currentShopId = shopData.shop?.id;
 
                 if (!currentShopId) {
-                    throw new Error('No shop found for this user');
+                    // Double check logic: if API returns 200 but no shop object (unlikely given API code), handle it
+                    router.push('/shop-owner/profile');
+                    return;
                 }
 
                 setShopId(currentShopId);

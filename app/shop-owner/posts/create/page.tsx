@@ -63,6 +63,13 @@ export default function CreateJobPostPage() {
             const userData = await userRes.json();
 
             const shopRes = await fetch(`/api/shops?userId=${userData.user.id}`);
+
+            if (shopRes.status === 404) {
+                alert('กรุณาสร้างโปรไฟล์ร้านค้าก่อนประกาศงาน');
+                router.push('/shop-owner/profile');
+                return;
+            }
+
             if (!shopRes.ok) throw new Error('Shop not found');
 
             const shopData = await shopRes.json();

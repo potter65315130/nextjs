@@ -41,22 +41,24 @@ export default function ShopOwnerProfilePage() {
             const userData = await userRes.json();
 
             const shopRes = await fetch(`/api/shops?userId=${userData.user.id}`);
-            if (!shopRes.ok) throw new Error('Shop not found');
 
-            const shopData = await shopRes.json();
-
-            if (shopData.shop) {
-                setShopId(shopData.shop.id);
-                setFormData({
-                    shopName: shopData.shop.shopName || '',
-                    phone: shopData.shop.phone || '',
-                    email: shopData.shop.email || '',
-                    address: shopData.shop.address || '',
-                    description: shopData.shop.description || '',
-                    latitude: shopData.shop.latitude || 18.7883,
-                    longitude: shopData.shop.longitude || 98.9853,
-                    profileImage: shopData.shop.imageUrl || null,
-                });
+            if (shopRes.ok) {
+                const shopData = await shopRes.json();
+                if (shopData.shop) {
+                    setShopId(shopData.shop.id);
+                    setFormData({
+                        shopName: shopData.shop.shopName || '',
+                        phone: shopData.shop.phone || '',
+                        email: shopData.shop.email || '',
+                        address: shopData.shop.address || '',
+                        description: shopData.shop.description || '',
+                        latitude: shopData.shop.latitude || 18.7883,
+                        longitude: shopData.shop.longitude || 98.9853,
+                        profileImage: shopData.shop.imageUrl || null,
+                    });
+                }
+            } else if (shopRes.status !== 404) {
+                throw new Error('Failed to fetch shop data');
             }
         } catch (error) {
             console.error('Error fetching shop data:', error);
