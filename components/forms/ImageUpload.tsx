@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from 'react';
 import { Camera, Image as ImageIcon } from 'lucide-react'; // ต้องลง lucide-react ก่อน หรือใช้ svg แทน
+import { useAlert } from "@/components/ui/AlertContainer";
 
 interface ImageUploadProps {
     value?: string | null; // รับค่ารูปปัจจุบัน (Base64 หรือ URL)
@@ -9,6 +10,7 @@ interface ImageUploadProps {
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ value, onChange, label }) => {
+    const { showAlert } = useAlert();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +18,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, onChange, label }) => 
         if (file) {
             // ตรวจสอบขนาดไฟล์ (เช่น ไม่เกิน 2MB)
             if (file.size > 2 * 1024 * 1024) {
-                alert("ขนาดไฟล์ต้องไม่เกิน 2MB");
+                showAlert({
+                    type: 'error',
+                    title: 'ขนาดไฟล์เกิน',
+                    message: 'ขนาดไฟล์ต้องไม่เกิน 2MB',
+                });
                 return;
             }
 

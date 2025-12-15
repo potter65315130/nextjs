@@ -6,6 +6,7 @@ import Image from 'next/image';
 import {
     MapPin, Calendar, Phone, Users, Banknote, Briefcase, ArrowLeft, Mail,
 } from 'lucide-react';
+import { useAlert } from '@/components/ui/AlertContainer';
 
 interface Job {
     id: number;
@@ -40,6 +41,7 @@ interface Job {
 export default function JobDetailPage() {
     const params = useParams();
     const router = useRouter();
+    const { showAlert } = useAlert();
     const [job, setJob] = useState<Job | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -81,10 +83,14 @@ export default function JobDetailPage() {
                 throw new Error(error.message || 'Failed to apply');
             }
 
-            alert('สมัครงานสำเร็จ!');
+            showAlert({ type: 'success', title: 'สำเร็จ', message: 'สมัครงานสำเร็จ!' });
             router.push('/job-seeker/applications');
         } catch (err) {
-            alert(err instanceof Error ? err.message : 'เกิดข้อผิดพลาดในการสมัครงาน');
+            showAlert({
+                type: 'error',
+                title: 'ผิดพลาด',
+                message: err instanceof Error ? err.message : 'เกิดข้อผิดพลาดในการสมัครงาน'
+            });
         } finally {
             setApplying(false);
         }

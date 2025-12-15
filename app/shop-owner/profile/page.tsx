@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import ImageUpload from '@/components/forms/ImageUpload';
+import { useAlert } from "@/components/ui/AlertContainer";
 
 const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
     ssr: false,
@@ -14,6 +15,7 @@ const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
 });
 
 export default function ShopOwnerProfilePage() {
+    const { showAlert } = useAlert();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [shopId, setShopId] = useState<number | null>(null);
@@ -90,16 +92,29 @@ export default function ShopOwnerProfilePage() {
             });
 
             if (res.ok) {
-                alert('บันทึกข้อมูลสำเร็จ!');
+                showAlert({
+                    type: 'success',
+                    title: 'สำเร็จ',
+                    message: 'บันทึกข้อมูลสำเร็จ!',
+                });
                 fetchShopData(); // Reload data
             } else {
                 const error = await res.json();
                 console.error('API Error:', error);
-                alert(`เกิดข้อผิดพลาด: ${error.message || 'ไม่สามารถบันทึกได้'}`);
+
+                showAlert({
+                    type: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    message: error.message || 'ไม่สามารถบันทึกได้',
+                });
             }
         } catch (error) {
             console.error('Error saving:', error);
-            alert('เกิดข้อผิดพลาดในการบันทึก');
+            showAlert({
+                type: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                message: 'เกิดข้อผิดพลาดในการบันทึก',
+            });
         } finally {
             setSaving(false);
         }

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAlert } from '@/components/ui/AlertContainer';
 // ลบ MapPin ออกเพราะเราจะใช้ Map จริงแทน
 // import { MapPin } from 'lucide-react'; 
 import dynamic from 'next/dynamic';
@@ -23,6 +24,7 @@ interface Category {
 
 export default function CreateJobPostPage() {
     const router = useRouter();
+    const { showAlert } = useAlert();
     const [loading, setLoading] = useState(false);
     const [loadingCategories, setLoadingCategories] = useState(true);
     const [categories, setCategories] = useState<Category[]>([]);
@@ -65,7 +67,11 @@ export default function CreateJobPostPage() {
             const shopRes = await fetch(`/api/shops?userId=${userData.user.id}`);
 
             if (shopRes.status === 404) {
-                alert('กรุณาสร้างโปรไฟล์ร้านค้าก่อนประกาศงาน');
+                showAlert({
+                    type: 'warning',
+                    title: 'แจ้งเตือน',
+                    message: 'กรุณาสร้างโปรไฟล์ร้านค้าก่อนประกาศงาน',
+                });
                 router.push('/shop-owner/profile');
                 return;
             }
@@ -93,7 +99,7 @@ export default function CreateJobPostPage() {
             }
         } catch (error) {
             console.error('Error fetching data:', error);
-            alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'เกิดข้อผิดพลาดในการโหลดข้อมูล' });
         } finally {
             setLoadingCategories(false);
         }
@@ -122,13 +128,13 @@ export default function CreateJobPostPage() {
         e.preventDefault();
 
         if (!shopId) {
-            alert('ไม่พบข้อมูลร้าน');
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'ไม่พบข้อมูลร้าน' });
             return;
         }
 
         // เช็คว่าเลือกพิกัดหรือยัง (ถ้าจำเป็น)
         if (!formData.latitude || !formData.longitude) {
-            alert('กรุณาปักหมุดตำแหน่งร้านบนแผนที่');
+            showAlert({ type: 'warning', title: 'แจ้งเตือน', message: 'กรุณาปักหมุดตำแหน่งร้านบนแผนที่' });
             return;
         }
 
@@ -163,15 +169,15 @@ export default function CreateJobPostPage() {
             });
 
             if (res.ok) {
-                alert('สร้างประกาศงานสำเร็จ!');
+                showAlert({ type: 'success', title: 'สำเร็จ', message: 'สร้างประกาศงานสำเร็จ!' });
                 router.push('/shop-owner/posts');
             } else {
                 const error = await res.json();
-                alert(`เกิดข้อผิดพลาด: ${error.message || 'ไม่สามารถสร้างได้'}`);
+                showAlert({ type: 'error', title: 'ผิดพลาด', message: `เกิดข้อผิดพลาด: ${error.message || 'ไม่สามารถสร้างได้'}` });
             }
         } catch (error) {
             console.error('Error creating post:', error);
-            alert('เกิดข้อผิดพลาดในการสร้างประกาศ');
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'เกิดข้อผิดพลาดในการสร้างประกาศ' });
         } finally {
             setLoading(false);
         }

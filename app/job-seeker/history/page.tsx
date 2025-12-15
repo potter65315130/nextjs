@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Briefcase, Star, DollarSign, MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAlert } from "@/components/ui/AlertContainer";
 
 interface WorkHistory {
     id: number;
@@ -145,6 +146,7 @@ export default function WorkHistoryPage() {
 }
 
 function WorkHistoryCard({ work, onReviewed }: { work: WorkHistory; onReviewed: () => void }) {
+    const { showAlert } = useAlert();
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [rating, setRating] = useState(work.rating || 0);
     const [review, setReview] = useState(work.review || '');
@@ -160,15 +162,15 @@ function WorkHistoryCard({ work, onReviewed }: { work: WorkHistory; onReviewed: 
             });
 
             if (res.ok) {
-                alert('บันทึกรีวิวสำเร็จ!');
+                showAlert({ type: 'success', title: 'สำเร็จ', message: 'บันทึกรีวิวสำเร็จ!' });
                 setShowReviewModal(false);
                 onReviewed();
             } else {
-                alert('เกิดข้อผิดพลาดในการบันทึกรีวิว');
+                showAlert({ type: 'error', title: 'ผิดพลาด', message: 'เกิดข้อผิดพลาดในการบันทึกรีวิว' });
             }
         } catch (error) {
             console.error('Error submitting review:', error);
-            alert('เกิดข้อผิดพลาด');
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'เกิดข้อผิดพลาด' });
         } finally {
             setSubmitting(false);
         }

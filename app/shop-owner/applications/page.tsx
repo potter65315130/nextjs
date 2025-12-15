@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, User, CheckCircle, XCircle, Clock, FileText } from 'lucide-react';
+import { useAlert } from '@/components/ui/AlertContainer';
 
 interface Application {
     id: number;
@@ -16,6 +17,7 @@ interface Application {
 }
 
 export default function ShopOwnerApplicationsPage() {
+    const { showAlert } = useAlert();
     const [applications, setApplications] = useState<Application[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -50,12 +52,13 @@ export default function ShopOwnerApplicationsPage() {
             if (res.ok) {
                 // Refresh list
                 fetchApplications();
+                showAlert({ type: 'success', title: 'สำเร็จ', message: 'อัปเดตสถานะเรียบร้อย' });
             } else {
-                alert('ไม่สามารถอัปเดตสถานะได้');
+                showAlert({ type: 'error', title: 'ผิดพลาด', message: 'ไม่สามารถอัปเดตสถานะได้' });
             }
         } catch (error) {
             console.error('Error updating status:', error);
-            alert('เกิดข้อผิดพลาด');
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'เกิดข้อผิดพลาด' });
         }
     };
 

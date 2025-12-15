@@ -8,6 +8,7 @@ import SelectField from '@/components/forms/SelectField';
 import TextAreaField from '@/components/forms/TextAreaField';
 import DaySelector from '@/components/forms/DaySelector';
 import ImageUpload from '@/components/forms/ImageUpload';
+import { useAlert } from '@/components/ui/AlertContainer';
 
 // Import LocationMap แบบ dynamic เพื่อหลีกเลี่ยงปัญหา SSR กับ Leaflet
 const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), { ssr: false });
@@ -19,6 +20,7 @@ interface Category {
 
 export default function JobSeekerProfilePage() {
     const router = useRouter();
+    const { showAlert } = useAlert();
     const [loading, setLoading] = useState(false);
     const [loadingUser, setLoadingUser] = useState(true);
     const [currentUserId, setCurrentUserId] = useState<number | null>(null);
@@ -144,16 +146,20 @@ export default function JobSeekerProfilePage() {
 
             if (!res.ok) {
                 console.error('API Error:', responseData);
-                alert(`เกิดข้อผิดพลาด: ${JSON.stringify(responseData.error || responseData.message || 'Unknown error')}`);
+                showAlert({
+                    type: 'error',
+                    title: 'ผิดพลาด',
+                    message: `เกิดข้อผิดพลาด: ${JSON.stringify(responseData.error || responseData.message || 'Unknown error')}`,
+                });
                 throw new Error('Failed to save profile');
             }
 
-            alert('บันทึกข้อมูลเรียบร้อยแล้ว!');
+            showAlert({ type: 'success', title: 'สำเร็จ', message: 'บันทึกข้อมูลเรียบร้อยแล้ว!' });
             // router.push('/dashboard'); // หรือพาไปหน้าอื่น
 
         } catch (error) {
             console.error('Full error:', error);
-            alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล' });
         } finally {
             setLoading(false);
         }
