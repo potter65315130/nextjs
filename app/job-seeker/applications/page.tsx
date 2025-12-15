@@ -88,7 +88,7 @@ export default function ApplicationsPage() {
 
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
-
+            <br></br>
             {/* Main Content */}
             <div className="max-w-6xl mx-auto px-4 pb-12">
                 {/* Filter Tabs */}

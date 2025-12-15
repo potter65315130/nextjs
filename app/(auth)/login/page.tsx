@@ -3,18 +3,20 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Lock, UserCheck, UserPlus } from 'lucide-react';
+import { Mail, Lock, UserCheck } from 'lucide-react';
 import Navbar from '@/components/home/Navbar';
-import Footer from '@/components/home/Footer';
 import InputField from '@/components/auth/InputField';
 import { AuthLink } from '@/components/auth/AuthLink';
 import { AuthHeader } from '@/components/auth/AuthHeader';
 import { AuthButton } from '@/components/auth/AuthButton';
 import { AuthBackground } from '@/components/auth/AuthBackground';
 import { AuthCard } from '@/components/auth/AuthCard';
+import { useAlert } from '@/components/ui/AlertContainer';
 
 export default function LoginPage() {
     const router = useRouter();
+    const { showAlert } = useAlert();
+
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [loading, setLoading] = useState(false);
 
@@ -30,19 +32,35 @@ export default function LoginPage() {
             });
 
             const data = await res.json();
-            if (res.ok) {
-                alert('เข้าสู่ระบบสำเร็จ');
 
-                if (data.user.role === 'shop_owner') {
-                    router.push('/shop-owner/dashboard');
-                } else {
-                    router.push('/job-seeker/profile');
-                }
+            if (res.ok) {
+                showAlert({
+                    type: 'success',
+                    title: 'เข้าสู่ระบบสำเร็จ',
+                    message: 'กำลังนำคุณไปยังหน้าหลัก...',
+                });
+
+                setTimeout(() => {
+                    if (data.user.role === 'shop_owner') {
+                        router.push('/shop-owner/dashboard');
+                    } else {
+                        router.push('/job-seeker/profile');
+                    }
+                }, 1000);
+
             } else {
-                alert(data.message);
+                showAlert({
+                    type: 'error',
+                    title: 'เข้าสู่ระบบไม่สำเร็จ',
+                    message: data.message || 'กรุณาตรวจสอบข้อมูล',
+                });
             }
         } catch (error) {
-            alert('เข้าสู่ระบบไม่สำเร็จ');
+            showAlert({
+                type: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                message: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์',
+            });
         } finally {
             setLoading(false);
         }

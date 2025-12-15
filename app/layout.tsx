@@ -2,6 +2,8 @@ import "./globals.css";
 import { Prompt } from "next/font/google";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import Footer from "@/components/home/Footer";
+// 1. เพิ่มการ Import AlertContainerProvider
+import { AlertContainerProvider } from "@/components/ui/AlertContainer";
 
 const prompt = Prompt({
   subsets: ["latin", "thai"],
@@ -24,8 +26,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Footer />
+          <AlertContainerProvider>
+            {children}
+            <Footer />
+          </AlertContainerProvider>
         </ThemeProvider>
       </body>
     </html>

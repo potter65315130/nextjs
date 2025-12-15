@@ -12,9 +12,11 @@ import { AuthButton } from '@/components/auth/AuthButton';
 import { AuthBackground } from '@/components/auth/AuthBackground';
 import { AuthCard } from '@/components/auth/AuthCard';
 import { RoleSelector } from '@/components/auth/RoleSelector';
+import { useAlert } from '@/components/ui/AlertContainer';
 
 export default function RegisterPage() {
     const router = useRouter();
+    const { showAlert } = useAlert();
     const [role, setRole] = useState<'job_seeker' | 'shop_owner'>('job_seeker');
     const [formData, setFormData] = useState({
         fullName: '',
@@ -31,8 +33,13 @@ export default function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         if (formData.password !== formData.confirmPassword) {
-            alert('รหัสผ่านไม่ตรงกัน');
+            showAlert({
+                type: 'error',
+                title: 'รหัสผ่านไม่ตรงกัน',
+                message: 'กรุณาตรวจสอบรหัสผ่านและยืนยันรหัสผ่านให้ตรงกัน',
+            });
             return;
         }
 
@@ -50,21 +57,35 @@ export default function RegisterPage() {
             });
 
             const data = await res.json();
+
             if (res.ok) {
-                alert('สมัครสมาชิกสำเร็จ!');
+                showAlert({
+                    type: 'success',
+                    title: 'สมัครสมาชิกสำเร็จ',
+                    message: 'กำลังนำคุณไปยังหน้าโปรไฟล์...',
+                });
 
-                // 🔥 Redirect ตาม Role
-                const redirectPath = {
-                    job_seeker: '/job-seeker/profile',
-                    shop_owner: '/shop-owner/profile',
-                }[role];
+                setTimeout(() => {
+                    const redirectPath = {
+                        job_seeker: '/job-seeker/profile',
+                        shop_owner: '/shop-owner/profile',
+                    }[role];
 
-                router.push(redirectPath);
+                    router.push(redirectPath);
+                }, 1000);
             } else {
-                alert(data.message);
+                showAlert({
+                    type: 'error',
+                    title: 'สมัครสมาชิกไม่สำเร็จ',
+                    message: data.message || 'กรุณาตรวจสอบข้อมูลและลองใหม่อีกครั้ง',
+                });
             }
         } catch (error) {
-            alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
+            showAlert({
+                type: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                message: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ กรุณาลองใหม่อีกครั้ง',
+            });
         } finally {
             setLoading(false);
         }
