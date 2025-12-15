@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { Upload } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import ImageUpload from '@/components/forms/ImageUpload';
 
 const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
     ssr: false,
@@ -18,8 +17,6 @@ export default function ShopOwnerProfilePage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [shopId, setShopId] = useState<number | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const [formData, setFormData] = useState({
         shopName: '',
@@ -29,7 +26,7 @@ export default function ShopOwnerProfilePage() {
         description: '',
         latitude: 18.7883,
         longitude: 98.9853,
-        profileImage: '',
+        profileImage: null as string | null,
     });
 
     useEffect(() => {
@@ -58,12 +55,8 @@ export default function ShopOwnerProfilePage() {
                     description: shopData.shop.description || '',
                     latitude: shopData.shop.latitude || 18.7883,
                     longitude: shopData.shop.longitude || 98.9853,
-                    profileImage: shopData.shop.imageUrl || '',
+                    profileImage: shopData.shop.imageUrl || null,
                 });
-
-                if (shopData.shop.imageUrl) {
-                    setImagePreview(shopData.shop.imageUrl);
-                }
             }
         } catch (error) {
             console.error('Error fetching shop data:', error);
@@ -72,44 +65,11 @@ export default function ShopOwnerProfilePage() {
         }
     };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setSelectedFile(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result as string);
-                // Don't set formData.profileImage to base64, we'll upload the file separately
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSaving(true);
 
         try {
-            let imageUrl = formData.profileImage;
-
-            if (selectedFile) {
-                const uploadData = new FormData();
-                uploadData.append('image', selectedFile);
-
-                const uploadRes = await fetch('/api/shops/upload', {
-                    method: 'POST',
-                    body: uploadData,
-                });
-
-                if (!uploadRes.ok) {
-                    const error = await uploadRes.json();
-                    throw new Error(error.message || 'Failed to upload image');
-                }
-
-                const uploadJson = await uploadRes.json();
-                imageUrl = uploadJson.data.imageUrl;
-            }
-
             const res = await fetch('/api/shops', {
                 method: 'PUT',
                 headers: {
@@ -123,7 +83,7 @@ export default function ShopOwnerProfilePage() {
                     description: formData.description,
                     latitude: formData.latitude,
                     longitude: formData.longitude,
-                    imageUrl: imageUrl,
+                    imageUrl: formData.profileImage, // Send base64 directly
                 }),
             });
 
@@ -163,38 +123,11 @@ export default function ShopOwnerProfilePage() {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                             {/* Left Column - Image */}
                             <div className="flex flex-col items-center">
-                                <div className="w-full max-w-md">
-                                    <div className="relative w-full aspect-4/3 rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-700 mb-4">
-                                        {imagePreview ? (
-                                            <Image
-                                                src={imagePreview}
-                                                alt="Shop"
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center">
-                                                <Upload className="w-16 h-16 text-gray-400" />
-                                            </div>
-                                        )}
-                                    </div>
-                                    <label className="block">
-                                        <span className="sr-only">เลือกรูปภาพ</span>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleImageChange}
-                                            className="hidden"
-                                            id="image-upload"
-                                        />
-                                        <label
-                                            htmlFor="image-upload"
-                                            className="block text-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg cursor-pointer transition-colors"
-                                        >
-                                            แก้ไขรูปโปรไฟล์
-                                        </label>
-                                    </label>
-                                </div>
+                                <ImageUpload
+                                    value={formData.profileImage}
+                                    onChange={(base64) => setFormData(prev => ({ ...prev, profileImage: base64 }))}
+                                    label="แก้ไขรูปโปรไฟล์"
+                                />
                             </div>
 
                             {/* Right Column - Form */}
