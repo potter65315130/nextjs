@@ -54,7 +54,35 @@ function verifyToken(request: NextRequest): DecodedToken | null {
 // --------------------------------------------------------
 export async function GET() {
     try {
+        const { getCurrentUser } = await import('@/lib/auth');
+        const currentUser = await getCurrentUser();
+
+        if (!currentUser || currentUser.role !== 'shop_owner') {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: 'Unauthorized',
+                },
+                { status: 401 }
+            );
+        }
+
+        // Find the user's shop
+        const shop = await prisma.shop.findUnique({
+            where: { userId: currentUser.id },
+        });
+
+        if (!shop) {
+            return NextResponse.json({
+                success: true,
+                data: [],
+            });
+        }
+
         const posts = await prisma.shopJobPost.findMany({
+            where: {
+                shopId: shop.id,
+            },
             include: {
                 shop: {
                     select: {

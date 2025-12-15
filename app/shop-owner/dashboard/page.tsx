@@ -7,7 +7,9 @@ import { Plus, Briefcase } from "lucide-react";
 type JobPost = {
     id: number;
     jobName: string;
-    categoryName: string;
+    category: {
+        name: string;
+    };
     wage: number;
     createdAt: string;
     workDate: string;
@@ -41,12 +43,12 @@ export default function ShopOwnerDashboard() {
 
                 setShopId(currentShopId);
 
-                // ดึงรายการงาน (ในอนาคตจะเพิ่ม API นี้)
-                // const postsRes = await fetch(`/api/shops/${currentShopId}/posts`);
-                // if (postsRes.ok) {
-                //     const postsData = await postsRes.json();
-                //     setJobPosts(postsData.posts || []);
-                // }
+                // ดึงรายการงาน
+                const postsRes = await fetch('/api/shop-owner/posts');
+                if (postsRes.ok) {
+                    const postsData = await postsRes.json();
+                    setJobPosts(postsData.data || []);
+                }
 
             } catch (err) {
                 console.error("Error:", err);
@@ -137,7 +139,7 @@ export default function ShopOwnerDashboard() {
                                         {post.jobName}
                                     </div>
                                     <div className="text-gray-600 dark:text-gray-400">
-                                        {post.categoryName}
+                                        {post.category?.name || '-'}
                                     </div>
                                     <div className="text-green-600 dark:text-green-400 font-semibold">
                                         {post.wage} บาท

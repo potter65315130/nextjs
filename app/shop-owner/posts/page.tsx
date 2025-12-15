@@ -7,7 +7,9 @@ import { Plus, Briefcase, Edit, Trash2, Eye, Calendar, DollarSign, Users, MapPin
 interface JobPost {
     id: number;
     jobName: string;
-    categoryName: string;
+    category: {
+        name: string;
+    };
     wage: number;
     createdAt: string;
     workDate: string;
@@ -30,7 +32,7 @@ export default function ShopOwnerPostsPage() {
             const res = await fetch('/api/shop-owner/posts');
             if (res.ok) {
                 const data = await res.json();
-                setJobPosts(data.posts || []);
+                setJobPosts(data.data || []);
             }
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -176,7 +178,7 @@ export default function ShopOwnerPostsPage() {
                                 {/* Category Badge */}
                                 <div className="inline-block px-3 py-1 bg-linear-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-lg mb-4">
                                     <span className="text-sm font-semibold text-purple-700 dark:text-purple-300">
-                                        {post.categoryName}
+                                        {post.category?.name || 'ไม่ระบุหมวดหมู่'}
                                     </span>
                                 </div>
 
