@@ -147,25 +147,21 @@ export async function PUT(request: NextRequest) {
         const body = await request.json();
         const validatedData = shopUpdateSchema.parse(body);
 
-        // 3. Find shop by ownerId
-        const existingShop = await prisma.shop.findUnique({
+        // 3. Upsert shop data (Create if not exists, Update if exists)
+        const updatedShop = await prisma.shop.upsert({
             where: { userId: currentUser.id },
-        });
-
-        if (!existingShop) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message: 'Shop not found',
-                },
-                { status: 404 }
-            );
-        }
-
-        // 4. Update shop data
-        const updatedShop = await prisma.shop.update({
-            where: { userId: currentUser.id },
-            data: {
+            update: {
+                shopName: validatedData.shopName,
+                phone: validatedData.phone,
+                email: validatedData.email,
+                address: validatedData.address,
+                description: validatedData.description,
+                profileImage: validatedData.imageUrl,
+                latitude: validatedData.latitude,
+                longitude: validatedData.longitude,
+            },
+            create: {
+                userId: currentUser.id,
                 shopName: validatedData.shopName,
                 phone: validatedData.phone,
                 email: validatedData.email,
