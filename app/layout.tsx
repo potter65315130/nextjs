@@ -10,7 +10,7 @@ const prompt = Prompt({
 });
 
 export const metadata = {
-  title: "Part-Time Match - หางาน Part-time ที่ใช่สำหรับคุณ",
+  title: "MatchWork",
   description: "ระบบจับคู่อัตโนมัติที่ช่วยหางาน Part-time ตามเวลาว่างและระยะทางของคุณ",
 };
 
