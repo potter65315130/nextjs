@@ -209,7 +209,7 @@ export async function POST(request: NextRequest) {
                 longitude: validatedData.longitude,
                 workDate: new Date(validatedData.work_date),
                 requiredPeople: validatedData.required_people,
-                wage: validatedData.wage,
+                wage: validatedData.wage.toString(),
                 status: validatedData.status || 'open',
             },
             include: {
@@ -381,7 +381,7 @@ export async function PUT(request: NextRequest) {
                 longitude: validatedData.longitude,
                 workDate: new Date(validatedData.work_date),
                 requiredPeople: validatedData.required_people,
-                wage: validatedData.wage,
+                wage: validatedData.wage.toString(),
                 status: validatedData.status || existingPost.status,
             },
             include: {
