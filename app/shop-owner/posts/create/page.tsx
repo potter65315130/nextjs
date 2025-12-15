@@ -140,7 +140,7 @@ export default function CreateJobPostPage() {
                 contact_phone: formData.contactPhone,
                 address: formData.address,
                 required_people: parseInt(formData.requiredPeople),
-                wage: parseFloat(formData.wage),
+                wage: formData.wage,
                 work_date: formData.workDate,
                 available_days: JSON.stringify(selectedDays),
                 // 4. ส่งค่าพิกัดไปด้วย

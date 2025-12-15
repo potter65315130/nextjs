@@ -10,7 +10,7 @@ interface JobPost {
     category: {
         name: string;
     };
-    wage: number;
+    wage: string;
     createdAt: string;
     workDate: string;
     status: string;
@@ -190,7 +190,7 @@ export default function ShopOwnerPostsPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs text-gray-500 dark:text-gray-500">ค่าจ้าง</p>
-                                            <p className="text-lg font-bold text-green-600 dark:text-green-400">{post.wage.toLocaleString()} บาท</p>
+                                            <p className="text-lg font-bold text-green-600 dark:text-green-400">{Number(post.wage).toLocaleString()} บาท</p>
                                         </div>
                                     </div>
 

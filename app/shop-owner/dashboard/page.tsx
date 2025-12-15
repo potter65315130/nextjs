@@ -10,7 +10,7 @@ type JobPost = {
     category: {
         name: string;
     };
-    wage: number;
+    wage: string;
     createdAt: string;
     workDate: string;
     status: string;
@@ -142,7 +142,7 @@ export default function ShopOwnerDashboard() {
                                         {post.category?.name || '-'}
                                     </div>
                                     <div className="text-green-600 dark:text-green-400 font-semibold">
-                                        {post.wage} บาท
+                                        {Number(post.wage).toLocaleString()} บาท
                                     </div>
                                     <div className="text-gray-600 dark:text-gray-400">
                                         {new Date(post.createdAt).toLocaleDateString('th-TH')}

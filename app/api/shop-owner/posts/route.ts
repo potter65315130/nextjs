@@ -22,7 +22,10 @@ const jobPostSchema = z.object({
         message: 'Invalid date format, expected ISO string',
     }),
     required_people: z.number().int().positive('Required people must be a positive integer'),
-    wage: z.number().positive('Wage must be a positive number'),
+    wage: z.union([z.number(), z.string()]).refine((val) => {
+        const num = parseFloat(val.toString());
+        return !isNaN(num) && num > 0;
+    }, 'Wage must be a positive number'),
     status: z.string().optional(),
 });
 
