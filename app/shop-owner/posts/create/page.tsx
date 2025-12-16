@@ -241,6 +241,34 @@ export default function CreateJobPostPage() {
                             </div>
                         </div>
 
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                รายละเอียดงาน
+                            </label>
+                            <textarea
+                                value={formData.description}
+                                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                                placeholder="รายละเอียดลักษณะงาน หน้าที่ความรับผิดชอบ..."
+                                rows={4}
+                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    เบอร์โทรศัพท์ติดต่อ
+                                </label>
+                                <input
+                                    type="tel"
+                                    value={formData.contactPhone}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, contactPhone: e.target.value }))}
+                                    placeholder="0xxxxxxxxx"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                                />
+                            </div>
+                        </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -347,6 +375,6 @@ export default function CreateJobPostPage() {
                     </form>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
