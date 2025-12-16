@@ -15,6 +15,8 @@ const config: Config = {
             colors: {
                 // เพิ่มสี Brand หลัก (#5D87FF)
                 'brand-primary': 'var(--brand-primary)',
+                background: "var(--background)",
+                foreground: "var(--foreground)",
 
                 // กำหนดสีหลักของแอป
                 brand: {

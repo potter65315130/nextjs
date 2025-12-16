@@ -4,7 +4,7 @@
 
 :root {
   /* สีพื้นหลังของทั้งเว็บ */
-  --background: #ffffff;
+  --background: #F8FAFC;
   /* สีตัวหนังสือหลักของทั้งเว็บ */
   --foreground: #171717;
 
@@ -26,7 +26,7 @@
 
 .dark {
   /* สีพื้นหลังของทั้งเว็บ */
-  --background: #0a0a0a;
+  --background: #020617;
   /* สีตัวหนังสือหลักของทั้งเว็บ */
   --foreground: #ededed;
 
