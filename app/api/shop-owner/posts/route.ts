@@ -16,8 +16,8 @@ const jobPostSchema = z.object({
     contact_phone: z.string().optional(),
     address: z.string().optional(),
     available_days: z.string().optional(), // JSON string ["Mon","Tue"]
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
+    latitude: z.number().nullable().optional(),
+    longitude: z.number().nullable().optional(),
     work_date: z.string().refine((date) => !isNaN(Date.parse(date)), {
         message: 'Invalid date format, expected ISO string',
     }),
@@ -53,9 +53,9 @@ function verifyToken(request: NextRequest): DecodedToken | null {
 }
 
 // --------------------------------------------------------
-// GET /api/posts — ดึงรายการประกาศทั้งหมด (Public)
+// GET /api/posts — ดึงรายการประกาศทั้งหมด หรือปะกาศตาม ID (Public)
 // --------------------------------------------------------
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
         const { getCurrentUser } = await import('@/lib/auth');
         const currentUser = await getCurrentUser();
@@ -82,6 +82,62 @@ export async function GET() {
             });
         }
 
+        const { searchParams } = new URL(request.url);
+        const postId = searchParams.get('id');
+
+        // If ID is provided, fetch single post
+        if (postId) {
+            const post = await prisma.shopJobPost.findUnique({
+                where: {
+                    id: parseInt(postId),
+                },
+                include: {
+                    shop: {
+                        select: {
+                            id: true,
+                            shopName: true,
+                            phone: true,
+                            email: true,
+                            address: true,
+                        },
+                    },
+                    category: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                },
+            });
+
+            if (!post) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message: 'Post not found',
+                    },
+                    { status: 404 }
+                );
+            }
+
+            // Verify ownership
+            if (post.shopId !== shop.id) {
+                return NextResponse.json(
+                    {
+                        success: false,
+                        message: 'Forbidden: You can only view your own shop posts',
+                    },
+                    { status: 403 }
+                );
+            }
+
+            return NextResponse.json({
+                success: true,
+                data: post,
+            });
+        }
+
+        // Otherwise fetch all posts for the shop
         const posts = await prisma.shopJobPost.findMany({
             where: {
                 shopId: shop.id,
@@ -264,9 +320,11 @@ export async function POST(request: NextRequest) {
 // --------------------------------------------------------
 export async function PUT(request: NextRequest) {
     try {
-        // 1. Verify JWT token
-        const decoded = verifyToken(request);
-        if (!decoded) {
+        // 1. Get current user from session cookie
+        const { getCurrentUser } = await import('@/lib/auth');
+        const currentUser = await getCurrentUser();
+
+        if (!currentUser) {
             return NextResponse.json(
                 {
                     success: false,
@@ -277,7 +335,7 @@ export async function PUT(request: NextRequest) {
         }
 
         // 2. Check role
-        if (decoded.role !== 'shop_owner') {
+        if (currentUser.role !== 'shop_owner') {
             return NextResponse.json(
                 {
                     success: false,
@@ -322,7 +380,7 @@ export async function PUT(request: NextRequest) {
         }
 
         // 5. Check if the user owns this shop
-        if (existingPost.shop.userId !== decoded.userId) {
+        if (existingPost.shop.userId !== currentUser.id) {
             return NextResponse.json(
                 {
                     success: false,
@@ -343,7 +401,7 @@ export async function PUT(request: NextRequest) {
                 select: { userId: true },
             });
 
-            if (!newShop || newShop.userId !== decoded.userId) {
+            if (!newShop || newShop.userId !== currentUser.id) {
                 return NextResponse.json(
                     {
                         success: false,
@@ -433,9 +491,11 @@ export async function PUT(request: NextRequest) {
 // --------------------------------------------------------
 export async function DELETE(request: NextRequest) {
     try {
-        // 1. Verify JWT token
-        const decoded = verifyToken(request);
-        if (!decoded) {
+        // 1. Get current user from session cookie
+        const { getCurrentUser } = await import('@/lib/auth');
+        const currentUser = await getCurrentUser();
+
+        if (!currentUser) {
             return NextResponse.json(
                 {
                     success: false,
@@ -446,7 +506,7 @@ export async function DELETE(request: NextRequest) {
         }
 
         // 2. Check role
-        if (decoded.role !== 'shop_owner') {
+        if (currentUser.role !== 'shop_owner') {
             return NextResponse.json(
                 {
                     success: false,
@@ -491,7 +551,7 @@ export async function DELETE(request: NextRequest) {
         }
 
         // 5. Check if the user owns this shop
-        if (existingPost.shop.userId !== decoded.userId) {
+        if (existingPost.shop.userId !== currentUser.id) {
             return NextResponse.json(
                 {
                     success: false,

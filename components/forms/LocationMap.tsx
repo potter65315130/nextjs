@@ -17,10 +17,12 @@ const icon = L.icon({
 });
 
 // Component สำหรับจัดการการคลิกบนแผนที่
-function MapEvents({ onLocationSelect }: { onLocationSelect: (lat: number, lng: number) => void }) {
+function MapEvents({ onLocationSelect }: { onLocationSelect?: (lat: number, lng: number) => void }) {
     useMapEvents({
         click(e) {
-            onLocationSelect(e.latlng.lat, e.latlng.lng);
+            if (onLocationSelect) {
+                onLocationSelect(e.latlng.lat, e.latlng.lng);
+            }
         },
     });
     return null;
@@ -38,7 +40,7 @@ function ChangeView({ center }: { center: [number, number] }) {
 interface LocationMapProps {
     latitude?: number | null; // รองรับ null
     longitude?: number | null; // รองรับ null
-    onLocationSelect: (lat: number, lng: number) => void;
+    onLocationSelect?: (lat: number, lng: number) => void; // Optional for read-only
 }
 
 export default function LocationMap({ latitude, longitude, onLocationSelect }: LocationMapProps) {
@@ -64,12 +66,14 @@ export default function LocationMap({ latitude, longitude, onLocationSelect }: L
                 <Marker
                     position={center}
                     icon={icon}
-                    draggable={true}
+                    draggable={!!onLocationSelect} // Only draggable if callback provided
                     eventHandlers={{
                         dragend: (e) => {
-                            const marker = e.target;
-                            const position = marker.getLatLng();
-                            onLocationSelect(position.lat, position.lng);
+                            if (onLocationSelect) {
+                                const marker = e.target;
+                                const position = marker.getLatLng();
+                                onLocationSelect(position.lat, position.lng);
+                            }
                         },
                     }}
                 />
