@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/auth';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) {
@@ -18,11 +18,15 @@ export async function GET() {
             return NextResponse.json({ message: 'Shop not found' }, { status: 404 });
         }
 
+        const { searchParams } = new URL(request.url);
+        const postId = searchParams.get('postId');
+
         // ดึง applications ของงานในร้าน
         const applications = await prisma.application.findMany({
             where: {
                 post: {
                     shopId: shop.id,
+                    ...(postId ? { id: parseInt(postId) } : {}),
                 },
             },
             include: {

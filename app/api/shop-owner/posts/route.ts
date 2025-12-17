@@ -99,6 +99,7 @@ export async function GET(request: NextRequest) {
                             phone: true,
                             email: true,
                             address: true,
+                            profileImage: true,
                         },
                     },
                     category: {
