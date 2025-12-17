@@ -67,3 +67,64 @@ export async function GET() {
         );
     }
 }
+
+export async function POST(req: Request) {
+    try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser) {
+            return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+        }
+
+        const seekerProfile = await prisma.jobSeekerProfile.findUnique({
+            where: { userId: currentUser.id },
+        });
+
+        if (!seekerProfile) {
+            return NextResponse.json({ message: 'Profile not found' }, { status: 404 });
+        }
+
+        const body = await req.json();
+        const { postId } = body;
+
+        if (!postId) {
+            return NextResponse.json({ message: 'Post ID is required' }, { status: 400 });
+        }
+
+        // Check if application already exists
+        const existingApplication = await prisma.application.findFirst({
+            where: {
+                seekerId: seekerProfile.id,
+                postId: Number(postId),
+            },
+        });
+
+        if (existingApplication) {
+            return NextResponse.json(
+                { message: 'You have already applied for this job' },
+                { status: 400 }
+            );
+        }
+
+        // Create new application
+        const application = await prisma.application.create({
+            data: {
+                seekerId: seekerProfile.id,
+                postId: Number(postId),
+                status: 'pending',
+                applicationDate: new Date(),
+            },
+        });
+
+        return NextResponse.json({
+            success: true,
+            message: 'Application submitted successfully',
+            application,
+        });
+    } catch (error) {
+        console.error('Error creating application:', error);
+        return NextResponse.json(
+            { message: 'Internal server error' },
+            { status: 500 }
+        );
+    }
+}
