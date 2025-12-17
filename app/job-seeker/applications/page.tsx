@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Briefcase, Clock, CheckCircle, XCircle, Hourglass, Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import JobFilterTabs from '@/components/job-seeker/JobFilterTabs';
+import JobListSkeleton from '@/components/job-seeker/JobListSkeleton';
+import JobListEmpty from '@/components/job-seeker/JobListEmpty';
 
 interface Application {
     id: number;
@@ -87,61 +90,32 @@ export default function ApplicationsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="min-h-screen">
             <br></br>
             {/* Main Content */}
             <div className="max-w-6xl mx-auto px-4 pb-12">
                 {/* Filter Tabs */}
-                <div className="flex gap-3 mb-8 flex-wrap">
-                    {[
+                <JobFilterTabs
+                    currentFilter={filter}
+                    onFilterChange={setFilter}
+                    tabs={[
                         { key: 'all', label: 'ทั้งหมด' },
                         { key: 'pending', label: 'รอดำเนินการ' },
                         { key: 'approved', label: 'อนุมัติ' },
                         { key: 'rejected', label: 'ไม่ผ่าน' },
-                    ].map((item) => (
-                        <button
-                            key={item.key}
-                            onClick={() => setFilter(item.key as any)}
-                            className={`px-6 py-2 rounded-full font-medium transition-all ${filter === item.key
-                                ? 'bg-blue-600 text-white shadow-lg scale-105'
-                                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                                }`}
-                        >
-                            {item.label}
-                        </button>
-                    ))}
-                </div>
+                    ]}
+                />
 
                 {/* Loading State */}
-                {loading && (
-                    <div className="space-y-4">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl p-6 animate-pulse">
-                                <div className="flex gap-4">
-                                    <div className="w-24 h-24 bg-gray-300 dark:bg-gray-700 rounded-xl"></div>
-                                    <div className="flex-1 space-y-3">
-                                        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
-                                        <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
-                                        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                {loading && <JobListSkeleton />}
 
                 {/* Empty State */}
                 {!loading && filteredApplications.length === 0 && (
-                    <div className="text-center py-20">
-                        <div className="w-32 h-32 mx-auto mb-6 bg-linear-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full flex items-center justify-center">
-                            <Briefcase className="w-16 h-16 text-blue-600 dark:text-blue-400" />
-                        </div>
-                        <h3 className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
-                            {filter === 'all' ? 'ยังไม่มีการสมัครงาน' : `ไม่มีงานที่${filter === 'pending' ? 'รอดำเนินการ' : filter === 'approved' ? 'อนุมัติ' : 'ไม่ผ่าน'}`}
-                        </h3>
-                        <p className="text-gray-500 dark:text-gray-500 mb-6">
-                            {filter === 'all' ? 'เริ่มต้นสมัครงานที่เหมาะกับคุณกันเลย!' : 'ลองเปลี่ยนตัวกรองดูนะ'}
-                        </p>
+                    <JobListEmpty
+                        title={filter === 'all' ? 'ยังไม่มีการสมัครงาน' : `ไม่มีงานที่${filter === 'pending' ? 'รอดำเนินการ' : filter === 'approved' ? 'อนุมัติ' : 'ไม่ผ่าน'}`}
+                        message={filter === 'all' ? 'เริ่มต้นสมัครงานที่เหมาะกับคุณกันเลย!' : 'ลองเปลี่ยนตัวกรองดูนะ'}
+                        icon={<Briefcase className="w-16 h-16 text-blue-600 dark:text-blue-400" />}
+                    >
                         {filter === 'all' && (
                             <Link
                                 href="/job-seeker/matching"
@@ -150,12 +124,12 @@ export default function ApplicationsPage() {
                                 ค้นหางาน
                             </Link>
                         )}
-                    </div>
+                    </JobListEmpty>
                 )}
 
                 {/* Applications List */}
                 {!loading && filteredApplications.length > 0 && (
-                    <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                         {filteredApplications.map((application) => (
                             <ApplicationCard key={application.id} application={application} getStatusConfig={getStatusConfig} />
                         ))}
