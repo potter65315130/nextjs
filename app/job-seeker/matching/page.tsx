@@ -79,7 +79,7 @@ export default function JobMatchingPage() {
                                 className="flex-1 bg-transparent border-none outline-none text-gray-700 dark:text-gray-300 placeholder-gray-400"
                             />
                         </div>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
+                        <button className="btn-primary px-6 py-2.5 rounded-lg font-medium">
                             ค้นหา
                         </button>
                     </div>
