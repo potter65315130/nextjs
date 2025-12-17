@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/auth';
 
-export async function GET() {
+export async function GET(req: Request) {
     try {
         // ดึงข้อมูล user ปัจจุบัน
         const currentUser = await getCurrentUser();
@@ -19,23 +19,55 @@ export async function GET() {
             return NextResponse.json({ message: 'Profile not found' }, { status: 404 });
         }
 
-        // ดึงการสมัครงานทั้งหมด
-        const applications = await prisma.application.findMany({
-            where: {
-                seekerId: seekerProfile.id,
-            },
-            include: {
-                post: {
-                    include: {
-                        shop: true,
-                        category: true,
+        const { searchParams } = new URL(req.url);
+        const page = Math.max(Number(searchParams.get('page')) || 1, 1);
+        const limit = Math.min(Number(searchParams.get('limit')) || 10, 50);
+        const skip = (page - 1) * limit;
+
+        // ดึงการสมัครงานทั้งหมดและข้อมูล (Run Parallel)
+        const [total, applications] = await Promise.all([
+            prisma.application.count({
+                where: {
+                    seekerId: seekerProfile.id,
+                },
+            }),
+            prisma.application.findMany({
+                where: {
+                    seekerId: seekerProfile.id,
+                },
+                skip: skip,
+                take: limit,
+                select: {
+                    id: true,
+                    status: true,
+                    applicationDate: true,
+                    post: {
+                        select: {
+                            id: true,
+                            jobName: true,
+                            wage: true,
+                            workDate: true,
+                            address: true,
+                            shop: {
+                                select: {
+                                    shopName: true,
+                                    address: true,
+                                    profileImage: true,
+                                },
+                            },
+                            category: {
+                                select: {
+                                    name: true,
+                                },
+                            },
+                        },
                     },
                 },
-            },
-            orderBy: {
-                applicationDate: 'desc',
-            },
-        });
+                orderBy: {
+                    applicationDate: 'desc',
+                },
+            }),
+        ]);
 
         // จัดรูปแบบข้อมูล
         const formattedApplications = applications.map((app) => ({
@@ -57,7 +89,12 @@ export async function GET() {
         return NextResponse.json({
             success: true,
             applications: formattedApplications,
-            total: formattedApplications.length,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages: Math.ceil(total / limit),
+            },
         });
     } catch (error) {
         console.error('Error fetching applications:', error);
