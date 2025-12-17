@@ -63,7 +63,7 @@ export default function JobMatchingPage() {
     });
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="min-h-screen">
             <br></br>
             {/* Search Bar */}
             <center>
@@ -90,13 +90,13 @@ export default function JobMatchingPage() {
             <div className="max-w-7xl mx-auto px-4 py-8">
                 {/* Filter Tabs */}
                 <JobFilterTabs
-                    filter={filter}
+                    currentFilter={filter}
                     onFilterChange={setFilter}
-                    labels={{
-                        all: 'ทั้งหมด',
-                        nearby: 'ใกล้ฉัน',
-                        highMatch: 'เหมาะกับฉัน'
-                    }}
+                    tabs={[
+                        { key: 'all', label: 'ทั้งหมด' },
+                        { key: 'nearby', label: 'ใกล้ฉัน' },
+                        { key: 'high-match', label: 'เหมาะกับฉัน' }
+                    ]}
                 />
 
                 {/* Jobs Section Title */}
