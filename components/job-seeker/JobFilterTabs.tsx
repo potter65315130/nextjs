@@ -21,8 +21,8 @@ export default function JobFilterTabs({
                     key={tab.key}
                     onClick={() => onFilterChange(tab.key)}
                     className={`px-6 py-2 rounded-full font-medium transition-all ${currentFilter === tab.key
-                        ? 'bg-blue-600 text-white shadow-lg scale-105'
-                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                        ? 'role-btn-active'
+                        : 'role-btn'
                         }`}
                 >
                     {tab.label}

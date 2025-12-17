@@ -72,7 +72,7 @@ export default function JobDetailPage() {
 
         try {
             setApplying(true);
-            const response = await fetch('/api/applications', {
+            const response = await fetch('/api/job-seeker/applications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ postId: job.id }),
