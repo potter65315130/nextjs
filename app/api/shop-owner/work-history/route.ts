@@ -50,8 +50,8 @@ export async function GET() {
             workDate: app.applicationDate.toISOString(),
             wage: Number(app.post.wage),
             status: app.status,
-            review: null, // TODO: Add review field to database first
-            rating: null, // TODO: Add rating field to database first
+            review: app.review,
+            rating: app.rating,
         }));
 
         return NextResponse.json({

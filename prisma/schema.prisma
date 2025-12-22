@@ -233,6 +233,10 @@ model Application {
   applicationDate DateTime @default(now()) @map("application_date")
   status          String   @default("pending") // pending, in_progress, completed, terminated
 
+  // Review fields for shop owners to review job seekers
+  review String? @db.Text
+  rating Int?
+
   seeker JobSeekerProfile @relation(fields: [seekerId], references: [id])
   post   ShopJobPost      @relation(fields: [postId], references: [id])
 

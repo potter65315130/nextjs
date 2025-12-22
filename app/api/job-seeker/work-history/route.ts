@@ -17,39 +17,43 @@ export async function GET() {
             return NextResponse.json({ message: 'Profile not found' }, { status: 404 });
         }
 
-        const workHistory = await prisma.workHistory.findMany({
+        // ดึงจาก Applications ที่มีสถานะ completed หรือ terminated
+        const applications = await prisma.application.findMany({
             where: {
                 seekerId: seekerProfile.id,
+                status: {
+                    in: ['completed', 'terminated'],
+                },
             },
             include: {
                 post: {
                     include: {
                         category: true,
+                        shop: true,
                     },
                 },
-                shop: true,
             },
             orderBy: {
-                workDate: 'desc',
+                applicationDate: 'desc',
             },
         });
 
-        const formattedHistory = workHistory.map((work) => ({
-            id: work.id,
-            workDate: work.workDate.toISOString(),
-            wage: Number(work.wage),
-            review: work.review,
-            rating: work.rating,
+        const formattedHistory = applications.map((app) => ({
+            id: app.id,
+            workDate: app.applicationDate.toISOString(),
+            wage: Number(app.post.wage),
+            review: app.review,
+            rating: app.rating,
             job: {
-                id: work.post.id,
-                jobName: work.post.jobName,
-                categoryName: work.post.category.name,
+                id: app.post.id,
+                jobName: app.post.jobName,
+                categoryName: app.post.category.name,
             },
             shop: {
-                id: work.shop.id,
-                shopName: work.shop.shopName,
-                address: work.shop.address,
-                profileImage: work.shop.profileImage,
+                id: app.post.shop.id,
+                shopName: app.post.shop.shopName,
+                address: app.post.shop.address || '',
+                profileImage: app.post.shop.profileImage,
             },
         }));
 
