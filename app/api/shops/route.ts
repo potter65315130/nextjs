@@ -33,13 +33,13 @@ function verifyToken(request: NextRequest): DecodedToken | null {
 // --------------------------------------------------------
 const shopUpdateSchema = z.object({
     shopName: z.string().min(1, 'Shop name is required'),
-    phone: z.string().optional(),
-    email: z.string().email('Invalid email format').optional().or(z.literal('')),
-    address: z.string().optional(),
-    description: z.string().optional(),
-    imageUrl: z.string().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
+    phone: z.string().nullable().optional(),
+    email: z.string().email('Invalid email format').nullable().optional().or(z.literal('')),
+    address: z.string().nullable().optional(),
+    description: z.string().nullable().optional(),
+    imageUrl: z.string().nullable().optional(),
+    latitude: z.number().nullable().optional(),
+    longitude: z.number().nullable().optional(),
 });
 
 // --------------------------------------------------------

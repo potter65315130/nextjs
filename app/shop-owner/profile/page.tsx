@@ -63,8 +63,11 @@ export default function ShopOwnerProfilePage() {
                 throw new Error('Failed to fetch shop data');
             }
         } catch (error) {
-            console.error('Error fetching shop data:', error);
+            if (process.env.NODE_ENV === 'development') {
+                console.warn('Error fetching shop data:', error);
+            }
         } finally {
+
             setLoading(false);
         }
     };
@@ -99,23 +102,48 @@ export default function ShopOwnerProfilePage() {
                 });
                 fetchShopData(); // Reload data
             } else {
-                const error = await res.json();
-                console.error('API Error:', error);
+                // Try to parse error response
+                let errorMessage = 'ไม่สามารถบันทึกได้';
+                try {
+                    const errorData = await res.json();
+                    // Only log in development mode
+                    if (process.env.NODE_ENV === 'development') {
+                        console.warn('API Error Response:', {
+                            status: res.status,
+                            statusText: res.statusText,
+                            data: errorData
+                        });
+                    }
+                    errorMessage = errorData.message || errorData.error || errorMessage;
+                } catch (parseError) {
+                    // Only log in development mode
+                    if (process.env.NODE_ENV === 'development') {
+                        console.warn('Failed to parse error response:', {
+                            status: res.status,
+                            statusText: res.statusText
+                        });
+                    }
+                    // Use status text if JSON parsing fails
+                    errorMessage = `เกิดข้อผิดพลาด (${res.status} ${res.statusText})`;
+                }
 
                 showAlert({
                     type: 'error',
                     title: 'เกิดข้อผิดพลาด',
-                    message: error.message || 'ไม่สามารถบันทึกได้',
+                    message: errorMessage,
                 });
             }
         } catch (error) {
-            console.error('Error saving:', error);
+            if (process.env.NODE_ENV === 'development') {
+                console.warn('Error saving:', error);
+            }
             showAlert({
                 type: 'error',
                 title: 'เกิดข้อผิดพลาด',
                 message: 'เกิดข้อผิดพลาดในการบันทึก',
             });
         } finally {
+
             setSaving(false);
         }
     };
