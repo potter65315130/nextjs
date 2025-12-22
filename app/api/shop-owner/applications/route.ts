@@ -21,12 +21,15 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const postId = searchParams.get('postId');
 
-        // ดึง applications ของงานในร้าน
+        // ดึง applications ของงานในร้าน (เฉพาะสถานะ pending และ in_progress)
         const applications = await prisma.application.findMany({
             where: {
                 post: {
                     shopId: shop.id,
                     ...(postId ? { id: parseInt(postId) } : {}),
+                },
+                status: {
+                    in: ['pending', 'in_progress'],
                 },
             },
             include: {

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, User, CheckCircle, XCircle, Clock, FileText } from 'lucide-react';
+import { Search, User, CheckCircle, XCircle, Clock, FileText, UserCheck } from 'lucide-react';
 import { useAlert } from '@/components/ui/AlertContainer';
 
 interface Application {
@@ -13,7 +13,7 @@ interface Application {
     seekerImage: string | null;
     jobName: string;
     applicationDate: string;
-    status: 'pending' | 'approved' | 'rejected';
+    status: 'pending' | 'in_progress' | 'completed' | 'terminated';
 }
 
 export default function ShopOwnerApplicationsPage() {
@@ -69,18 +69,25 @@ export default function ShopOwnerApplicationsPage() {
 
     const getStatusBadge = (status: string) => {
         switch (status) {
-            case 'approved':
+            case 'in_progress':
+                return (
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-semibold">
+                        <CheckCircle className="w-3 h-3" />
+                        กำลังดำเนินงาน
+                    </span>
+                );
+            case 'completed':
                 return (
                     <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-semibold">
                         <CheckCircle className="w-3 h-3" />
-                        อนุมัติ
+                        เสร็จสิ้น
                     </span>
                 );
-            case 'rejected':
+            case 'terminated':
                 return (
                     <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-full text-xs font-semibold">
                         <XCircle className="w-3 h-3" />
-                        ปฏิเสธ
+                        เลิกจ้าง
                     </span>
                 );
             default:
@@ -94,11 +101,24 @@ export default function ShopOwnerApplicationsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
             {/* Animated Background */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>
                 <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+            </div>
+
+            {/* Header */}
+            <div className="relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-purple-200/50 dark:border-purple-700/50 py-8 px-4 shadow-xl">
+                <div className="max-w-7xl mx-auto">
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                        ผู้สมัครงาน
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                        <UserCheck className="w-4 h-4" />
+                        จัดการผู้สมัครงานของคุณ
+                    </p>
+                </div>
             </div>
 
             {/* Main Content */}
@@ -111,11 +131,11 @@ export default function ShopOwnerApplicationsPage() {
                             type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            placeholder="ค้นหาผู้สมัคร..."
+                            placeholder="รายการผู้สมัคร"
                             className="w-full pl-12 pr-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-200 dark:border-purple-700 rounded-2xl focus:ring-2 focus:ring-purple-500 outline-none text-gray-800 dark:text-white"
                         />
                     </div>
-                    <button className="px-6 py-4 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
+                    <button className="px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
                         แก้ไขสถานะ
                     </button>
                 </div>
@@ -207,8 +227,9 @@ export default function ShopOwnerApplicationsPage() {
                                             className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none text-sm font-medium"
                                         >
                                             <option value="pending">รอพิจารณา</option>
-                                            <option value="approved">อนุมัติ</option>
-                                            <option value="rejected">ปฏิเสธ</option>
+                                            <option value="in_progress">กำลังดำเนินงาน</option>
+                                            <option value="completed">เสร็จสิ้น</option>
+                                            <option value="terminated">เลิกจ้าง</option>
                                         </select>
 
                                         <Link

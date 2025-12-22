@@ -18,10 +18,15 @@ export async function GET() {
             return NextResponse.json({ message: 'Shop not found' }, { status: 404 });
         }
 
-        // ดึง work history ของร้าน
-        const workHistory = await prisma.workHistory.findMany({
+        // ดึง applications ที่เสร็จสิ้นหรือเลิกจ้างของร้าน
+        const applications = await prisma.application.findMany({
             where: {
-                shopId: shop.id,
+                post: {
+                    shopId: shop.id,
+                },
+                status: {
+                    in: ['completed', 'terminated'],
+                },
             },
             include: {
                 seeker: {
@@ -32,20 +37,21 @@ export async function GET() {
                 post: true,
             },
             orderBy: {
-                workDate: 'desc',
+                applicationDate: 'desc',
             },
         });
 
-        const formattedHistory = workHistory.map(work => ({
-            id: work.id,
-            seekerId: work.seekerId,
-            seekerName: work.seeker.fullName || 'ไม่ระบุชื่อ',
-            seekerImage: work.seeker.profileImage,
-            jobName: work.post.jobName,
-            workDate: work.workDate.toISOString(),
-            wage: Number(work.wage),
-            review: work.review,
-            rating: work.rating,
+        const formattedHistory = applications.map(app => ({
+            id: app.id,
+            seekerId: app.seekerId,
+            seekerName: app.seeker.fullName || 'ไม่ระบุชื่อ',
+            seekerImage: app.seeker.profileImage,
+            jobName: app.post.jobName,
+            workDate: app.applicationDate.toISOString(),
+            wage: Number(app.post.wage),
+            status: app.status,
+            review: null,
+            rating: null,
         }));
 
         return NextResponse.json({

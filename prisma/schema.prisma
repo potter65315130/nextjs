@@ -231,7 +231,7 @@ model Application {
   postId   Int @map("post_id")
 
   applicationDate DateTime @default(now()) @map("application_date")
-  status          String   @default("pending")
+  status          String   @default("pending") // pending, in_progress, completed, terminated
 
   seeker JobSeekerProfile @relation(fields: [seekerId], references: [id])
   post   ShopJobPost      @relation(fields: [postId], references: [id])

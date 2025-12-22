@@ -41,7 +41,7 @@ interface Application {
     seekerImage: string | null;
     jobName: string;
     applicationDate: string;
-    status: 'pending' | 'approved' | 'rejected';
+    status: 'pending' | 'in_progress' | 'completed' | 'terminated';
 }
 
 export default function ViewJobPostPage() {
@@ -118,16 +118,22 @@ export default function ViewJobPostPage() {
 
     const getStatusElement = (status: string) => {
         switch (status) {
-            case 'approved':
+            case 'in_progress':
                 return (
-                    <span className="flex items-center gap-1 text-green-600 font-medium text-sm">
-                        <CheckCircle className="w-4 h-4" /> ไดัรับการตอบรับ
+                    <span className="flex items-center gap-1 text-blue-600 font-medium text-sm">
+                        <CheckCircle className="w-4 h-4" /> กำลังดำเนินงาน
                     </span>
                 );
-            case 'rejected':
+            case 'completed':
+                return (
+                    <span className="flex items-center gap-1 text-green-600 font-medium text-sm">
+                        <CheckCircle className="w-4 h-4" /> เสร็จสิ้น
+                    </span>
+                );
+            case 'terminated':
                 return (
                     <span className="flex items-center gap-1 text-red-600 font-medium text-sm">
-                        <XCircle className="w-4 h-4" /> ไม่ได้รับการตอบรับ
+                        <XCircle className="w-4 h-4" /> เลิกจ้าง
                     </span>
                 );
             default:
@@ -307,14 +313,14 @@ export default function ViewJobPostPage() {
                                             {app.status === 'pending' ? (
                                                 <div className="flex gap-2 w-full sm:w-auto">
                                                     <button
-                                                        onClick={() => handleStatusChange(app.id, 'approved')}
+                                                        onClick={() => handleStatusChange(app.id, 'in_progress')}
                                                         disabled={submitting}
                                                         className="flex-1 sm:flex-none px-4 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-full text-sm font-medium transition-colors"
                                                     >
                                                         ตอบรับ
                                                     </button>
                                                     <button
-                                                        onClick={() => handleStatusChange(app.id, 'rejected')}
+                                                        onClick={() => handleStatusChange(app.id, 'terminated')}
                                                         disabled={submitting}
                                                         className="flex-1 sm:flex-none px-4 py-1.5 border border-blue-500 text-blue-500 hover:bg-blue-50 rounded-full text-sm font-medium transition-colors"
                                                     >
@@ -335,7 +341,9 @@ export default function ViewJobPostPage() {
 
                                             <div className="text-xs text-gray-400 mt-1">
                                                 สถานะ : <span className="text-gray-500">
-                                                    {app.status === 'pending' ? 'รอการตอบกลับ' : app.status === 'approved' ? 'อนุมัติแล้ว' : 'ปฏิเสธแล้ว'}
+                                                    {app.status === 'pending' ? 'รอการตอบกลับ' :
+                                                        app.status === 'in_progress' ? 'กำลังดำเนินงาน' :
+                                                            app.status === 'completed' ? 'เสร็จสิ้น' : 'เลิกจ้าง'}
                                                 </span>
                                             </div>
                                         </div>

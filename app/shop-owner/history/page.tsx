@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, User, Calendar, Star, MessageSquare, DollarSign, Briefcase } from 'lucide-react';
+import { Search, User, Calendar, Star, MessageSquare, DollarSign, Briefcase, CheckCircle, XCircle } from 'lucide-react';
 
 interface WorkHistory {
     id: number;
@@ -15,6 +15,7 @@ interface WorkHistory {
     wage: number;
     review: string | null;
     rating: number | null;
+    status: 'completed' | 'terminated';
 }
 
 export default function ShopOwnerHistoryPage() {
@@ -46,6 +47,25 @@ export default function ShopOwnerHistoryPage() {
         work.jobName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const getStatusBadge = (status: 'completed' | 'terminated') => {
+        switch (status) {
+            case 'completed':
+                return (
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-semibold">
+                        <CheckCircle className="w-3 h-3" />
+                        เสร็จสิ้น
+                    </span>
+                );
+            case 'terminated':
+                return (
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-full text-xs font-semibold">
+                        <XCircle className="w-3 h-3" />
+                        เลิกจ้าง
+                    </span>
+                );
+        }
+    };
+
     const renderStars = (rating: number | null) => {
         if (!rating) return <span className="text-gray-400 text-sm">ยังไม่มีรีวิว</span>;
 
@@ -55,8 +75,8 @@ export default function ShopOwnerHistoryPage() {
                     <Star
                         key={star}
                         className={`w-4 h-4 ${star <= rating
-                                ? 'fill-yellow-400 text-yellow-400'
-                                : 'text-gray-300 dark:text-gray-600'
+                            ? 'fill-yellow-400 text-yellow-400'
+                            : 'text-gray-300 dark:text-gray-600'
                             }`}
                     />
                 ))}
@@ -185,6 +205,11 @@ export default function ShopOwnerHistoryPage() {
                                                 <DollarSign className="w-4 h-4" />
                                                 <span>{work.wage.toLocaleString()} บาท</span>
                                             </div>
+                                        </div>
+
+                                        {/* Status */}
+                                        <div className="mb-3">
+                                            {getStatusBadge(work.status)}
                                         </div>
 
                                         {/* Rating */}
