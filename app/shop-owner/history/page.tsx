@@ -23,6 +23,13 @@ export default function ShopOwnerHistoryPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
+    // Review modal state
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const [selectedWork, setSelectedWork] = useState<WorkHistory | null>(null);
+    const [reviewRating, setReviewRating] = useState(0);
+    const [reviewText, setReviewText] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+
     useEffect(() => {
         fetchWorkHistory();
     }, []);
@@ -46,6 +53,57 @@ export default function ShopOwnerHistoryPage() {
         work.seekerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         work.jobName.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const openReviewModal = (work: WorkHistory) => {
+        setSelectedWork(work);
+        setReviewRating(work.rating || 0);
+        setReviewText(work.review || '');
+        setShowReviewModal(true);
+    };
+
+    const closeReviewModal = () => {
+        setShowReviewModal(false);
+        setSelectedWork(null);
+        setReviewRating(0);
+        setReviewText('');
+    };
+
+    const handleSubmitReview = async () => {
+        if (!selectedWork || submitting) return;
+        if (reviewRating === 0) {
+            alert('กรุณาให้คะแนน');
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+            const res = await fetch(`/api/shop-owner/applications/${selectedWork.id}/review`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    rating: reviewRating,
+                    review: reviewText.trim() || null,
+                }),
+            });
+
+            if (res.ok) {
+                // Update local state
+                setWorkHistory(prev => prev.map(work =>
+                    work.id === selectedWork.id
+                        ? { ...work, rating: reviewRating, review: reviewText.trim() || null }
+                        : work
+                ));
+                closeReviewModal();
+            } else {
+                alert('ไม่สามารถบันทึกรีวิวได้');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            alert('เกิดข้อผิดพลาด');
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     const getStatusBadge = (status: 'completed' | 'terminated') => {
         switch (status) {
@@ -230,14 +288,14 @@ export default function ShopOwnerHistoryPage() {
                                         )}
                                     </div>
 
-                                    {/* Right Side - Link */}
+                                    {/* Right Side - Review Button */}
                                     <div>
-                                        <Link
-                                            href={`/shop-owner/work-history/${work.id}`}
+                                        <button
+                                            onClick={() => openReviewModal(work)}
                                             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-900/50 dark:hover:to-pink-900/50 text-purple-700 dark:text-purple-300 rounded-xl transition-all duration-300 font-medium"
                                         >
-                                            รีวิวต่อเอง
-                                        </Link>
+                                            {work.rating ? 'แก้ไขรีวิว' : 'รีวิว'}
+                                        </button>
                                     </div>
                                 </div>
 
@@ -266,6 +324,72 @@ export default function ShopOwnerHistoryPage() {
                     </div>
                 )}
             </div>
+
+            {/* Review Modal */}
+            {showReviewModal && selectedWork && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                    <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 max-w-md w-full shadow-2xl relative animate-slideUp">
+                        {/* Close Button */}
+                        <button
+                            onClick={closeReviewModal}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                        >
+                            <XCircle className="w-6 h-6" />
+                        </button>
+
+                        {/* Header */}
+                        <div className="text-center mb-6">
+                            <h2 className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+                                ประวัติการจ้าง
+                            </h2>
+                            <p className="text-gray-600 dark:text-gray-400 text-sm">
+                                {selectedWork.jobName}
+                            </p>
+                            <p className="text-gray-800 dark:text-white font-semibold">
+                                ชื่อ : {selectedWork.seekerName}
+                            </p>
+                        </div>
+
+                        {/* Star Rating */}
+                        <div className="flex justify-center gap-2 mb-6">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                    key={star}
+                                    onClick={() => setReviewRating(star)}
+                                    className="transition-transform hover:scale-110"
+                                >
+                                    <Star
+                                        className={`w-10 h-10 ${star <= reviewRating
+                                                ? 'fill-yellow-400 text-yellow-400'
+                                                : 'text-gray-300 dark:text-gray-600'
+                                            }`}
+                                    />
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Review Text */}
+                        <div className="mb-6">
+                            <textarea
+                                value={reviewText}
+                                onChange={(e) => setReviewText(e.target.value)}
+                                placeholder="เขียนรีวิวของคุณ..."
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-white resize-none"
+                                rows={4}
+                            />
+                        </div>
+
+                        {/* Submit Button */}
+                        <button
+                            onClick={handleSubmitReview}
+                            disabled={submitting || reviewRating === 0}
+                            className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-semibold transition-colors"
+                        >
+                            {submitting ? 'กำลังบันทึก...' : 'ยืนยัน'}
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <style jsx>{`
                 @keyframes fadeInUp {
