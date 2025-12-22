@@ -11,7 +11,7 @@ import JobListEmpty from '@/components/job-seeker/JobListEmpty';
 interface Application {
     id: number;
     applicationDate: string;
-    status: 'pending' | 'approved' | 'rejected';
+    status: 'pending' | 'in_progress' | 'completed' | 'terminated';
     job: {
         id: number;
         jobName: string;
@@ -27,7 +27,7 @@ interface Application {
 export default function ApplicationsPage() {
     const [applications, setApplications] = useState<Application[]>([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
+    const [filter, setFilter] = useState<'all' | 'pending' | 'in_progress' | 'completed' | 'terminated'>('all');
 
     useEffect(() => {
         fetchApplications();
@@ -55,17 +55,25 @@ export default function ApplicationsPage() {
 
     const getStatusConfig = (status: string) => {
         switch (status) {
-            case 'approved':
+            case 'in_progress':
                 return {
-                    label: 'ผ่านการอนุมัติ',
+                    label: 'กำลังดำเนินงาน',
+                    icon: Clock,
+                    bgColor: 'bg-blue-100 dark:bg-blue-900/30',
+                    textColor: 'text-blue-700 dark:text-blue-400',
+                    borderColor: 'border-blue-300 dark:border-blue-700',
+                };
+            case 'completed':
+                return {
+                    label: 'เสร็จสิ้น',
                     icon: CheckCircle,
                     bgColor: 'bg-green-100 dark:bg-green-900/30',
                     textColor: 'text-green-700 dark:text-green-400',
                     borderColor: 'border-green-300 dark:border-green-700',
                 };
-            case 'rejected':
+            case 'terminated':
                 return {
-                    label: 'ไม่ผ่าน',
+                    label: 'เลิกจ้าง',
                     icon: XCircle,
                     bgColor: 'bg-red-100 dark:bg-red-900/30',
                     textColor: 'text-red-700 dark:text-red-400',
@@ -73,7 +81,7 @@ export default function ApplicationsPage() {
                 };
             default:
                 return {
-                    label: 'รอดำเนินการ',
+                    label: 'รอพิจารณา',
                     icon: Hourglass,
                     bgColor: 'bg-yellow-100 dark:bg-yellow-900/30',
                     textColor: 'text-yellow-700 dark:text-yellow-400',
@@ -85,8 +93,9 @@ export default function ApplicationsPage() {
     const stats = {
         total: applications.length,
         pending: applications.filter(a => a.status === 'pending').length,
-        approved: applications.filter(a => a.status === 'approved').length,
-        rejected: applications.filter(a => a.status === 'rejected').length,
+        in_progress: applications.filter(a => a.status === 'in_progress').length,
+        completed: applications.filter(a => a.status === 'completed').length,
+        terminated: applications.filter(a => a.status === 'terminated').length,
     };
 
     return (
@@ -100,9 +109,10 @@ export default function ApplicationsPage() {
                     onFilterChange={setFilter}
                     tabs={[
                         { key: 'all', label: 'ทั้งหมด' },
-                        { key: 'pending', label: 'รอดำเนินการ' },
-                        { key: 'approved', label: 'อนุมัติ' },
-                        { key: 'rejected', label: 'ไม่ผ่าน' },
+                        { key: 'pending', label: 'รอพิจารณา' },
+                        { key: 'in_progress', label: 'กำลังดำเนินงาน' },
+                        { key: 'completed', label: 'เสร็จสิ้น' },
+                        { key: 'terminated', label: 'เลิกจ้าง' },
                     ]}
                 />
 
@@ -112,7 +122,7 @@ export default function ApplicationsPage() {
                 {/* Empty State */}
                 {!loading && filteredApplications.length === 0 && (
                     <JobListEmpty
-                        title={filter === 'all' ? 'ยังไม่มีการสมัครงาน' : `ไม่มีงานที่${filter === 'pending' ? 'รอดำเนินการ' : filter === 'approved' ? 'อนุมัติ' : 'ไม่ผ่าน'}`}
+                        title={filter === 'all' ? 'ยังไม่มีการสมัครงาน' : `ไม่มีงานที่${filter === 'pending' ? 'รอพิจารณา' : filter === 'in_progress' ? 'กำลังดำเนินงาน' : filter === 'completed' ? 'เสร็จสิ้น' : 'เลิกจ้าง'}`}
                         message={filter === 'all' ? 'เริ่มต้นสมัครงานที่เหมาะกับคุณกันเลย!' : 'ลองเปลี่ยนตัวกรองดูนะ'}
                         icon={<Briefcase className="w-16 h-16 text-blue-600 dark:text-blue-400" />}
                     >
