@@ -38,6 +38,34 @@ interface Job {
     };
 }
 
+const formatAvailableDays = (daysStr: string) => {
+    if (!daysStr) return 'ไม่ระบุ';
+    // Remove { } [ ] " '
+    const cleaned = daysStr.replace(/[{}\[\]"']/g, '');
+    // Split by comma
+    const days = cleaned.split(',').filter(d => d.trim().length > 0);
+
+    const dayMap: Record<string, string> = {
+        'Monday': 'จันทร์',
+        'Tuesday': 'อังคาร',
+        'Wednesday': 'พุธ',
+        'Thursday': 'พฤหัสบดี',
+        'Friday': 'ศุกร์',
+        'Saturday': 'เสาร์',
+        'Sunday': 'อาทิตย์',
+        'monday': 'จันทร์',
+        'tuesday': 'อังคาร',
+        'wednesday': 'พุธ',
+        'thursday': 'พฤหัสบดี',
+        'friday': 'ศุกร์',
+        'saturday': 'เสาร์',
+        'sunday': 'อาทิตย์'
+    };
+
+    const formattedDays = days.map(d => dayMap[d.trim()] || d.trim());
+    return formattedDays.join(' ');
+};
+
 export default function JobDetailPage() {
     const params = useParams();
     const router = useRouter();
@@ -254,7 +282,7 @@ export default function JobDetailPage() {
                                     </div>
                                     <div>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">วันที่ทำงาน</p>
-                                        <p className="font-semibold text-gray-900 dark:text-white">{job.availableDays || 'ไม่ระบุ'}</p>
+                                        <p className="font-semibold text-gray-900 dark:text-white">{formatAvailableDays(job.availableDays)}</p>
                                     </div>
                                 </div>
 
