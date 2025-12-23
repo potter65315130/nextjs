@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, Hourglass, Briefcase, Phone, Mail, User } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, Hourglass, Briefcase, Phone, Mail, User, Star, MessageSquare, Navigation } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -10,6 +10,8 @@ interface ApplicationDetail {
     id: number;
     applicationDate: string;
     status: 'pending' | 'in_progress' | 'completed' | 'terminated';
+    review: string | null;
+    rating: number | null;
     job: {
         id: number;
         jobName: string;
@@ -20,6 +22,7 @@ interface ApplicationDetail {
         address: string;
         wage: number;
         workDate: string;
+        workTime: string | null;
         requiredPeople: number;
         contactPhone: string;
         latitude: number | null;
@@ -122,14 +125,15 @@ export default function ApplicationDetailPage() {
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <div className="max-w-5xl mx-auto px-4 py-8">
                 {/* Header */}
-                <div className="flex items-center gap-4 mb-6">
-                    <button
-                        onClick={() => router.back()}
-                        className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                    >
-                        <ArrowLeft className="w-6 h-6 text-gray-600 dark:text-gray-400" />
-                    </button>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">รายละเอียดใบสมัคร</h1>
+                <div className="mb-6">
+
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                                รายละเอียดการสมัคร
+                            </h1>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Status Badge */}
@@ -174,6 +178,19 @@ export default function ApplicationDetailPage() {
                                     <span>{application.job.contactPhone}</span>
                                 </div>
                             </div>
+
+                            {/* Map Button */}
+                            {application.job.latitude && application.job.longitude && (
+                                <a
+                                    href={`https://www.google.com/maps?q=${application.job.latitude},${application.job.longitude}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                                >
+                                    <Navigation className="w-4 h-4" />
+                                    <span>ดูแผนที่</span>
+                                </a>
+                            )}
                         </div>
                     </div>
 
@@ -244,6 +261,20 @@ export default function ApplicationDetailPage() {
                                         </div>
                                     </div>
                                 </div>
+
+                                {application.job.workTime && (
+                                    <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                                            <Clock className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                                        </div>
+                                        <div>
+                                            <div className="text-xs text-gray-500 dark:text-gray-400">เวลาทำงาน</div>
+                                            <div className="font-semibold text-gray-900 dark:text-white">
+                                                {application.job.workTime}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Description */}
@@ -254,6 +285,56 @@ export default function ApplicationDetailPage() {
                                 </p>
                             </div>
                         </div>
+
+                        {/* Review Section - Only show for completed applications */}
+                        {application.status === 'completed' && (
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+                                <div className="flex items-center gap-2 mb-4">
+                                    <Star className="w-5 h-5 text-yellow-500" />
+                                    <h3 className="font-semibold text-gray-900 dark:text-white">การประเมินผลงาน</h3>
+                                </div>
+
+                                {application.review || application.rating ? (
+                                    <div className="space-y-4">
+                                        {application.rating && (
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-sm text-gray-600 dark:text-gray-400">คะแนน:</span>
+                                                <div className="flex items-center gap-1">
+                                                    {[1, 2, 3, 4, 5].map((star) => (
+                                                        <Star
+                                                            key={star}
+                                                            className={`w-5 h-5 ${star <= (application.rating || 0)
+                                                                ? 'text-yellow-500 fill-yellow-500'
+                                                                : 'text-gray-300 dark:text-gray-600'
+                                                                }`}
+                                                        />
+                                                    ))}
+                                                </div>
+                                                <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                                    ({application.rating}/5)
+                                                </span>
+                                            </div>
+                                        )}
+
+                                        {application.review && (
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <MessageSquare className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">ความคิดเห็น:</span>
+                                                </div>
+                                                <p className="text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
+                                                    {application.review}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <p className="text-gray-500 dark:text-gray-400 text-sm">
+                                        ยังไม่ได้รับการประเมินจากนายจ้าง
+                                    </p>
+                                )}
+                            </div>
+                        )}
 
                         {/* Action Buttons */}
                         <div className="flex gap-4">

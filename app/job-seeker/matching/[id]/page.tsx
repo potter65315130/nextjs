@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import {
-    MapPin, Calendar, Phone, Users, Banknote, Briefcase, ArrowLeft, Mail,
+    MapPin, Calendar, Phone, Users, Banknote, Briefcase, ArrowLeft, Mail, Store,
 } from 'lucide-react';
 import { useAlert } from '@/components/ui/AlertContainer';
 
@@ -74,15 +75,31 @@ export default function JobDetailPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [applying, setApplying] = useState(false);
+    const [hasApplied, setHasApplied] = useState(false);
 
     useEffect(() => {
         const fetchJob = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`/api/jobs/${params.id}`);
-                if (!response.ok) throw new Error('Failed to fetch job');
-                const data = await response.json();
-                setJob(data);
+
+                // Fetch job details and user's applications in parallel
+                const [jobRes, applicationsRes] = await Promise.all([
+                    fetch(`/api/jobs/${params.id}`),
+                    fetch('/api/job-seeker/applications')
+                ]);
+
+                if (!jobRes.ok) throw new Error('Failed to fetch job');
+                const jobData = await jobRes.json();
+                setJob(jobData);
+
+                // Check if user has already applied for this job
+                if (applicationsRes.ok) {
+                    const applicationsData = await applicationsRes.json();
+                    const hasUserApplied = applicationsData.applications?.some(
+                        (app: any) => app.job.id === parseInt(params.id as string)
+                    );
+                    setHasApplied(hasUserApplied);
+                }
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
             } finally {
@@ -192,7 +209,13 @@ export default function JobDetailPage() {
                                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                                     {job.jobName}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400 mb-4">{job.shop.shopName}</p>
+                                <Link
+                                    href={`/shops/${job.shop.id}`}
+                                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-4 inline-flex items-center gap-1"
+                                >
+                                    <Store className="w-4 h-4" />
+                                    <span>{job.shop.shopName}</span>
+                                </Link>
 
                                 {/* Quick Info */}
                                 <div className="space-y-3 mb-6">
@@ -214,16 +237,27 @@ export default function JobDetailPage() {
                                     </div>
                                 </div>
 
+                                {/* View Shop Profile Button */}
+                                <Link
+                                    href={`/shops/${job.shop.id}`}
+                                    className="w-full mb-3 py-2.5 px-4 border-2 border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-400 rounded-lg font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center justify-center gap-2"
+                                >
+                                    <Store className="w-5 h-5" />
+                                    <span>ดูโปรไฟล์ร้าน</span>
+                                </Link>
+
                                 {/* Apply Button */}
                                 <button
                                     onClick={handleApply}
-                                    disabled={applying || spotsLeft <= 0}
-                                    className={`w-full py-3 rounded-lg font-semibold transition-colors ${spotsLeft <= 0
-                                        ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                    disabled={applying || spotsLeft <= 0 || hasApplied}
+                                    className={`w-full py-3 rounded-lg font-semibold transition-colors ${hasApplied
+                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-not-allowed'
+                                        : spotsLeft <= 0
+                                            ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                                            : 'bg-blue-600 hover:bg-blue-700 text-white'
                                         }`}
                                 >
-                                    {applying ? 'กำลังสมัคร...' : spotsLeft <= 0 ? 'ที่นั่งเต็มแล้ว' : 'สมัครงาน'}
+                                    {hasApplied ? '✓ สมัครไปแล้ว' : applying ? 'กำลังสมัคร...' : spotsLeft <= 0 ? 'ที่นั่งเต็มแล้ว' : 'สมัครงาน'}
                                 </button>
                             </div>
                         </div>

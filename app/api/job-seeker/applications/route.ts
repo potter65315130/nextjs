@@ -137,7 +137,7 @@ export async function POST(req: Request) {
 
         if (existingApplication) {
             return NextResponse.json(
-                { message: 'You have already applied for this job' },
+                { message: 'คุณได้สมัครงานนี้ไปแล้ว' },
                 { status: 400 }
             );
         }
