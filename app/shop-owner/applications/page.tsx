@@ -198,10 +198,10 @@ export default function ShopOwnerApplicationsPage() {
                                                 ชื่อ: {app.seekerName}
                                             </p>
                                             <Link
-                                                href={`/shop-owner/applicants/${app.seekerId}`}
+                                                href={`/shop-owner/seekers/${app.seekerId}`}
                                                 className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
                                             >
-                                                โปรไฟล์ผู้สมัคร
+                                                ดูโปรไฟล์
                                             </Link>
                                         </div>
 
