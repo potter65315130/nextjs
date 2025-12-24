@@ -4,10 +4,12 @@ import { getCurrentUser } from '@/lib/auth';
 
 export async function GET() {
     try {
-        // ดึง job posts ทั้งหมดที่ status = 'open'
+        // ดึง job posts ทั้งหมดที่ยังเปิดรับสมัคร (ไม่ใช่ closed)
         const jobPosts = await prisma.shopJobPost.findMany({
             where: {
-                status: 'open',
+                status: {
+                    not: 'closed', // ไม่แสดงงานที่ร้านปิดรับสมัครแล้ว
+                },
             },
             include: {
                 shop: true,
