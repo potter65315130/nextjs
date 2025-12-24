@@ -38,24 +38,38 @@ export async function GET() {
             },
         });
 
-        const formattedHistory = applications.map((app) => ({
-            id: app.id,
-            workDate: app.applicationDate.toISOString(),
-            wage: Number(app.post.wage),
-            review: app.review,
-            rating: app.rating,
-            job: {
-                id: app.post.id,
-                jobName: app.post.jobName,
-                categoryName: app.post.category.name,
-            },
-            shop: {
-                id: app.post.shop.id,
-                shopName: app.post.shop.shopName,
-                address: app.post.shop.address || '',
-                profileImage: app.post.shop.profileImage,
-            },
-        }));
+        // ดึงข้อมูล WorkHistory ทั้งหมดที่เกี่ยวข้อง
+        const workHistories = await prisma.workHistory.findMany({
+            where: {
+                seekerId: seekerProfile.id,
+                postId: {
+                    in: applications.map(app => app.postId)
+                }
+            }
+        });
+
+        const formattedHistory = applications.map((app) => {
+            const history = workHistories.find(h => h.postId === app.postId);
+
+            return {
+                id: app.id,
+                workDate: app.applicationDate.toISOString(),
+                wage: Number(app.post.wage),
+                review: history?.review || null, // ใช้ review จาก WorkHistory
+                rating: history?.rating || null, // ใช้ rating จาก WorkHistory
+                job: {
+                    id: app.post.id,
+                    jobName: app.post.jobName,
+                    categoryName: app.post.category.name,
+                },
+                shop: {
+                    id: app.post.shop.id,
+                    shopName: app.post.shop.shopName,
+                    address: app.post.shop.address || '',
+                    profileImage: app.post.shop.profileImage,
+                },
+            };
+        });
 
         return NextResponse.json({
             success: true,
