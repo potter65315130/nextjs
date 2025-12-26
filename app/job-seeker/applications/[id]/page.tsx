@@ -149,7 +149,7 @@ export default function ApplicationDetailPage() {
                     <div className="lg:col-span-1 space-y-6">
                         <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                             {/* Shop Image */}
-                            <div className="relative w-full h-48 rounded-xl overflow-hidden mb-4 bg-linear-to-br from-blue-100 to-blue-100 dark:from-blue-900 dark:to-blue-900">
+                            <div className="relative w-full h-48 rounded-xl overflow-hidden mb-4 bg-blue-100 dark:bg-blue-900">
                                 {application.job.shopImage ? (
                                     <Image
                                         src={application.job.shopImage}

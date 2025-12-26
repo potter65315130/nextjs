@@ -19,9 +19,7 @@
   --button-secondary-hover: #d1d5db;
   --button-secondary-text: #374151;
 
-  /* Gradient Colors */
-  --gradient-from: #5D87FF;
-  --gradient-to: #9333ea;
+
 }
 
 .dark {
@@ -42,9 +40,7 @@
   --button-secondary-hover: #4b5563;
   --button-secondary-text: #d1d5db;
 
-  /* Gradient Colors Dark */
-  --gradient-from: #60a5fa;
-  --gradient-to: #c084fc;
+
 }
 
 /* ------------------------- Auth Background Colors ------------------------- */
@@ -85,13 +81,7 @@ body {
 }
 
 /* ------------------------- Gradient Text Utility ------------------------- */
-.gradient-text {
-  background-image: linear-gradient(to right, var(--gradient-from), var(--gradient-to));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  display: inline-block;
-}
+
 
 /* ------------------------- Role Button ------------------------- */
 

@@ -14,7 +14,7 @@ export default function JobListEmpty({
     return (
         <div className="text-center py-20">
             {icon ? (
-                <div className="w-32 h-32 mx-auto mb-6 bg-linear-to-br from-blue-100 to-blue-100 dark:from-blue-900 dark:to-blue-900 rounded-full flex items-center justify-center">
+                <div className="w-32 h-32 mx-auto mb-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
                     {icon}
                 </div>
             ) : (

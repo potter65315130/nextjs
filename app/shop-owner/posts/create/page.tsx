@@ -185,14 +185,14 @@ export default function CreateJobPostPage() {
 
     if (loadingCategories) {
         return (
-            <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
                 <p className="text-gray-600 dark:text-gray-400">กำลังโหลด...</p>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
             <div className="max-w-4xl mx-auto px-4">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
                     <h1 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-8 text-center">

@@ -74,10 +74,10 @@ export const theme = {
 } as const;
 
 export const featureColors = [
-    { from: 'from-blue-50', to: 'to-blue-100', icon: 'bg-blue-600', darkFrom: 'dark:from-blue-900/20', darkTo: 'dark:to-blue-800/20' },
-    { from: 'from-purple-50', to: 'to-purple-100', icon: 'bg-purple-600', darkFrom: 'dark:from-purple-900/20', darkTo: 'dark:to-purple-800/20' },
-    { from: 'from-pink-50', to: 'to-pink-100', icon: 'bg-pink-600', darkFrom: 'dark:from-pink-900/20', darkTo: 'dark:to-pink-800/20' },
-    { from: 'from-green-50', to: 'to-green-100', icon: 'bg-green-600', darkFrom: 'dark:from-green-900/20', darkTo: 'dark:to-green-800/20' },
-    { from: 'from-yellow-50', to: 'to-yellow-100', icon: 'bg-yellow-600', darkFrom: 'dark:from-yellow-900/20', darkTo: 'dark:to-yellow-800/20' },
-    { from: 'from-indigo-50', to: 'to-indigo-100', icon: 'bg-indigo-600', darkFrom: 'dark:from-indigo-900/20', darkTo: 'dark:to-indigo-800/20' },
+    { bg: 'bg-blue-50 dark:bg-blue-900/20', icon: 'bg-blue-600' },
+    { bg: 'bg-purple-50 dark:bg-purple-900/20', icon: 'bg-purple-600' },
+    { bg: 'bg-pink-50 dark:bg-pink-900/20', icon: 'bg-pink-600' },
+    { bg: 'bg-green-50 dark:bg-green-900/20', icon: 'bg-green-600' },
+    { bg: 'bg-yellow-50 dark:bg-yellow-900/20', icon: 'bg-yellow-600' },
+    { bg: 'bg-indigo-50 dark:bg-indigo-900/20', icon: 'bg-indigo-600' },
 ] as const;

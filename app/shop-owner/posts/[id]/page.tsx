@@ -196,7 +196,7 @@ export default function ViewJobPostPage() {
                                             className="object-cover"
                                         />
                                     ) : (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-blue-100 to-white dark:from-blue-900/50 dark:to-gray-800">
+                                        <div className="absolute inset-0 flex items-center justify-center bg-blue-50 dark:bg-blue-900/50">
                                             <User className="w-20 h-20 text-gray-300" />
                                         </div>
                                     )}

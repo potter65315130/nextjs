@@ -114,7 +114,7 @@ export default function WorkHistoryPage() {
                 {/* Empty State */}
                 {!loading && workHistory.length === 0 && (
                     <div className="text-center py-20">
-                        <div className="w-32 h-32 mx-auto mb-6 bg-linear-to-br from-indigo-100 to-blue-100 dark:from-indigo-900 dark:to-blue-900 rounded-full flex items-center justify-center">
+                        <div className="w-32 h-32 mx-auto mb-6 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center">
                             <Briefcase className="w-16 h-16 text-indigo-600 dark:text-indigo-400" />
                         </div>
                         <h3 className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
@@ -181,7 +181,7 @@ function WorkHistoryCard({ work, onReviewed }: { work: WorkHistory; onReviewed: 
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-200 dark:border-gray-700">
                 <div className="flex gap-6 flex-col md:flex-row">
                     {/* Shop Image */}
-                    <div className="relative w-full md:w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-linear-to-br from-indigo-100 to-blue-100 dark:from-indigo-900 dark:to-blue-900">
+                    <div className="relative w-full md:w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-indigo-100 dark:bg-indigo-900">
                         {work.shop.profileImage ? (
                             <Image
                                 src={work.shop.profileImage}

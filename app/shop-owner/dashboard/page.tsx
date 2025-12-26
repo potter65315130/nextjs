@@ -80,7 +80,7 @@ export default function ShopOwnerDashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <PageHeader
                 title="ประกาศรับสมัคร"
                 subtitle="งานของคุณ"
@@ -107,7 +107,7 @@ export default function ShopOwnerDashboard() {
                     {/* Table Body - Empty State */}
                     {jobPosts.length === 0 && (
                         <div className="py-20 text-center">
-                            <div className="w-32 h-32 mx-auto mb-6 bg-linear-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full flex items-center justify-center">
+                            <div className="w-32 h-32 mx-auto mb-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
                                 <Briefcase className="w-16 h-16 text-blue-600 dark:text-blue-400" />
                             </div>
                             <h3 className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-2">

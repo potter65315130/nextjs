@@ -184,7 +184,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
             </div>
         );
@@ -199,7 +199,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
     const availableDays = parseAvailableDays(application.seeker.availableDays);
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Back Button */}
                 <Link
@@ -218,7 +218,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
                             <div className="flex items-start gap-6">
                                 {/* Avatar */}
                                 <div className="relative">
-                                    <div className="w-32 h-32 rounded-3xl bg-linear-to-br from-blue-400 to-blue-400 p-1">
+                                    <div className="w-32 h-32 rounded-3xl bg-blue-400 p-1">
                                         <div className="w-full h-full rounded-3xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                             {application.seeker.profileImage ? (
                                                 <Image
@@ -286,7 +286,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
 
                         {/* Status Change */}
                         <div className="lg:w-80">
-                            <div className="bg-linear-to-br from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-2xl p-6">
+                            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6">
                                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
                                     เปลี่ยนสถานะ
                                 </h3>
@@ -316,7 +316,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
                             {/* View Profile Button */}
                             <Link
                                 href={`/shop-owner/seekers/${application.seeker.id}`}
-                                className="mt-4 block w-full bg-linear-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 text-center"
+                                className="mt-4 block w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 text-center"
                             >
                                 ดูโปรไฟล์เต็ม
                             </Link>
@@ -445,7 +445,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
                                     <Award className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                                     ทักษะ
                                 </h3>
-                                <div className="bg-linear-to-br from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-xl p-4">
+                                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
                                     <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                         {application.seeker.skills}
                                     </p>
@@ -460,7 +460,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
                                     <Briefcase className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                                     ประสบการณ์
                                 </h3>
-                                <div className="bg-linear-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-xl p-4">
+                                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
                                     <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                         {application.seeker.experience}
                                     </p>
@@ -487,7 +487,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
                                     ))}
                                 </div>
                                 {application.review && (
-                                    <div className="bg-linear-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-900/20 dark:to-blue-900/20 rounded-xl p-4">
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
                                         <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                             {application.review}
                                         </p>

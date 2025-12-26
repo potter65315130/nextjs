@@ -109,7 +109,7 @@ export default function ShopOwnerNavbar() {
                         <div className="hidden md:block relative">
                             <button
                                 onClick={() => setShowUserMenu(!showUserMenu)}
-                                className="flex items-center justify-center w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-blue-600 text-white hover:shadow-lg transition-shadow overflow-hidden relative"
+                                className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white hover:shadow-lg transition-shadow overflow-hidden relative"
                             >
                                 {shopProfile?.profileImage ? (
                                     <Image

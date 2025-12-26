@@ -15,6 +15,7 @@ import {
     Search,
 } from 'lucide-react';
 import { useAlert } from '@/components/ui/AlertContainer';
+import PageHeader from '@/components/shop-owner/PageHeader';
 
 interface Applicant {
     id: number;
@@ -137,17 +138,13 @@ export default function ApplicantsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
-            <div className="max-w-7xl mx-auto px-4">
-                {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                        ผู้สมัครงาน
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        จัดการและติดตามสถานะผู้สมัครงานทั้งหมด
-                    </p>
-                </div>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            <PageHeader
+                title="ผู้สมัครงาน"
+                subtitle="จัดการและติดตามสถานะผู้สมัครงานทั้งหมด"
+            />
+
+            <div className="max-w-7xl mx-auto px-4 py-8">
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
@@ -227,7 +224,7 @@ export default function ApplicantsPage() {
                                     <div className="flex flex-col lg:flex-row gap-6">
                                         {/* Seeker Info */}
                                         <div className="flex items-start gap-4 flex-1">
-                                            <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-400 to-blue-400 p-0.5 shrink-0">
+                                            <div className="w-16 h-16 rounded-2xl bg-blue-400 p-0.5 shrink-0">
                                                 <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                                     {applicant.seeker.profileImage ? (
                                                         <Image

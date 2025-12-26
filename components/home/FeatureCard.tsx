@@ -5,20 +5,15 @@ interface FeatureCardProps {
     title: string;
     description: string;
     colorScheme: {
-        from: string;
-        to: string;
+        bg: string;
         icon: string;
-        darkFrom: string;
-        darkTo: string;
     };
 }
 
 export default function FeatureCard({ icon: Icon, title, description, colorScheme }: FeatureCardProps) {
     return (
         <div
-            className={`p-6 rounded-2xl bg-linear-to-br 
-                ${colorScheme.from} ${colorScheme.to} 
-                ${colorScheme.darkFrom} ${colorScheme.darkTo} 
+            className={`p-6 rounded-2xl ${colorScheme.bg}
                 hover:shadow-lg transition-shadow 
                 flex flex-col h-full`}
         >

@@ -102,7 +102,7 @@ export default function ShopOwnerApplicationsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <PageHeader
                 title="ผู้สมัครงาน"
                 subtitle="จัดการผู้สมัครงานของคุณ"
@@ -122,9 +122,6 @@ export default function ShopOwnerApplicationsPage() {
                             className="w-full pl-12 pr-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-blue-200 dark:border-blue-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-800 dark:text-white"
                         />
                     </div>
-                    <button className="px-6 py-4 bg-linear-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
-                        แก้ไขสถานะ
-                    </button>
                 </div>
 
                 {/* Loading State */}
@@ -158,7 +155,7 @@ export default function ShopOwnerApplicationsPage() {
                                 <div className="flex items-start gap-6">
                                     {/* Avatar */}
                                     <div className="relative">
-                                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-blue-400 to-blue-400 p-0.5">
+                                        <div className="w-20 h-20 rounded-2xl bg-blue-400 p-0.5">
                                             <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                                 {app.seekerImage ? (
                                                     <Image
@@ -230,7 +227,7 @@ export default function ShopOwnerApplicationsPage() {
                                 </div>
 
                                 {/* Hover Effect */}
-                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-blue-500/5 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-2xl bg-transparent transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>
@@ -239,7 +236,6 @@ export default function ShopOwnerApplicationsPage() {
                 {/* Empty State */}
                 {!loading && filteredApplications.length === 0 && (
                     <div className="text-center py-20">
-                        <User className="w-20 h-20 text-white" />
                         <h3 className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-4">
                             {searchTerm ? 'ไม่พบผู้สมัครที่ค้นหา' : 'ยังไม่มีผู้สมัครงาน'}
                         </h3>

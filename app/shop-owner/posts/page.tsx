@@ -76,7 +76,7 @@ export default function ShopOwnerPostsPage() {
     });
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <PageHeader
                 title="ประกาศรับสมัครงาน"
                 subtitle="จัดการงานทั้งหมดของคุณ"
@@ -115,7 +115,7 @@ export default function ShopOwnerPostsPage() {
                 {/* Table Body - Empty State */}
                 {jobPosts.length === 0 && (
                     <div className="py-20 text-center">
-                        <div className="w-32 h-32 mx-auto mb-6 bg-linear-to-br from-blue-100 to-blue-100 dark:from-blue-900 dark:to-blue-900 rounded-full flex items-center justify-center">
+                        <div className="w-32 h-32 mx-auto mb-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
                             <Briefcase className="w-16 h-16 text-blue-600 dark:text-blue-400" />
                         </div>
                         <h3 className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
@@ -148,8 +148,8 @@ export default function ShopOwnerPostsPage() {
                                 {/* Status Badge */}
                                 <div className="absolute top-4 right-4">
                                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${post.status === 'open'
-                                        ? 'bg-linear-to-r from-green-400 to-emerald-400 text-white'
-                                        : 'bg-linear-to-r from-gray-400 to-slate-400 text-white'
+                                        ? 'bg-green-500 text-white'
+                                        : 'bg-gray-400 text-white'
                                         }`}>
                                         {post.status === 'open' ? 'เปิดรับสมัคร' : 'ปิดรับสมัคร'}
                                     </span>
@@ -161,7 +161,7 @@ export default function ShopOwnerPostsPage() {
                                 </h3>
 
                                 {/* Category Badge */}
-                                <div className="inline-block px-3 py-1 bg-linear-to-r from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 rounded-lg mb-4">
+                                <div className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-lg mb-4">
                                     <span className="text-sm font-semibold text-blue-700 dark:text-blue-300">
                                         {post.category?.name || 'ไม่ระบุหมวดหมู่'}
                                     </span>
@@ -170,7 +170,7 @@ export default function ShopOwnerPostsPage() {
                                 {/* Info Grid */}
                                 <div className="space-y-3 mb-6">
                                     <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                                        <div className="w-10 h-10 rounded-xl bg-linear-to-r from-blue-400 to-blue-400 flex items-center justify-center">
+                                        <div className="w-10 h-10 rounded-xl bg-blue-400 flex items-center justify-center">
                                             <DollarSign className="w-5 h-5 text-white" />
                                         </div>
                                         <div>
@@ -180,7 +180,7 @@ export default function ShopOwnerPostsPage() {
                                     </div>
 
                                     <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                                        <div className="w-10 h-10 rounded-xl bg-linear-to-r from-blue-400 to-cyan-400 flex items-center justify-center">
+                                        <div className="w-10 h-10 rounded-xl bg-blue-400 flex items-center justify-center">
                                             <Users className="w-5 h-5 text-white" />
                                         </div>
                                         <div>
@@ -190,7 +190,7 @@ export default function ShopOwnerPostsPage() {
                                     </div>
 
                                     <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                                        <div className="w-10 h-10 rounded-xl bg-linear-to-r from-blue-400 to-blue-400 flex items-center justify-center">
+                                        <div className="w-10 h-10 rounded-xl bg-blue-400 flex items-center justify-center">
                                             <Calendar className="w-5 h-5 text-white" />
                                         </div>
                                         <div>
@@ -242,7 +242,7 @@ export default function ShopOwnerPostsPage() {
                                 </div>
 
                                 {/* Hover Effect Overlay */}
-                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-blue-500/5 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-2xl bg-transparent transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>
@@ -254,7 +254,7 @@ export default function ShopOwnerPostsPage() {
                         <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors font-medium">
                             ← ก่อนหน้า
                         </button>
-                        <button className="px-4 py-2 rounded-xl bg-linear-to-r from-blue-600 to-blue-600 text-white font-bold">
+                        <button className="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold">
                             1
                         </button>
                         <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">

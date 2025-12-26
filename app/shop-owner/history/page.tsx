@@ -147,7 +147,7 @@ export default function ShopOwnerHistoryPage() {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <PageHeader
                 title="ประวัติการจ้าง"
                 subtitle="ประวัติผู้ที่เคยทำงานกับคุณ"
@@ -200,7 +200,7 @@ export default function ShopOwnerHistoryPage() {
                                 <div className="flex items-start gap-6">
                                     {/* Avatar */}
                                     <div className="relative">
-                                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-blue-100 to-blue-100 p-0.5">
+                                        <div className="w-20 h-20 rounded-2xl bg-blue-100 p-0.5">
                                             <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                                 {work.seekerImage ? (
                                                     <Image
@@ -279,7 +279,7 @@ export default function ShopOwnerHistoryPage() {
                                     <div>
                                         <button
                                             onClick={() => openReviewModal(work)}
-                                            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 hover:from-blue-200 hover:to-blue-200 dark:hover:from-blue-900/50 dark:hover:to-blue-900/50 text-blue-700 dark:text-blue-300 rounded-xl transition-all duration-300 font-medium"
+                                            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-xl transition-all duration-300 font-medium"
                                         >
                                             {work.rating ? 'แก้ไขรีวิว' : 'รีวิว'}
                                         </button>
@@ -287,7 +287,7 @@ export default function ShopOwnerHistoryPage() {
                                 </div>
 
                                 {/* Hover Effect */}
-                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-blue-500/5 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-2xl bg-transparent transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>

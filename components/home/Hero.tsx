@@ -19,7 +19,7 @@ export default function Hero() {
                 <AnimateOnScroll delay={0.15}>
                     <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
                         หางาน Part-time<br />
-                        <span className="gradient-text">
+                        <span className="text-blue-600 dark:text-blue-400">
                             ที่ใช่สำหรับคุณ
                         </span>
                     </h1>
