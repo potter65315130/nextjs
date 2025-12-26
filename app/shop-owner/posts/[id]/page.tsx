@@ -301,7 +301,7 @@ export default function ViewJobPostPage() {
                                                 ชื่อ : {app.seekerName}
                                             </h3>
                                             <Link
-                                                href={`/shop-owner/applicants/${app.seekerId}`} // Changed to point to profile
+                                                href={`/shop-owner/applicants/${app.id}`}
                                                 className="text-blue-400 text-sm hover:underline"
                                             >
                                                 โปรไฟล์ผู้สมัคร
