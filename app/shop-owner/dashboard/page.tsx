@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Plus, Briefcase } from "lucide-react";
+import PageHeader from "@/components/shop-owner/PageHeader";
 
 type JobPost = {
     id: number;
@@ -80,26 +81,15 @@ export default function ShopOwnerDashboard() {
 
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
-            {/* Header */}
-            <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-8 px-4">
-                <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
-                            ประการรับสมัคร
-                        </h1>
-                        <p className="text-gray-600 dark:text-gray-400">
-                            งานของคุณ
-                        </p>
-                    </div>
-                    <Link
-                        href="/shop-owner/posts/create"
-                        className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors shadow-lg hover:shadow-xl"
-                    >
-                        <Plus className="w-5 h-5" />
-                        <span>สร้างประกาศงาน</span>
-                    </Link>
-                </div>
-            </div>
+            <PageHeader
+                title="ประกาศรับสมัคร"
+                subtitle="งานของคุณ"
+                action={{
+                    label: "สร้างประกาศงาน",
+                    href: "/shop-owner/posts/create",
+                    icon: Plus,
+                }}
+            />
 
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 py-8">

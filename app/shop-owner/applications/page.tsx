@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Search, User, CheckCircle, XCircle, Clock, FileText, UserCheck } from 'lucide-react';
 import { useAlert } from '@/components/ui/AlertContainer';
+import PageHeader from '@/components/shop-owner/PageHeader';
 
 interface Application {
     id: number;
@@ -101,25 +102,11 @@ export default function ShopOwnerApplicationsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
-            {/* Animated Background */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-            </div>
-
-            {/* Header */}
-            <div className="relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-purple-200/50 dark:border-purple-700/50 py-8 px-4 shadow-xl">
-                <div className="max-w-7xl mx-auto">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                        ผู้สมัครงาน
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                        <UserCheck className="w-4 h-4" />
-                        จัดการผู้สมัครงานของคุณ
-                    </p>
-                </div>
-            </div>
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+            <PageHeader
+                title="ผู้สมัครงาน"
+                subtitle="จัดการผู้สมัครงานของคุณ"
+            />
 
             {/* Main Content */}
             <div className="relative max-w-7xl mx-auto px-4 py-8">
@@ -135,7 +122,7 @@ export default function ShopOwnerApplicationsPage() {
                             className="w-full pl-12 pr-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-200 dark:border-purple-700 rounded-2xl focus:ring-2 focus:ring-purple-500 outline-none text-gray-800 dark:text-white"
                         />
                     </div>
-                    <button className="px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
+                    <button className="px-6 py-4 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
                         แก้ไขสถานะ
                     </button>
                 </div>

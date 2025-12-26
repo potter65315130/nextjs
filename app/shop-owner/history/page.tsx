@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, User, Calendar, Star, MessageSquare, DollarSign, Briefcase, CheckCircle, XCircle } from 'lucide-react';
+import PageHeader from '@/components/shop-owner/PageHeader';
 
 interface WorkHistory {
     id: number;
@@ -146,25 +147,11 @@ export default function ShopOwnerHistoryPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
-            {/* Animated Background */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 left-0 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-            </div>
-
-            {/* Header */}
-            <div className="relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-purple-200/50 dark:border-purple-700/50 py-8 px-4 shadow-xl">
-                <div className="max-w-7xl mx-auto">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                        ประวัติการจ้าง
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                        <Briefcase className="w-4 h-4" />
-                        ประวัติผู้ที่เคยทำงานกับคุณ
-                    </p>
-                </div>
-            </div>
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+            <PageHeader
+                title="ประวัติการจ้าง"
+                subtitle="ประวัติผู้ที่เคยทำงานกับคุณ"
+            />
 
             {/* Main Content */}
             <div className="relative max-w-7xl mx-auto px-4 py-8">
@@ -213,7 +200,7 @@ export default function ShopOwnerHistoryPage() {
                                 <div className="flex items-start gap-6">
                                     {/* Avatar */}
                                     <div className="relative">
-                                        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-400 p-0.5">
+                                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-purple-400 to-pink-400 p-0.5">
                                             <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                                 {work.seekerImage ? (
                                                     <Image
@@ -279,7 +266,7 @@ export default function ShopOwnerHistoryPage() {
                                         {work.review && (
                                             <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-4 border border-purple-100 dark:border-purple-800">
                                                 <div className="flex items-start gap-2">
-                                                    <MessageSquare className="w-4 h-4 text-purple-600 dark:text-purple-400 mt-1 flex-shrink-0" />
+                                                    <MessageSquare className="w-4 h-4 text-purple-600 dark:text-purple-400 mt-1 shrink-0" />
                                                     <p className="text-sm text-gray-700 dark:text-gray-300 italic">
                                                         "{work.review}"
                                                     </p>
@@ -292,7 +279,7 @@ export default function ShopOwnerHistoryPage() {
                                     <div>
                                         <button
                                             onClick={() => openReviewModal(work)}
-                                            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-900/50 dark:hover:to-pink-900/50 text-purple-700 dark:text-purple-300 rounded-xl transition-all duration-300 font-medium"
+                                            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-900/50 dark:hover:to-pink-900/50 text-purple-700 dark:text-purple-300 rounded-xl transition-all duration-300 font-medium"
                                         >
                                             {work.rating ? 'แก้ไขรีวิว' : 'รีวิว'}
                                         </button>
@@ -300,7 +287,7 @@ export default function ShopOwnerHistoryPage() {
                                 </div>
 
                                 {/* Hover Effect */}
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>
@@ -310,8 +297,8 @@ export default function ShopOwnerHistoryPage() {
                 {!loading && filteredHistory.length === 0 && (
                     <div className="text-center py-20">
                         <div className="relative w-48 h-48 mx-auto mb-8">
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
-                            <div className="absolute inset-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                            <div className="absolute inset-0 bg-linear-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
+                            <div className="absolute inset-4 bg-linear-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
                                 <Calendar className="w-20 h-20 text-white" />
                             </div>
                         </div>
@@ -360,8 +347,8 @@ export default function ShopOwnerHistoryPage() {
                                 >
                                     <Star
                                         className={`w-10 h-10 ${star <= reviewRating
-                                                ? 'fill-yellow-400 text-yellow-400'
-                                                : 'text-gray-300 dark:text-gray-600'
+                                            ? 'fill-yellow-400 text-yellow-400'
+                                            : 'text-gray-300 dark:text-gray-600'
                                             }`}
                                     />
                                 </button>

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Plus, Briefcase, Edit, Trash2, Eye, Calendar, DollarSign, Users, MapPin, Clock } from 'lucide-react';
+import PageHeader from '@/components/shop-owner/PageHeader';
 
 interface JobPost {
     id: number;
@@ -67,35 +68,16 @@ export default function ShopOwnerPostsPage() {
     });
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
-            {/* Animated Background Elements */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-0 left-0 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-            </div>
-
-            {/* Header with Glassmorphism */}
-            <div className="relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-purple-200/50 dark:border-purple-700/50 py-8 px-4 shadow-xl">
-                <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <div>
-                        <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                            ประกาศรับสมัครงาน
-                        </h1>
-                        <p className="text-gray-600 dark:text-gray-400 flex items-center gap-2">
-                            <Briefcase className="w-4 h-4" />
-                            จัดการงานทั้งหมดของคุณ
-                        </p>
-                    </div>
-                    <Link
-                        href="/shop-owner/posts/create"
-                        className="group relative inline-flex items-center gap-2 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 hover:scale-105"
-                    >
-                        <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
-                        <span>สร้างประกาศใหม่</span>
-                        <div className="absolute inset-0 rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
-                    </Link>
-                </div>
-            </div>
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+            <PageHeader
+                title="ประกาศรับสมัครงาน"
+                subtitle="จัดการงานทั้งหมดของคุณ"
+                action={{
+                    label: "สร้างประกาศใหม่",
+                    href: "/shop-owner/posts/create",
+                    icon: Plus,
+                }}
+            />
 
             {/* Main Content */}
             <div className="relative max-w-7xl mx-auto px-4 py-8">

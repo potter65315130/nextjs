@@ -46,7 +46,7 @@ export default function ShopOwnerNavbar() {
     };
 
     const navItems = [
-        { label: 'ประการรับสมัคร', href: '/shop-owner/dashboard' },
+        { label: 'ประกาศรับสมัคร', href: '/shop-owner/dashboard' },
         { label: 'งานที่คุณลงประกาศ', href: '/shop-owner/posts' },
         { label: 'สถานะลูกจ้าง', href: '/shop-owner/applications' },
         { label: 'ประวัติ', href: '/shop-owner/history' },
