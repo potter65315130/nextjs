@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Plus, Briefcase, Edit, Trash2, Eye, Calendar, DollarSign, Users, MapPin, Clock } from 'lucide-react';
 import PageHeader from '@/components/shop-owner/PageHeader';
+import JobFilterTabs from '@/components/job-seeker/JobFilterTabs';
 
 interface JobPost {
     id: number;
@@ -81,37 +82,15 @@ export default function ShopOwnerPostsPage() {
 
             {/* Main Content */}
             <div className="relative max-w-7xl mx-auto px-4 py-8">
-                {/* Filter Tabs with Premium Design */}
-                <div className="flex flex-wrap gap-4 mb-8">
-                    {[
-                        { id: 'all', label: 'ทั้งหมด', icon: Briefcase, count: jobPosts.length, gradient: 'from-blue-500 to-cyan-500' },
-                        { id: 'open', label: 'เปิดรับสมัคร', icon: Users, count: jobPosts.filter(p => p.status === 'open').length, gradient: 'from-green-500 to-emerald-500' },
-                        { id: 'closed', label: 'ปิดรับสมัคร', icon: Clock, count: jobPosts.filter(p => p.status === 'closed').length, gradient: 'from-gray-500 to-slate-500' },
-                    ].map((tab) => {
-                        const Icon = tab.icon;
-                        return (
-                            <button
-                                key={tab.id}
-                                onClick={() => setFilter(tab.id)}
-                                className={`group relative px-6 py-3 rounded-xl font-medium transition-all duration-300 ${filter === tab.id
-                                    ? `bg-linear-to-r ${tab.gradient} text-white shadow-2xl scale-105`
-                                    : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:scale-105 hover:shadow-xl backdrop-blur-sm'
-                                    }`}
-                            >
-                                <div className="flex items-center gap-3">
-                                    <Icon className={`w-5 h-5 ${filter === tab.id ? 'animate-bounce' : 'group-hover:rotate-12'} transition-transform`} />
-                                    <span>{tab.label}</span>
-                                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${filter === tab.id
-                                        ? 'bg-white/30'
-                                        : 'bg-gray-200 dark:bg-gray-700'
-                                        }`}>
-                                        {tab.count}
-                                    </span>
-                                </div>
-                            </button>
-                        );
-                    })}
-                </div>
+                <JobFilterTabs
+                    currentFilter={filter}
+                    onFilterChange={setFilter}
+                    tabs={[
+                        { key: 'all', label: 'ทั้งหมด' },
+                        { key: 'open', label: 'เปิดรับสมัคร' },
+                        { key: 'closed', label: 'ปิดรับสมัคร' },
+                    ]}
+                />
 
                 {/* Loading State with Animation */}
                 {loading && (
@@ -126,31 +105,28 @@ export default function ShopOwnerPostsPage() {
                     </div>
                 )}
 
-                {/* Empty State */}
-                {!loading && filteredPosts.length === 0 && (
-                    <div className="text-center py-20">
-                        <div className="relative w-48 h-48 mx-auto mb-8">
-                            <div className="absolute inset-0 bg-linear-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
-                            <div className="absolute inset-4 bg-linear-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                                <Briefcase className="w-20 h-20 text-white" />
-                            </div>
+                {/* Table Body - Empty State */}
+                {jobPosts.length === 0 && (
+                    <div className="py-20 text-center">
+                        <div className="w-32 h-32 mx-auto mb-6 bg-linear-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full flex items-center justify-center">
+                            <Briefcase className="w-16 h-16 text-blue-600 dark:text-blue-400" />
                         </div>
-                        <h3 className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-4">
-                            {filter === 'all' ? 'ยังไม่มีประกาศงาน' : `ไม่มีงานที่${filter === 'open' ? 'เปิดรับสมัคร' : 'ปิดรับสมัคร'}`}
+                        <h3 className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                            ไม่มีรายการประกาศรับสมัคร
                         </h3>
-                        <p className="text-gray-500 dark:text-gray-400 mb-8 text-lg">
-                            เริ่มต้นสร้างประกาศรับสมัครงานของคุณวันนี้
+                        <p className="text-gray-500 dark:text-gray-500 mb-6">
+                            คุณยังไม่ได้สร้างประกาศรับสมัครงาน กด "สร้างงาน"<br />
+                            เพื่อสร้างประกาศรับสมัครของคุณ
                         </p>
                         <Link
                             href="/shop-owner/posts/create"
-                            className="inline-flex items-center gap-2 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
+                            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-colors"
                         >
                             <Plus className="w-5 h-5" />
-                            <span>สร้างประกาศแรก</span>
+                            <span>สร้างงาน</span>
                         </Link>
                     </div>
                 )}
-
                 {/* Job Cards Grid */}
                 {!loading && filteredPosts.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
