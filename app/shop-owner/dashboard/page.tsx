@@ -94,7 +94,7 @@ export default function ShopOwnerDashboard() {
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 py-8">
                 {/* Table Container */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-2 border-purple-200 dark:border-purple-700 overflow-hidden">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden">
                     {/* Table Header */}
                     <div className="grid grid-cols-5 gap-4 px-6 py-4 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 font-semibold text-gray-700 dark:text-gray-300 text-sm">
                         <div>ชื่องาน</div>

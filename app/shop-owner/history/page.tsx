@@ -296,12 +296,6 @@ export default function ShopOwnerHistoryPage() {
                 {/* Empty State */}
                 {!loading && filteredHistory.length === 0 && (
                     <div className="text-center py-20">
-                        <div className="relative w-48 h-48 mx-auto mb-8">
-                            <div className="absolute inset-0 bg-linear-to-r from-purple-400 to-pink-400 rounded-full opacity-20 animate-ping"></div>
-                            <div className="absolute inset-4 bg-linear-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                                <Calendar className="w-20 h-20 text-white" />
-                            </div>
-                        </div>
                         <h3 className="text-3xl font-bold text-gray-700 dark:text-gray-300 mb-4">
                             {searchTerm ? 'ไม่พบประวัติที่ค้นหา' : 'ยังไม่มีประวัติการจ้าง'}
                         </h3>
