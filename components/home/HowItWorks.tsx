@@ -12,13 +12,13 @@ export default function HowItWorks() {
             number: 2,
             title: "ดูงานที่แนะนำ",
             description: "ระบบจะจับคู่งานที่เหมาะสมกับคุณโดยอัตโนมัติ",
-            color: "bg-purple-600",
+            color: "bg-blue-600",
         },
         {
             number: 3,
             title: "สมัครและเริ่มงาน",
             description: "สมัครงานที่ชอบและเริ่มทำงาน Part-time ได้ทันที",
-            color: "bg-pink-600",
+            color: "bg-blue-600",
         },
     ];
 

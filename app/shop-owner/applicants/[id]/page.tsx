@@ -187,8 +187,8 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-500 border-t-transparent"></div>
+            <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
             </div>
         );
     }
@@ -202,26 +202,26 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
     const availableDays = parseAvailableDays(applicant.seeker.availableDays);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Back Button */}
                 <Link
                     href="/shop-owner/applicants"
-                    className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium mb-6 transition-colors"
+                    className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium mb-6 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5" />
                     กลับไปรายการผู้สมัคร
                 </Link>
 
                 {/* Header Section */}
-                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-6 border border-purple-100 dark:border-purple-900/50">
+                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-6 border border-blue-100 dark:border-blue-900/50">
                     <div className="flex flex-col lg:flex-row gap-8">
                         {/* Seeker Profile */}
                         <div className="flex-1">
                             <div className="flex items-start gap-6">
                                 {/* Avatar */}
                                 <div className="relative">
-                                    <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-purple-400 to-pink-400 p-1">
+                                    <div className="w-32 h-32 rounded-3xl bg-linear-to-br from-blue-400 to-blue-400 p-1">
                                         <div className="w-full h-full rounded-3xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                             {applicant.seeker.profileImage ? (
                                                 <Image
@@ -268,19 +268,19 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
                             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {applicant.seeker.phone && (
                                     <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                                        <Phone className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                                        <Phone className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                                         <span>{applicant.seeker.phone}</span>
                                     </div>
                                 )}
                                 {applicant.seeker.email && (
                                     <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
-                                        <Mail className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                                        <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                                         <span className="truncate">{applicant.seeker.email}</span>
                                     </div>
                                 )}
                                 {applicant.seeker.address && (
                                     <div className="flex items-start gap-3 text-gray-700 dark:text-gray-300 md:col-span-2">
-                                        <MapPin className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
+                                        <MapPin className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                                         <span>{applicant.seeker.address}</span>
                                     </div>
                                 )}
@@ -289,14 +289,14 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
                         {/* Status Change */}
                         <div className="lg:w-80">
-                            <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-6">
+                            <div className="bg-linear-to-br from-blue-50 to-pink-50 dark:from-blue-900/20 dark:to-pink-900/20 rounded-2xl p-6">
                                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
                                     เปลี่ยนสถานะ
                                 </h3>
                                 <select
                                     value={applicant.status}
                                     onChange={(e) => handleStatusChange(e.target.value)}
-                                    className="w-full px-4 py-3 bg-white dark:bg-gray-700 border-2 border-purple-200 dark:border-purple-700 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none font-medium text-gray-900 dark:text-white"
+                                    className="w-full px-4 py-3 bg-white dark:bg-gray-700 border-2 border-blue-200 dark:border-blue-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-medium text-gray-900 dark:text-white"
                                 >
                                     <option value="pending">รอพิจารณา</option>
                                     <option value="in_progress">กำลังดำเนินงาน</option>
@@ -319,7 +319,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
                             {/* View Profile Button */}
                             <Link
                                 href={`/shop-owner/seekers/${applicant.seeker.id}`}
-                                className="mt-4 block w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 text-center"
+                                className="mt-4 block w-full bg-linear-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 text-center"
                             >
                                 ดูโปรไฟล์เต็ม
                             </Link>
@@ -332,15 +332,15 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
                     {/* Left Column - Seeker Details */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Job Details */}
-                        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-8 border border-purple-100 dark:border-purple-900/50">
+                        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-8 border border-blue-100 dark:border-blue-900/50">
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-                                <Briefcase className="w-7 h-7 text-purple-600 dark:text-purple-400" />
+                                <Briefcase className="w-7 h-7 text-blue-600 dark:text-blue-400" />
                                 รายละเอียดงาน
                             </h2>
 
                             <div className="space-y-4">
                                 <div>
-                                    <div className="text-sm text-purple-600 dark:text-purple-400 font-semibold mb-1">
+                                    <div className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-1">
                                         {applicant.post.categoryName}
                                     </div>
                                     <h3 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -358,7 +358,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                                     <div className="flex items-center gap-3">
-                                        <Calendar className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                                        <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                                         <div>
                                             <div className="text-sm text-gray-500 dark:text-gray-400">วันที่ทำงาน</div>
                                             <div className="font-semibold text-gray-900 dark:text-white">
@@ -393,7 +393,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
                                     {applicant.post.contactPhone && (
                                         <div className="flex items-center gap-3">
-                                            <Phone className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                                            <Phone className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                                             <div>
                                                 <div className="text-sm text-gray-500 dark:text-gray-400">เบอร์ติดต่อ</div>
                                                 <div className="font-semibold text-gray-900 dark:text-white">
@@ -406,7 +406,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
                                 {applicant.post.address && (
                                     <div className="flex items-start gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-                                        <MapPin className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0 mt-1" />
+                                        <MapPin className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-1" />
                                         <div>
                                             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">สถานที่ทำงาน</div>
                                             <div className="text-gray-900 dark:text-white">
@@ -420,16 +420,16 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
                         {/* Available Days */}
                         {availableDays.length > 0 && (
-                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-8 border border-purple-100 dark:border-purple-900/50">
+                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-8 border border-blue-100 dark:border-blue-900/50">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                                    <Calendar className="w-7 h-7 text-purple-600 dark:text-purple-400" />
+                                    <Calendar className="w-7 h-7 text-blue-600 dark:text-blue-400" />
                                     วันที่สะดวกทำงาน
                                 </h2>
                                 <div className="flex flex-wrap gap-3">
                                     {availableDays.map((day) => (
                                         <span
                                             key={day}
-                                            className="px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-400 rounded-xl font-semibold border border-purple-200 dark:border-purple-700"
+                                            className="px-4 py-2 bg-linear-to-r from-blue-100 to-pink-100 dark:from-blue-900/30 dark:to-pink-900/30 text-blue-700 dark:text-blue-400 rounded-xl font-semibold border border-blue-200 dark:border-blue-700"
                                         >
                                             {translateDay(day)}
                                         </span>
@@ -443,12 +443,12 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
                     <div className="space-y-6">
                         {/* Skills */}
                         {applicant.seeker.skills && (
-                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 border border-purple-100 dark:border-purple-900/50">
+                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 border border-blue-100 dark:border-blue-900/50">
                                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <Award className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                                    <Award className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                                     ทักษะ
                                 </h3>
-                                <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-4">
+                                <div className="bg-linear-to-br from-blue-50 to-pink-50 dark:from-blue-900/20 dark:to-pink-900/20 rounded-xl p-4">
                                     <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                         {applicant.seeker.skills}
                                     </p>
@@ -458,12 +458,12 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
                         {/* Experience */}
                         {applicant.seeker.experience && (
-                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 border border-purple-100 dark:border-purple-900/50">
+                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 border border-blue-100 dark:border-blue-900/50">
                                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <Briefcase className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                                    <Briefcase className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                                     ประสบการณ์
                                 </h3>
-                                <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-4">
+                                <div className="bg-linear-to-br from-blue-50 to-pink-50 dark:from-blue-900/20 dark:to-pink-900/20 rounded-xl p-4">
                                     <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                         {applicant.seeker.experience}
                                     </p>
@@ -473,7 +473,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
                         {/* Review (if completed) */}
                         {applicant.status === 'completed' && applicant.rating && (
-                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 border border-purple-100 dark:border-purple-900/50">
+                            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl p-6 border border-blue-100 dark:border-blue-900/50">
                                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                                     <Star className="w-6 h-6 text-yellow-500" />
                                     คะแนนรีวิว
@@ -490,7 +490,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
                                     ))}
                                 </div>
                                 {applicant.review && (
-                                    <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-4">
+                                    <div className="bg-linear-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-4">
                                         <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                             {applicant.review}
                                         </p>

@@ -164,7 +164,7 @@ export default function ShopOwnerHistoryPage() {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder="ประวัติการสื่อสมัคร"
-                            className="w-full pl-12 pr-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-200 dark:border-purple-700 rounded-2xl focus:ring-2 focus:ring-purple-500 outline-none text-gray-800 dark:text-white"
+                            className="w-full pl-12 pr-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-blue-200 dark:border-blue-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-800 dark:text-white"
                         />
                     </div>
                 </div>
@@ -192,7 +192,7 @@ export default function ShopOwnerHistoryPage() {
                         {filteredHistory.map((work, index) => (
                             <div
                                 key={work.id}
-                                className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] border-2 border-transparent hover:border-purple-200 dark:hover:border-purple-700"
+                                className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] border-2 border-transparent hover:border-blue-200 dark:hover:border-blue-700"
                                 style={{
                                     animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`
                                 }}
@@ -200,7 +200,7 @@ export default function ShopOwnerHistoryPage() {
                                 <div className="flex items-start gap-6">
                                     {/* Avatar */}
                                     <div className="relative">
-                                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-purple-400 to-pink-400 p-0.5">
+                                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-blue-100 to-blue-100 p-0.5">
                                             <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                                 {work.seekerImage ? (
                                                     <Image
@@ -220,7 +220,7 @@ export default function ShopOwnerHistoryPage() {
                                     {/* Info */}
                                     <div className="flex-1">
                                         <div className="mb-3">
-                                            <h3 className="text-sm text-purple-600 dark:text-purple-400 font-semibold mb-1">
+                                            <h3 className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-1">
                                                 {work.jobName}
                                             </h3>
                                             <p className="text-xl font-bold text-gray-800 dark:text-white mb-1">
@@ -264,9 +264,9 @@ export default function ShopOwnerHistoryPage() {
 
                                         {/* Review */}
                                         {work.review && (
-                                            <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-4 border border-purple-100 dark:border-purple-800">
+                                            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-100 dark:border-blue-800">
                                                 <div className="flex items-start gap-2">
-                                                    <MessageSquare className="w-4 h-4 text-purple-600 dark:text-purple-400 mt-1 shrink-0" />
+                                                    <MessageSquare className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-1 shrink-0" />
                                                     <p className="text-sm text-gray-700 dark:text-gray-300 italic">
                                                         "{work.review}"
                                                     </p>
@@ -279,7 +279,7 @@ export default function ShopOwnerHistoryPage() {
                                     <div>
                                         <button
                                             onClick={() => openReviewModal(work)}
-                                            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-900/50 dark:hover:to-pink-900/50 text-purple-700 dark:text-purple-300 rounded-xl transition-all duration-300 font-medium"
+                                            className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 hover:from-blue-200 hover:to-blue-200 dark:hover:from-blue-900/50 dark:hover:to-blue-900/50 text-blue-700 dark:text-blue-300 rounded-xl transition-all duration-300 font-medium"
                                         >
                                             {work.rating ? 'แก้ไขรีวิว' : 'รีวิว'}
                                         </button>
@@ -287,7 +287,7 @@ export default function ShopOwnerHistoryPage() {
                                 </div>
 
                                 {/* Hover Effect */}
-                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-blue-500/5 transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>
@@ -320,7 +320,7 @@ export default function ShopOwnerHistoryPage() {
 
                         {/* Header */}
                         <div className="text-center mb-6">
-                            <h2 className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
+                            <h2 className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                                 ประวัติการจ้าง
                             </h2>
                             <p className="text-gray-600 dark:text-gray-400 text-sm">
@@ -355,7 +355,7 @@ export default function ShopOwnerHistoryPage() {
                                 value={reviewText}
                                 onChange={(e) => setReviewText(e.target.value)}
                                 placeholder="เขียนรีวิวของคุณ..."
-                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-white resize-none"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-white resize-none"
                                 rows={4}
                             />
                         </div>

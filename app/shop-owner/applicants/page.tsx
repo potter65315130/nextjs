@@ -137,7 +137,7 @@ export default function ApplicantsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950 py-8">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Header */}
                 <div className="mb-8">
@@ -152,10 +152,10 @@ export default function ApplicantsPage() {
                 {/* Stats Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
                     <div
-                        className={`bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md cursor-pointer transition-all ${statusFilter === 'all' ? 'ring-2 ring-purple-500' : 'hover:shadow-lg'}`}
+                        className={`bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md cursor-pointer transition-all ${statusFilter === 'all' ? 'ring-2 ring-blue-500' : 'hover:shadow-lg'}`}
                         onClick={() => setStatusFilter('all')}
                     >
-                        <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.total}</div>
+                        <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.total}</div>
                         <div className="text-sm text-gray-600 dark:text-gray-400">ทั้งหมด</div>
                     </div>
                     <div
@@ -197,7 +197,7 @@ export default function ApplicantsPage() {
                             placeholder="ค้นหาผู้สมัคร, ตำแหน่งงาน, หมวดหมู่..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none text-gray-900 dark:text-white"
+                            className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 dark:text-white"
                         />
                     </div>
                 </div>
@@ -205,7 +205,7 @@ export default function ApplicantsPage() {
                 {/* Applicants List */}
                 {loading ? (
                     <div className="flex items-center justify-center py-20">
-                        <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-500 border-t-transparent"></div>
+                        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
                     </div>
                 ) : filteredApplicants.length === 0 ? (
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-12 text-center shadow-lg">
@@ -227,7 +227,7 @@ export default function ApplicantsPage() {
                                     <div className="flex flex-col lg:flex-row gap-6">
                                         {/* Seeker Info */}
                                         <div className="flex items-start gap-4 flex-1">
-                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-400 p-0.5 shrink-0">
+                                            <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-400 to-blue-400 p-0.5 shrink-0">
                                                 <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                                     {applicant.seeker.profileImage ? (
                                                         <Image
@@ -265,9 +265,9 @@ export default function ApplicantsPage() {
                                         {/* Job Info */}
                                         <div className="lg:w-80 space-y-3">
                                             <div className="flex items-start gap-3">
-                                                <Briefcase className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
+                                                <Briefcase className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                                                 <div className="min-w-0">
-                                                    <div className="text-xs text-purple-600 dark:text-purple-400 font-semibold mb-1">
+                                                    <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold mb-1">
                                                         {applicant.post.categoryName}
                                                     </div>
                                                     <div className="font-semibold text-gray-900 dark:text-white truncate">

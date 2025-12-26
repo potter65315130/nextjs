@@ -110,9 +110,9 @@ export default function ShopProfilePage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+            <div className="min-h-screen flex items-center justify-center bg-linear-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
                 <div className="text-center">
-                    <div className="w-20 h-20 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400 font-medium">กำลังโหลดข้อมูลร้าน...</p>
                 </div>
             </div>
@@ -139,13 +139,13 @@ export default function ShopProfilePage() {
     const totalApplications = getTotalApplications();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950">
+        <div className="min-h-screen bg-linear-gradient-to-br from-gray-50 via-blue-50 to-blue-50 dark:from-gray-900 dark:via-blue-950 dark:to-blue-950">
             {/* Header */}
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm border-b border-gray-200 dark:border-gray-700">
                 <div className="max-w-7xl mx-auto px-4 py-6">
                     <button
                         onClick={() => router.back()}
-                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group"
+                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
                     >
                         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                         <span className="font-medium">กลับ</span>
@@ -155,9 +155,9 @@ export default function ShopProfilePage() {
 
             <div className="max-w-7xl mx-auto px-4 py-8">
                 {/* Shop Header Card with Stats */}
-                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-purple-100 dark:border-purple-900/50 overflow-hidden mb-8">
+                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-blue-100 dark:border-blue-900/50 overflow-hidden mb-8">
                     {/* Cover Image with Gradient Overlay */}
-                    <div className="relative h-80 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 dark:from-purple-900 dark:via-pink-900 dark:to-blue-900">
+                    <div className="relative h-80 bg-linear-gradient-to-br from-blue-500 via-pink-500 to-blue-500 dark:from-blue-900 dark:via-pink-900 dark:to-blue-900">
                         {shop.imageUrl ? (
                             <>
                                 <Image
@@ -167,7 +167,7 @@ export default function ShopProfilePage() {
                                     className="object-cover"
                                     priority
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent"></div>
                             </>
                         ) : (
                             <div className="flex items-center justify-center h-full">
@@ -177,7 +177,7 @@ export default function ShopProfilePage() {
 
                         {/* Profile Image Circle - Positioned at bottom */}
                         <div className="absolute -bottom-20 left-8">
-                            <div className="relative w-40 h-40 rounded-full border-6 border-white dark:border-gray-800 bg-gradient-to-br from-purple-400 to-pink-400 shadow-2xl overflow-hidden ring-4 ring-purple-200 dark:ring-purple-800">
+                            <div className="relative w-40 h-40 rounded-full border-6 border-white dark:border-gray-800 bg-linear-gradient-to-br from-blue-400 to-pink-400 shadow-2xl overflow-hidden ring-4 ring-blue-200 dark:ring-blue-800">
                                 {shop.imageUrl ? (
                                     <Image
                                         src={shop.imageUrl}
@@ -196,7 +196,7 @@ export default function ShopProfilePage() {
                         {/* Stats Cards Overlay */}
                         <div className="absolute bottom-6 right-6 flex gap-3">
                             {reviews.length > 0 && (
-                                <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-lg border border-purple-200 dark:border-purple-800">
+                                <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-lg border border-blue-200 dark:border-blue-800">
                                     <div className="flex items-center gap-2 mb-1">
                                         <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
                                         <span className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -214,7 +214,7 @@ export default function ShopProfilePage() {
                     {/* Shop Info Section */}
                     <div className="pt-24 pb-8 px-8">
                         <div className="mb-6">
-                            <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent mb-4">
+                            <h1 className="text-5xl font-bold bg-linear-to-r from-blue-600 to-blue-600 dark:from-blue-400 dark:to-blue-400 bg-clip-text text-transparent mb-4">
                                 {shop.shopName}
                             </h1>
 
@@ -258,7 +258,7 @@ export default function ShopProfilePage() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">ที่อยู่</p>
-                                        <p className="text-sm font-medium text-gray-900 dark:text-white break-words">
+                                        <p className="text-sm font-medium text-gray-900 dark:text-white wrap-break-word">
                                             {shop.address}
                                         </p>
                                     </div>
@@ -282,8 +282,8 @@ export default function ShopProfilePage() {
                             )}
                             {shop.email && (
                                 <div className="flex items-start gap-3 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                                    <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                                        <Mail className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                                    <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                        <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">อีเมล</p>
@@ -428,7 +428,7 @@ export default function ShopProfilePage() {
                                                 className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600"
                                             >
                                                 <div className="flex items-start gap-3 mb-3">
-                                                    <div className="relative w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 shrink-0">
+                                                    <div className="relative w-10 h-10 rounded-full overflow-hidden bg-linear-gradient-to-br from-blue-100 to-blue-100 dark:from-blue-900 dark:to-blue-900 shrink-0">
                                                         {review.seeker.profileImage ? (
                                                             <Image
                                                                 src={review.seeker.profileImage}

@@ -149,7 +149,7 @@ export default function ApplicationDetailPage() {
                     <div className="lg:col-span-1 space-y-6">
                         <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                             {/* Shop Image */}
-                            <div className="relative w-full h-48 rounded-xl overflow-hidden mb-4 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900">
+                            <div className="relative w-full h-48 rounded-xl overflow-hidden mb-4 bg-linear-to-br from-blue-100 to-blue-100 dark:from-blue-900 dark:to-blue-900">
                                 {application.job.shopImage ? (
                                     <Image
                                         src={application.job.shopImage}
@@ -235,8 +235,8 @@ export default function ApplicationDetailPage() {
                                 </div>
 
                                 <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                                    <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                                        <User className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                                    <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                        <User className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                                     </div>
                                     <div>
                                         <div className="text-xs text-gray-500 dark:text-gray-400">จำนวนที่ต้องการ</div>

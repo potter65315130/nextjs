@@ -158,7 +158,7 @@ function ApplicationCard({ application, getStatusConfig }: { application: Applic
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-200 dark:border-gray-700 group">
             <div className="flex gap-6 flex-col md:flex-row">
                 {/* Job Image */}
-                <div className="relative w-full md:w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-linear-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900">
+                <div className="relative w-full md:w-32 h-32 shrink-0 rounded-xl overflow-hidden bg-linear-to-br from-blue-100 to-blue-100 dark:from-blue-900 dark:to-blue-900">
                     {application.job.shopImage ? (
                         <Image
                             src={application.job.shopImage}

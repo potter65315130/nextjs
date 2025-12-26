@@ -148,7 +148,7 @@ export default function ViewJobPostPage() {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-                <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -196,7 +196,7 @@ export default function ViewJobPostPage() {
                                             className="object-cover"
                                         />
                                     ) : (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-purple-100 to-white dark:from-purple-900/50 dark:to-gray-800">
+                                        <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-blue-100 to-white dark:from-blue-900/50 dark:to-gray-800">
                                             <User className="w-20 h-20 text-gray-300" />
                                         </div>
                                     )}
@@ -234,7 +234,7 @@ export default function ViewJobPostPage() {
 
                         {/* Additional Details Card if needed */}
                         <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
-                            <h3 className="font-semibold text-lg mb-4 text-purple-600">รายละเอียดเพิ่มเติม</h3>
+                            <h3 className="font-semibold text-lg mb-4 text-blue-600">รายละเอียดเพิ่มเติม</h3>
                             <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
                                 {post.description || '-'}
                             </p>
@@ -242,7 +242,7 @@ export default function ViewJobPostPage() {
                             <h4 className="font-medium mb-2 text-gray-800 dark:text-gray-200">วันทำงาน</h4>
                             <div className="flex flex-wrap gap-2 mb-4">
                                 {availableDays.map((day: string, i: number) => (
-                                    <span key={i} className="px-3 py-1 bg-purple-50 text-purple-700 rounded-lg text-xs font-medium">
+                                    <span key={i} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium">
                                         {day}
                                     </span>
                                 ))}

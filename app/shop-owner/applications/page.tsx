@@ -119,10 +119,10 @@ export default function ShopOwnerApplicationsPage() {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder="รายการผู้สมัคร"
-                            className="w-full pl-12 pr-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-200 dark:border-purple-700 rounded-2xl focus:ring-2 focus:ring-purple-500 outline-none text-gray-800 dark:text-white"
+                            className="w-full pl-12 pr-4 py-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-blue-200 dark:border-blue-700 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-gray-800 dark:text-white"
                         />
                     </div>
-                    <button className="px-6 py-4 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
+                    <button className="px-6 py-4 bg-linear-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white rounded-2xl font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105">
                         แก้ไขสถานะ
                     </button>
                 </div>
@@ -150,7 +150,7 @@ export default function ShopOwnerApplicationsPage() {
                         {filteredApplications.map((app, index) => (
                             <div
                                 key={app.id}
-                                className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] border border-purple-100 dark:border-purple-900/50"
+                                className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] border border-blue-100 dark:border-blue-900/50"
                                 style={{
                                     animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`
                                 }}
@@ -158,7 +158,7 @@ export default function ShopOwnerApplicationsPage() {
                                 <div className="flex items-start gap-6">
                                     {/* Avatar */}
                                     <div className="relative">
-                                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-purple-400 to-pink-400 p-0.5">
+                                        <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-blue-400 to-blue-400 p-0.5">
                                             <div className="w-full h-full rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                                 {app.seekerImage ? (
                                                     <Image
@@ -178,7 +178,7 @@ export default function ShopOwnerApplicationsPage() {
                                     {/* Info */}
                                     <div className="flex-1">
                                         <div className="mb-2">
-                                            <h3 className="text-sm text-purple-600 dark:text-purple-400 font-semibold mb-1">
+                                            <h3 className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-1">
                                                 {app.jobName}
                                             </h3>
                                             <p className="text-xl font-bold text-gray-800 dark:text-white mb-1">
@@ -211,7 +211,7 @@ export default function ShopOwnerApplicationsPage() {
                                         <select
                                             value={app.status}
                                             onChange={(e) => handleStatusChange(app.id, e.target.value)}
-                                            className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none text-sm font-medium"
+                                            className="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm font-medium"
                                         >
                                             <option value="pending">รอพิจารณา</option>
                                             <option value="in_progress">กำลังดำเนินงาน</option>
@@ -230,7 +230,7 @@ export default function ShopOwnerApplicationsPage() {
                                 </div>
 
                                 {/* Hover Effect */}
-                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500 pointer-events-none"></div>
+                                <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-blue-500/5 transition-all duration-500 pointer-events-none"></div>
                             </div>
                         ))}
                     </div>

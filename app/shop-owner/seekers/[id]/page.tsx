@@ -210,7 +210,7 @@ export default function SeekerDetailPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950 flex items-center justify-center">
+            <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950 flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400 font-medium">กำลังโหลดข้อมูล...</p>
@@ -221,13 +221,13 @@ export default function SeekerDetailPage() {
 
     if (!seeker || !stats) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950 flex items-center justify-center">
+            <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950 flex items-center justify-center">
                 <div className="text-center">
                     <User className="w-24 h-24 text-gray-400 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-2">ไม่พบข้อมูลผู้สมัครงาน</h2>
                     <Link
                         href="/shop-owner/applications"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all"
                     >
                         <ArrowLeft className="w-5 h-5" />
                         กลับไปหน้ารายการผู้สมัคร
@@ -238,7 +238,7 @@ export default function SeekerDetailPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
+        <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-950 dark:to-indigo-950">
             {/* Animated Background */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>
@@ -248,7 +248,7 @@ export default function SeekerDetailPage() {
             {/* Header */}
             <div className="relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-purple-200/50 dark:border-purple-700/50 py-6 px-4 shadow-xl">
                 <div className="max-w-7xl mx-auto">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent">
+                    <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent">
                         รายละเอียดผู้สมัครงาน
                     </h1>
                 </div>
@@ -260,9 +260,9 @@ export default function SeekerDetailPage() {
                 <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl mb-8 border border-purple-100 dark:border-purple-900/50">
                     <div className="flex flex-col md:flex-row gap-8">
                         {/* Avatar Section */}
-                        <div className="flex-shrink-0">
+                        <div className="shrink-0">
                             <div className="relative">
-                                <div className="w-40 h-40 rounded-3xl bg-gradient-to-br from-purple-400 via-pink-400 to-indigo-400 p-1">
+                                <div className="w-40 h-40 rounded-3xl bg-linear-to-br from-purple-400 via-pink-400 to-indigo-400 p-1">
                                     <div className="w-full h-full rounded-3xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                                         {seeker.profileImage ? (
                                             <Image
@@ -329,7 +329,7 @@ export default function SeekerDetailPage() {
                                         {seeker.categories.map((cat) => (
                                             <span
                                                 key={cat.id}
-                                                className="px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-400 rounded-full text-sm font-medium"
+                                                className="px-4 py-2 bg-linear-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-400 rounded-full text-sm font-medium"
                                             >
                                                 {cat.name}
                                             </span>
@@ -373,7 +373,7 @@ export default function SeekerDetailPage() {
                                             {days.map((day: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, index: React.Key | null | undefined) => (
                                                 <span
                                                     key={index}
-                                                    className="px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium border border-blue-200 dark:border-blue-800"
+                                                    className="px-4 py-2 bg-linear-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-medium border border-blue-200 dark:border-blue-800"
                                                 >
                                                     {day}
                                                 </span>
@@ -388,19 +388,19 @@ export default function SeekerDetailPage() {
 
                 {/* Statistics Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-2xl p-6 text-white shadow-xl">
+                    <div className="bg-linear-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-2xl p-6 text-white shadow-xl">
                         <FileText className="w-8 h-8 mb-3 opacity-80" />
                         <p className="text-3xl font-bold mb-1">{stats.totalApplications}</p>
                         <p className="text-sm opacity-90">การสมัครทั้งหมด</p>
                     </div>
 
-                    <div className="bg-gradient-to-br from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 rounded-2xl p-6 text-white shadow-xl">
+                    <div className="bg-linear-to-br from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 rounded-2xl p-6 text-white shadow-xl">
                         <CheckCircle className="w-8 h-8 mb-3 opacity-80" />
                         <p className="text-3xl font-bold mb-1">{stats.completedApplications}</p>
                         <p className="text-sm opacity-90">งานที่เสร็จสิ้น</p>
                     </div>
 
-                    <div className="bg-gradient-to-br from-yellow-500 to-orange-500 dark:from-yellow-600 dark:to-orange-600 rounded-2xl p-6 text-white shadow-xl">
+                    <div className="bg-linear-to-br from-yellow-500 to-orange-500 dark:from-yellow-600 dark:to-orange-600 rounded-2xl p-6 text-white shadow-xl">
                         <Star className="w-8 h-8 mb-3 opacity-80" />
                         <p className="text-3xl font-bold mb-1">
                             {stats.averageRating > 0 ? stats.averageRating.toFixed(1) : 'N/A'}
@@ -419,7 +419,7 @@ export default function SeekerDetailPage() {
                         <button
                             onClick={() => setActiveTab('overview')}
                             className={`flex-1 px-6 py-4 font-semibold transition-all ${activeTab === 'overview'
-                                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                                ? 'bg-linear-to-r from-purple-600 to-pink-600 text-white'
                                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                                 }`}
                         >
@@ -431,7 +431,7 @@ export default function SeekerDetailPage() {
                         <button
                             onClick={() => setActiveTab('applications')}
                             className={`flex-1 px-6 py-4 font-semibold transition-all ${activeTab === 'applications'
-                                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                                ? 'bg-linear-to-r from-purple-600 to-pink-600 text-white'
                                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                                 }`}
                         >
@@ -448,7 +448,7 @@ export default function SeekerDetailPage() {
                         {activeTab === 'overview' && (
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl p-6 border border-yellow-200 dark:border-yellow-800">
+                                    <div className="bg-linear-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl p-6 border border-yellow-200 dark:border-yellow-800">
                                         <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
                                             <Clock className="w-5 h-5 text-yellow-600" />
                                             สถานะการสมัคร
@@ -473,7 +473,7 @@ export default function SeekerDetailPage() {
                                         </div>
                                     </div>
 
-                                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-6 border border-purple-200 dark:border-purple-800">
+                                    <div className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-6 border border-purple-200 dark:border-purple-800">
                                         <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
                                             <Star className="w-5 h-5 text-purple-600" />
                                             ข้อมูลเพิ่มเติม
@@ -515,7 +515,7 @@ export default function SeekerDetailPage() {
                                     seeker.applications.map((app) => (
                                         <div
                                             key={app.id}
-                                            className="bg-gradient-to-r from-white to-purple-50/30 dark:from-gray-700 dark:to-purple-900/10 rounded-2xl p-6 border border-purple-100 dark:border-purple-800 hover:shadow-lg transition-all"
+                                            className="bg-linear-to-r from-white to-purple-50/30 dark:from-gray-700 dark:to-purple-900/10 rounded-2xl p-6 border border-purple-100 dark:border-purple-800 hover:shadow-lg transition-all"
                                         >
                                             <div className="flex justify-between items-start mb-4">
                                                 <div>

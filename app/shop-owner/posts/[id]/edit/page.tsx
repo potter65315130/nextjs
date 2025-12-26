@@ -177,7 +177,7 @@ export default function EditJobPostPage() {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
                 <div className="text-center">
-                    <div className="w-16 h-16 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-500">กำลังโหลดข้อมูล...</p>
                 </div>
             </div>
@@ -190,7 +190,7 @@ export default function EditJobPostPage() {
                 <div className="mb-6">
                     <Link
                         href="/shop-owner/posts"
-                        className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                        className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
                         <span>ย้อนกลับ</span>
