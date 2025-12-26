@@ -562,9 +562,28 @@ export async function DELETE(request: NextRequest) {
             );
         }
 
-        // 6. Delete the job post
-        await prisma.shopJobPost.delete({
-            where: { id: parseInt(postId) },
+        // 6. Delete related records first, then delete the job post
+        // Using a transaction to ensure all deletes succeed or fail together
+        await prisma.$transaction(async (tx) => {
+            // Delete all matches related to this post
+            await tx.match.deleteMany({
+                where: { postId: parseInt(postId) },
+            });
+
+            // Delete all applications related to this post
+            await tx.application.deleteMany({
+                where: { postId: parseInt(postId) },
+            });
+
+            // Delete all work history related to this post
+            await tx.workHistory.deleteMany({
+                where: { postId: parseInt(postId) },
+            });
+
+            // Finally, delete the job post itself
+            await tx.shopJobPost.delete({
+                where: { id: parseInt(postId) },
+            });
         });
 
         return NextResponse.json({
@@ -572,6 +591,8 @@ export async function DELETE(request: NextRequest) {
             data: { message: 'Job post deleted successfully' },
         });
     } catch (error: any) {
+        console.error('Delete error:', error);
+
         if (error.code === 'P2025') {
             return NextResponse.json(
                 {
@@ -582,10 +603,21 @@ export async function DELETE(request: NextRequest) {
             );
         }
 
+        if (error.code === 'P2003') {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: 'Cannot delete: This post has related data',
+                },
+                { status: 409 }
+            );
+        }
+
         return NextResponse.json(
             {
                 success: false,
                 message: 'Failed to delete job post',
+                error: error.message,
             },
             { status: 500 }
         );
