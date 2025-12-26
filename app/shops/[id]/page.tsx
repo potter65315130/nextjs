@@ -67,17 +67,29 @@ export default function ShopProfilePage() {
         try {
             setLoading(true);
 
-            // Fetch shop profile
-            const shopRes = await fetch(`/api/shops/${shopId}`);
+            // Fetch shop profile, job posts, and reviews in parallel
+            const [shopRes, jobsRes, reviewsRes] = await Promise.all([
+                fetch(`/api/shops/${shopId}`),
+                fetch(`/api/posts?shopId=${shopId}&status=active`),
+                fetch(`/api/shops/${shopId}/reviews`)
+            ]);
 
             if (shopRes.ok) {
                 const shopData = await shopRes.json();
                 setShop(shopData.shop);
             }
 
-            // TODO: Fetch job posts and reviews when APIs are available
-            // const jobsRes = await fetch(`/api/shops/${shopId}/jobs`);
-            // const reviewsRes = await fetch(`/api/shops/${shopId}/reviews`);
+            // Fetch active job posts
+            if (jobsRes.ok) {
+                const jobsData = await jobsRes.json();
+                setJobPosts(jobsData.posts || []);
+            }
+
+            // Fetch reviews that seekers gave to this shop
+            if (reviewsRes.ok) {
+                const reviewsData = await reviewsRes.json();
+                setReviews(reviewsData.reviews || []);
+            }
 
         } catch (error) {
             console.error('Error fetching shop data:', error);
@@ -92,10 +104,17 @@ export default function ShopProfilePage() {
         return (sum / reviews.length).toFixed(1);
     };
 
+    const getTotalApplications = () => {
+        return jobPosts.reduce((sum, job) => sum + (job._count?.applications || 0), 0);
+    };
+
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-                <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
+                <div className="text-center">
+                    <div className="w-20 h-20 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-600 dark:text-gray-400 font-medium">กำลังโหลดข้อมูลร้าน...</p>
+                </div>
             </div>
         );
     }
@@ -117,27 +136,28 @@ export default function ShopProfilePage() {
     }
 
     const avgRating = calculateAverageRating();
+    const totalApplications = getTotalApplications();
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950">
             {/* Header */}
-            <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-                <div className="max-w-6xl mx-auto px-4 py-6">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm border-b border-gray-200 dark:border-gray-700">
+                <div className="max-w-7xl mx-auto px-4 py-6">
                     <button
                         onClick={() => router.back()}
-                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-4"
+                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group"
                     >
-                        <ArrowLeft className="w-5 h-5" />
+                        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                         <span className="font-medium">กลับ</span>
                     </button>
                 </div>
             </div>
 
-            <div className="max-w-6xl mx-auto px-4 py-8">
-                {/* Shop Header Card */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
+            <div className="max-w-7xl mx-auto px-4 py-8">
+                {/* Shop Header Card with Stats */}
+                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-purple-100 dark:border-purple-900/50 overflow-hidden mb-8">
                     {/* Cover Image with Gradient Overlay */}
-                    <div className="relative h-72 bg-gradient-to-br from-blue-500 to-purple-600 dark:from-blue-900 dark:to-purple-900">
+                    <div className="relative h-80 bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 dark:from-purple-900 dark:via-pink-900 dark:to-blue-900">
                         {shop.imageUrl ? (
                             <>
                                 <Image
@@ -147,17 +167,17 @@ export default function ShopProfilePage() {
                                     className="object-cover"
                                     priority
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                             </>
                         ) : (
                             <div className="flex items-center justify-center h-full">
-                                <Building2 className="w-32 h-32 text-white opacity-50" />
+                                <Building2 className="w-40 h-40 text-white opacity-30" />
                             </div>
                         )}
 
                         {/* Profile Image Circle - Positioned at bottom */}
-                        <div className="absolute -bottom-16 left-8">
-                            <div className="relative w-32 h-32 rounded-full border-4 border-white dark:border-gray-800 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 shadow-lg overflow-hidden">
+                        <div className="absolute -bottom-20 left-8">
+                            <div className="relative w-40 h-40 rounded-full border-6 border-white dark:border-gray-800 bg-gradient-to-br from-purple-400 to-pink-400 shadow-2xl overflow-hidden ring-4 ring-purple-200 dark:ring-purple-800">
                                 {shop.imageUrl ? (
                                     <Image
                                         src={shop.imageUrl}
@@ -167,38 +187,62 @@ export default function ShopProfilePage() {
                                     />
                                 ) : (
                                     <div className="flex items-center justify-center h-full">
-                                        <Building2 className="w-16 h-16 text-blue-600 dark:text-blue-400" />
+                                        <Building2 className="w-20 h-20 text-white" />
                                     </div>
                                 )}
                             </div>
                         </div>
+
+                        {/* Stats Cards Overlay */}
+                        <div className="absolute bottom-6 right-6 flex gap-3">
+                            {reviews.length > 0 && (
+                                <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm px-6 py-4 rounded-2xl shadow-lg border border-purple-200 dark:border-purple-800">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Star className="w-6 h-6 text-yellow-500 fill-yellow-500" />
+                                        <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                                            {avgRating}
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+                                        จาก {reviews.length} รีวิว
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     {/* Shop Info Section */}
-                    <div className="pt-20 pb-6 px-8">
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="flex-1">
-                                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
-                                    {shop.shopName}
-                                </h1>
+                    <div className="pt-24 pb-8 px-8">
+                        <div className="mb-6">
+                            <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent mb-4">
+                                {shop.shopName}
+                            </h1>
 
-                                {/* Stats Row */}
-                                <div className="flex items-center gap-6 mb-4">
-                                    {reviews.length > 0 && (
-                                        <div className="flex items-center gap-2">
-                                            <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
-                                            <span className="font-semibold text-gray-900 dark:text-white text-lg">
-                                                {avgRating}
-                                            </span>
-                                            <span className="text-sm text-gray-500 dark:text-gray-400">
-                                                ({reviews.length} รีวิว)
-                                            </span>
-                                        </div>
-                                    )}
-                                    <div className="flex items-center gap-2">
-                                        <Briefcase className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                                        <span className="text-sm text-gray-700 dark:text-gray-300">
-                                            <span className="font-semibold">{jobPosts.length}</span> งานที่เปิดรับ
+                            {/* Quick Stats Row */}
+                            <div className="flex flex-wrap items-center gap-6">
+                                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                                    <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                        <Briefcase className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                    </div>
+                                    <div>
+                                        <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                                            {jobPosts.length}
+                                        </span>
+                                        <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+                                            งานที่เปิดรับ
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                                    <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                                        <Users className="w-5 h-5 text-green-600 dark:text-green-400" />
+                                    </div>
+                                    <div>
+                                        <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                                            {totalApplications}
+                                        </span>
+                                        <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+                                            ผู้สมัครทั้งหมด
                                         </span>
                                     </div>
                                 </div>
