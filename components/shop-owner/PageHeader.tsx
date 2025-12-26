@@ -30,7 +30,12 @@ export default function PageHeader({ title, subtitle, action }: PageHeaderProps)
                 {action && (
                     <Link
                         href={action.href}
-                        className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors shadow-lg hover:shadow-xl"
+                        className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl font-medium transition-colors shadow-lg hover:shadow-xl"
+                        style={{
+                            backgroundColor: 'var(--button-primary)',
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--button-primary-hover)'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--button-primary)'}
                     >
                         {action.icon && <action.icon className="w-5 h-5" />}
                         <span>{action.label}</span>
