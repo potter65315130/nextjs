@@ -247,28 +247,6 @@ export default function ShopOwnerPostsPage() {
                         ))}
                     </div>
                 )}
-
-                {/* Pagination */}
-                {!loading && filteredPosts.length > 0 && (
-                    <div className="mt-8 flex items-center justify-center gap-2">
-                        <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors font-medium">
-                            ← ก่อนหน้า
-                        </button>
-                        <button className="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold">
-                            1
-                        </button>
-                        <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
-                            2
-                        </button>
-                        <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
-                            3
-                        </button>
-                        <span className="px-2">...</span>
-                        <button className="px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors font-medium">
-                            ถัดไป →
-                        </button>
-                    </div>
-                )}
             </div>
 
             {/* Add keyframes for animations */}

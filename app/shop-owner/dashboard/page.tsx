@@ -154,36 +154,6 @@ export default function ShopOwnerDashboard() {
                             ))}
                         </div>
                     )}
-
-                    {/* Pagination (Will implement later) */}
-                    {jobPosts.length > 0 && (
-                        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
-                            <div className="flex items-center justify-center gap-2">
-                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    ←
-                                </button>
-                                <button className="px-3 py-1 rounded bg-blue-600 text-white">
-                                    1
-                                </button>
-                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    2
-                                </button>
-                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    3
-                                </button>
-                                <span className="px-2">...</span>
-                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    5
-                                </button>
-                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    6
-                                </button>
-                                <button className="px-3 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
-                                    Next →
-                                </button>
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
