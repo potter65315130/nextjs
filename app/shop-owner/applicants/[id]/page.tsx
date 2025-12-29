@@ -187,7 +187,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
             </div>
         );
@@ -202,7 +202,7 @@ export default function ApplicantDetailPage({ params }: { params: Promise<{ id: 
     const availableDays = parseAvailableDays(applicant.seeker.availableDays);
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+        <div className="min-h-screen py-8">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Back Button */}
                 <Link

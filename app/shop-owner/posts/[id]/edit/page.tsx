@@ -175,7 +175,7 @@ export default function EditJobPostPage() {
 
     if (loadingData) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-500">กำลังโหลดข้อมูล...</p>
@@ -185,7 +185,7 @@ export default function EditJobPostPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+        <div className="min-h-screen py-8">
             <div className="max-w-4xl mx-auto px-4">
                 <div className="mb-6">
                     <Link

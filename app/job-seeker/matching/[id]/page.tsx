@@ -143,7 +143,7 @@ export default function JobDetailPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400 text-lg">กำลังโหลดข้อมูล...</p>
@@ -154,7 +154,7 @@ export default function JobDetailPage() {
 
     if (error || !job) {
         return (
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <p className="text-red-600 dark:text-red-400 text-xl mb-4">เกิดข้อผิดพลาด: {error}</p>
                     <button onClick={() => router.push('/job-seeker/matching')} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
@@ -169,7 +169,7 @@ export default function JobDetailPage() {
     const spotsLeft = job.requiredPeople - job._count.applications;
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen">
             {/* Header Section */}
             <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-6">
                 <div className="max-w-7xl mx-auto px-4">

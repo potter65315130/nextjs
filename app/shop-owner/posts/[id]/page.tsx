@@ -147,7 +147,7 @@ export default function ViewJobPostPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
@@ -155,7 +155,7 @@ export default function ViewJobPostPage() {
 
     if (!post) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">ไม่พบประกาศงาน</h1>
                     <Link href="/shop-owner/posts" className="text-blue-600 hover:underline">
@@ -169,7 +169,7 @@ export default function ViewJobPostPage() {
     const availableDays = post.availableDays ? JSON.parse(post.availableDays) : [];
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 font-sans">
+        <div className="min-h-screen font-sans">
             <div className="max-w-7xl mx-auto px-4 py-8">
                 {/* Header Navigation */}
                 <div className="flex items-center justify-between mb-6">

@@ -211,7 +211,7 @@ export default function SeekerDetailPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-indigo-50 dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400 font-medium">กำลังโหลดข้อมูล...</p>
@@ -222,7 +222,7 @@ export default function SeekerDetailPage() {
 
     if (!seeker || !stats) {
         return (
-            <div className="min-h-screen bg-indigo-50 dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <User className="w-24 h-24 text-gray-400 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-2">ไม่พบข้อมูลผู้สมัครงาน</h2>
@@ -244,7 +244,7 @@ export default function SeekerDetailPage() {
     }
 
     return (
-        <div className="min-h-screen bg-indigo-50 dark:bg-gray-900">
+        <div className="min-h-screen">
             {/* Animated Background */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse"></div>

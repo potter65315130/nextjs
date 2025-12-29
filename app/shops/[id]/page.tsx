@@ -114,7 +114,7 @@ export default function ShopProfilePage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-gray-600 dark:text-gray-400 font-medium">กำลังโหลดข้อมูลร้าน...</p>
@@ -125,7 +125,7 @@ export default function ShopProfilePage() {
 
     if (!shop) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">ไม่พบข้อมูลร้าน</h1>
                     <button
@@ -143,7 +143,7 @@ export default function ShopProfilePage() {
     const totalApplications = getTotalApplications();
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen">
             {/* Header */}
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm border-b border-gray-200 dark:border-gray-700">
                 <div className="max-w-7xl mx-auto px-4 py-6">
