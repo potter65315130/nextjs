@@ -6,6 +6,8 @@ import { ArrowLeft, Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, H
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { useAlert } from '@/components/ui/AlertContainer';
+
 interface ApplicationDetail {
     id: number;
     applicationDate: string;
@@ -33,6 +35,7 @@ interface ApplicationDetail {
 export default function ApplicationDetailPage() {
     const params = useParams();
     const router = useRouter();
+    const { showAlert } = useAlert();
     const [application, setApplication] = useState<ApplicationDetail | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -54,6 +57,7 @@ export default function ApplicationDetailPage() {
             }
         } catch (error) {
             console.error('Error fetching application:', error);
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'ไม่สามารถโหลดข้อมูลใบสมัครได้' });
             router.push('/job-seeker/applications');
         } finally {
             setLoading(false);

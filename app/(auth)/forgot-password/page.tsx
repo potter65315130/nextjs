@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, AlertCircle, CheckCircle, KeyRound, UserPlus } from 'lucide-react';
+import { Mail, Lock, KeyRound } from 'lucide-react';
 import Navbar from '@/components/home/Navbar';
 import InputField from '@/components/auth/InputField';
 import { AuthLink } from '@/components/auth/AuthLink';
@@ -11,43 +11,20 @@ import { AuthButton } from '@/components/auth/AuthButton';
 import { AuthBackground } from '@/components/auth/AuthBackground';
 import { AuthCard } from '@/components/auth/AuthCard';
 import { ProgressSteps } from '@/components/auth/ProgressSteps';
-
-const AlertMessage = ({
-    type,
-    message
-}: {
-    type: 'error' | 'success';
-    message: string
-}) => {
-    const Icon = type === 'error' ? AlertCircle : CheckCircle;
-    const colors = type === 'error'
-        ? 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800 dark:text-red-300'
-        : 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300';
-    const iconColor = type === 'error' ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400';
-
-    return (
-        <div className={`p-4 border rounded-xl flex items-start ${colors}`}>
-            <Icon className={`w-5 h-5 mr-2 shrink-0 mt-0.5 ${iconColor}`} />
-            <p className="text-sm">{message}</p>
-        </div>
-    );
-};
+import { useAlert } from '@/components/ui/AlertContainer';
 
 export default function ForgotPasswordPage() {
     const router = useRouter();
+    const { showAlert } = useAlert();
     const [step, setStep] = useState(1);
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSendOTP = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
-        setSuccess('');
         setLoading(true);
 
         try {
@@ -60,13 +37,13 @@ export default function ForgotPasswordPage() {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccess(data.message);
+                showAlert({ type: 'success', title: 'สำเร็จ', message: data.message });
                 setStep(2);
             } else {
-                setError(data.message);
+                showAlert({ type: 'error', title: 'เกิดข้อผิดพลาด', message: data.message });
             }
         } catch (error) {
-            setError('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+            showAlert({ type: 'error', title: 'เกิดข้อผิดพลาด', message: 'กรุณาลองใหม่อีกครั้ง' });
         } finally {
             setLoading(false);
         }
@@ -74,8 +51,6 @@ export default function ForgotPasswordPage() {
 
     const handleVerifyOTP = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
-        setSuccess('');
         setLoading(true);
 
         try {
@@ -88,13 +63,13 @@ export default function ForgotPasswordPage() {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccess(data.message);
+                showAlert({ type: 'success', title: 'สำเร็จ', message: data.message });
                 setStep(3);
             } else {
-                setError(data.message);
+                showAlert({ type: 'error', title: 'เกิดข้อผิดพลาด', message: data.message });
             }
         } catch (error) {
-            setError('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+            showAlert({ type: 'error', title: 'เกิดข้อผิดพลาด', message: 'กรุณาลองใหม่อีกครั้ง' });
         } finally {
             setLoading(false);
         }
@@ -102,16 +77,14 @@ export default function ForgotPasswordPage() {
 
     const handleResetPassword = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
-        setSuccess('');
 
         if (newPassword !== confirmPassword) {
-            setError('รหัสผ่านไม่ตรงกัน');
+            showAlert({ type: 'error', title: 'รหัสผ่านไม่ตรงกัน', message: 'กรุณาตรวจสอบรหัสผ่านอีกครั้ง' });
             return;
         }
 
         if (newPassword.length < 6) {
-            setError('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร');
+            showAlert({ type: 'error', title: 'รหัสผ่านสั้นเกินไป', message: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร' });
             return;
         }
 
@@ -127,15 +100,15 @@ export default function ForgotPasswordPage() {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccess(data.message);
+                showAlert({ type: 'success', title: 'สำเร็จ', message: data.message });
                 setTimeout(() => {
                     router.push('/login');
                 }, 2000);
             } else {
-                setError(data.message);
+                showAlert({ type: 'error', title: 'เกิดข้อผิดพลาด', message: data.message });
             }
         } catch (error) {
-            setError('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+            showAlert({ type: 'error', title: 'เกิดข้อผิดพลาด', message: 'กรุณาลองใหม่อีกครั้ง' });
         } finally {
             setLoading(false);
         }
@@ -159,9 +132,6 @@ export default function ForgotPasswordPage() {
                     />
 
                     <ProgressSteps currentStep={step} totalSteps={3} />
-
-                    {error && <AlertMessage type="error" message={error} />}
-                    {success && <AlertMessage type="success" message={success} />}
 
                     {/* Step 1: Email */}
                     {step === 1 && (

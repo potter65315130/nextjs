@@ -54,6 +54,7 @@ export default function JobSeekerProfilePage() {
                 }
             } catch (error) {
                 console.error('Error fetching categories:', error);
+                showAlert({ type: 'error', title: 'ผิดพลาด', message: 'ไม่สามารถโหลดข้อมูลหมวดหมู่งานได้' });
             }
         }
         fetchCategories();

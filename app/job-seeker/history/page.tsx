@@ -26,6 +26,7 @@ interface WorkHistory {
 }
 
 export default function WorkHistoryPage() {
+    const { showAlert } = useAlert();
     const [workHistory, setWorkHistory] = useState<WorkHistory[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -43,6 +44,7 @@ export default function WorkHistoryPage() {
             }
         } catch (error) {
             console.error('Error fetching work history:', error);
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'ไม่สามารถโหลดข้อมูลประวัติการทำงานได้' });
         } finally {
             setLoading(false);
         }

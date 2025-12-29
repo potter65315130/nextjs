@@ -18,7 +18,10 @@ type JobPost = {
     status: string;
 };
 
+import { useAlert } from "@/components/ui/AlertContainer";
+
 export default function ShopOwnerDashboard() {
+    const { showAlert } = useAlert();
     const router = useRouter();
     const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
     const [loading, setLoading] = useState(true);
@@ -63,6 +66,11 @@ export default function ShopOwnerDashboard() {
 
             } catch (err) {
                 console.error("Error:", err);
+                showAlert({
+                    type: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    message: 'ไม่สามารถโหลดข้อมูลได้ กรุณาลองใหม่อีกครั้ง'
+                });
             } finally {
                 setLoading(false);
             }

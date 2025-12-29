@@ -19,7 +19,10 @@ interface JobPost {
     requiredPeople: number;
 }
 
+import { useAlert } from '@/components/ui/AlertContainer';
+
 export default function ShopOwnerPostsPage() {
+    const { showAlert } = useAlert();
     const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('all');
@@ -58,13 +61,25 @@ export default function ShopOwnerPostsPage() {
 
             if (res.ok) {
                 setJobPosts(prev => prev.filter(p => p.id !== postId));
-                alert('✅ ลบประกาศงานสำเร็จ');
+                showAlert({
+                    type: 'success',
+                    title: 'สำเร็จ',
+                    message: 'ลบประกาศงานสำเร็จ'
+                });
             } else {
-                alert(`❌ ${data.message || 'เกิดข้อผิดพลาดในการลบงาน'}`);
+                showAlert({
+                    type: 'error',
+                    title: 'ผิดพลาด',
+                    message: data.message || 'เกิดข้อผิดพลาดในการลบงาน'
+                });
             }
         } catch (error) {
             console.error('Error deleting post:', error);
-            alert('❌ เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง');
+            showAlert({
+                type: 'error',
+                title: 'ผิดพลาด',
+                message: 'เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง'
+            });
         } finally {
             setDeleteLoading(null);
         }

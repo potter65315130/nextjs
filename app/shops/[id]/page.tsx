@@ -9,6 +9,8 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { useAlert } from '@/components/ui/AlertContainer';
+
 interface ShopProfile {
     id: number;
     shopName: string;
@@ -51,6 +53,7 @@ interface Review {
 export default function ShopProfilePage() {
     const params = useParams();
     const router = useRouter();
+    const { showAlert } = useAlert();
     const [shop, setShop] = useState<ShopProfile | null>(null);
     const [jobPosts, setJobPosts] = useState<JobPost[]>([]);
     const [reviews, setReviews] = useState<Review[]>([]);
@@ -93,6 +96,7 @@ export default function ShopProfilePage() {
 
         } catch (error) {
             console.error('Error fetching shop data:', error);
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'ไม่สามารถโหลดข้อมูลร้านค้าได้' });
         } finally {
             setLoading(false);
         }

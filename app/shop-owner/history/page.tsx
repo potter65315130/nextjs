@@ -19,7 +19,10 @@ interface WorkHistory {
     status: 'completed' | 'terminated';
 }
 
+import { useAlert } from "@/components/ui/AlertContainer";
+
 export default function ShopOwnerHistoryPage() {
+    const { showAlert } = useAlert();
     const [workHistory, setWorkHistory] = useState<WorkHistory[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -72,7 +75,7 @@ export default function ShopOwnerHistoryPage() {
     const handleSubmitReview = async () => {
         if (!selectedWork || submitting) return;
         if (reviewRating === 0) {
-            alert('กรุณาให้คะแนน');
+            showAlert({ type: 'warning', title: 'แจ้งเตือน', message: 'กรุณาให้คะแนน' });
             return;
         }
 
@@ -95,12 +98,13 @@ export default function ShopOwnerHistoryPage() {
                         : work
                 ));
                 closeReviewModal();
+                closeReviewModal();
             } else {
-                alert('ไม่สามารถบันทึกรีวิวได้');
+                showAlert({ type: 'error', title: 'ผิดพลาด', message: 'ไม่สามารถบันทึกรีวิวได้' });
             }
         } catch (error) {
             console.error('Error submitting review:', error);
-            alert('เกิดข้อผิดพลาด');
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'เกิดข้อผิดพลาด' });
         } finally {
             setSubmitting(false);
         }

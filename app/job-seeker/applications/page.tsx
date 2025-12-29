@@ -24,7 +24,10 @@ interface Application {
     };
 }
 
+import { useAlert } from '@/components/ui/AlertContainer';
+
 export default function ApplicationsPage() {
+    const { showAlert } = useAlert();
     const [applications, setApplications] = useState<Application[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<'all' | 'pending' | 'in_progress' | 'completed' | 'terminated'>('all');
@@ -43,6 +46,7 @@ export default function ApplicationsPage() {
             }
         } catch (error) {
             console.error('Error fetching applications:', error);
+            showAlert({ type: 'error', title: 'ผิดพลาด', message: 'ไม่สามารถโหลดข้อมูลใบสมัครได้' });
         } finally {
             setLoading(false);
         }

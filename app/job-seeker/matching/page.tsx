@@ -24,7 +24,10 @@ interface JobPost {
     matchScore?: number;
 }
 
+import { useAlert } from '@/components/ui/AlertContainer';
+
 export default function JobMatchingPage() {
+    const { showAlert } = useAlert();
     const [jobs, setJobs] = useState<JobPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
@@ -44,6 +47,11 @@ export default function JobMatchingPage() {
             }
         } catch (error) {
             console.error('Error fetching jobs:', error);
+            showAlert({
+                type: 'error',
+                title: 'ผิดพลาด',
+                message: 'ไม่สามารถโหลดข้อมูลงานได้ กรุณาลองใหม่อีกครั้ง'
+            });
         } finally {
             setLoading(false);
         }
