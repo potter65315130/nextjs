@@ -186,7 +186,7 @@ export default function JobDetailPage() {
                     <div className="lg:col-span-1">
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 sticky top-24 overflow-hidden">
                             {/* Job Image */}
-                            <div className="relative h-48 bg-gray-100 dark:bg-gray-700">
+                            <div className="relative w-full h-80 bg-gray-100 dark:bg-gray-700">
                                 {job.shop.profileImage ? (
                                     <Image
                                         src={job.shop.profileImage}
