@@ -44,7 +44,7 @@ export default function ShopOwnerHistoryPage() {
             const res = await fetch('/api/shop-owner/work-history');
             if (res.ok) {
                 const data = await res.json();
-                setWorkHistory(data.workHistory || []);
+                setWorkHistory(data.history || []);
             }
         } catch (error) {
             console.error('Error fetching work history:', error);
