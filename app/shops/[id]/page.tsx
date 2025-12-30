@@ -73,7 +73,7 @@ export default function ShopProfilePage() {
             // Fetch shop profile, job posts, and reviews in parallel
             const [shopRes, jobsRes, reviewsRes] = await Promise.all([
                 fetch(`/api/shops/${shopId}`),
-                fetch(`/api/posts?shopId=${shopId}&status=active`),
+                fetch(`/api/posts?shopId=${shopId}&status=open`),
                 fetch(`/api/shops/${shopId}/reviews`)
             ]);
 
