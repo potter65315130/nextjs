@@ -51,7 +51,7 @@ export default function ShopOwnerProfilePage() {
                     setFormData({
                         shopName: shopData.shop.shopName || '',
                         phone: shopData.shop.phone || '',
-                        email: shopData.shop.email || '',
+                        email: userData.user.email || '', // Use email from session
                         address: shopData.shop.address || '',
                         description: shopData.shop.description || '',
                         latitude: shopData.shop.latitude || 18.7883,
@@ -61,6 +61,12 @@ export default function ShopOwnerProfilePage() {
                 }
             } else if (shopRes.status !== 404) {
                 throw new Error('Failed to fetch shop data');
+            } else {
+                // If shop not found (404), likely a new profile, still pre-fill email
+                setFormData(prev => ({
+                    ...prev,
+                    email: userData.user.email || ''
+                }));
             }
         } catch (error) {
             if (process.env.NODE_ENV === 'development') {
@@ -228,9 +234,10 @@ export default function ShopOwnerProfilePage() {
                                     <input
                                         type="email"
                                         value={formData.email}
-                                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                                         placeholder="อีเมลล์..."
-                                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 cursor-not-allowed outline-none"
+                                        disabled
+                                        readOnly
                                     />
                                 </div>
 

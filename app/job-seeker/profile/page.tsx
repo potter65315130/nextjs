@@ -201,7 +201,7 @@ export default function JobSeekerProfilePage() {
                             gender: profile.gender || '',
                             age: profile.age?.toString() || '',
                             phone: profile.phone || '',
-                            email: profile.email || '',
+                            email: data.user.email || '', // Always use email from session
                             jobCategoryId: profile.categories?.[0]?.categoryId?.toString() || '',
                             skills: profile.skills || '',
                             experience: profile.experience || '',
@@ -211,6 +211,12 @@ export default function JobSeekerProfilePage() {
                             availableDays: profile.availableDays ? JSON.parse(profile.availableDays) : [],
                             profileImage: profile.profileImage,
                         });
+                    } else {
+                        // If no profile yet, still pre-fill email
+                        setFormData(prev => ({
+                            ...prev,
+                            email: data.user.email || ''
+                        }));
                     }
                 }
             } catch (error) {
@@ -357,7 +363,9 @@ export default function JobSeekerProfilePage() {
                                 label="อีเมล"
                                 placeholder="email@example.com"
                                 value={formData.email}
-                                onChange={handleChange}
+                                onChange={() => { }} // Disable change
+                                disabled={true}
+                                className="bg-gray-100 dark:bg-gray-700 text-gray-500 cursor-not-allowed"
                             />
 
                             <SelectField
