@@ -365,7 +365,6 @@ export default function JobSeekerProfilePage() {
                                 value={formData.email}
                                 onChange={() => { }} // Disable change
                                 disabled={true}
-                                className="bg-gray-100 dark:bg-gray-700 text-gray-500 cursor-not-allowed"
                             />
 
                             <SelectField

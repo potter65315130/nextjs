@@ -42,8 +42,7 @@ export default function InputField({
                     className={`
             block w-full py-2.5 border border-gray-300 dark:border-gray-700
             rounded-xl leading-5 
-            bg-surface dark:bg-surface-dark 
-            text-foreground
+            ${props.disabled ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-surface dark:bg-surface-dark text-foreground'}
             placeholder-gray-400 
             focus:outline-none focus:ring-2 focus:ring-brand-primary-from/50 focus:border-brand-primary-from 
             sm:text-sm transition-colors
