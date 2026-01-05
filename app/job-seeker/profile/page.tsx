@@ -11,12 +11,128 @@ import ImageUpload from '@/components/forms/ImageUpload';
 import { useAlert } from '@/components/ui/AlertContainer';
 
 // Import LocationMap แบบ dynamic เพื่อหลีกเลี่ยงปัญหา SSR กับ Leaflet
-const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), { ssr: false });
+const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
+    ssr: false,
+    loading: () => (
+        <div className="h-64 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+            <p className="text-gray-500 dark:text-gray-400">กำลังโหลดแผนที่...</p>
+        </div>
+    )
+});
 
 interface Category {
     id: number;
     name: string;
 }
+
+// Skeleton Loading Component
+const ProfileSkeleton = () => {
+    return (
+        <div className="min-h-screen">
+            {/* Header - แสดงจริง ไม่ Loading */}
+            <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-8 px-4">
+                <div className="max-w-4xl mx-auto">
+                    <h1 className="text-3xl md:text-4xl font-bold mb-3 text-gray-800 dark:text-white">
+                        โปรไฟล์ผู้ใช้งาน
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400">
+                        จัดการข้อมูลส่วนตัวและการตั้งค่าของคุณ
+                    </p>
+                </div>
+            </div>
+
+            {/* Main Content Skeleton */}
+            <div className="max-w-4xl mx-auto px-4 py-8 animate-pulse">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+
+                    {/* Left Column: Profile Image Skeleton */}
+                    <div className="md:col-span-4 flex flex-col items-center gap-4">
+                        <div className="w-48 h-48 bg-gray-300 dark:bg-gray-700 rounded-full"></div>
+                        <div className="h-10 bg-gray-200 dark:bg-gray-600 rounded-lg w-40"></div>
+                    </div>
+
+                    {/* Right Column: Form Skeleton */}
+                    <div className="md:col-span-8 space-y-5">
+                        {/* Full Name */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-24 mb-2"></div>
+                            <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+
+                        {/* Gender & Age */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-16 mb-2"></div>
+                                <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                            </div>
+                            <div>
+                                <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-16 mb-2"></div>
+                                <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                            </div>
+                        </div>
+
+                        {/* Phone */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-20 mb-2"></div>
+                            <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+
+                        {/* Email */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-20 mb-2"></div>
+                            <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+
+                        {/* Job Category */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-24 mb-2"></div>
+                            <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+
+                        {/* Available Days */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-32 mb-2"></div>
+                            <div className="grid grid-cols-7 gap-2">
+                                {[...Array(7)].map((_, i) => (
+                                    <div key={i} className="h-10 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Skills */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-20 mb-2"></div>
+                            <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+
+                        {/* Experience */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-28 mb-2"></div>
+                            <div className="h-32 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+
+                        {/* Address */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-20 mb-2"></div>
+                            <div className="h-24 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+
+                        {/* Map */}
+                        <div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-40 mb-2"></div>
+                            <div className="h-64 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="pt-4">
+                            <div className="h-12 bg-gray-400 dark:bg-gray-600 rounded-lg w-full md:w-40"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default function JobSeekerProfilePage() {
     const router = useRouter();
@@ -50,7 +166,7 @@ export default function JobSeekerProfilePage() {
                 const res = await fetch('/api/categories');
                 if (res.ok) {
                     const data = await res.json();
-                    setCategories(data.categories || []); // ใช้ data.categories แทน data
+                    setCategories(data.categories || []);
                 }
             } catch (error) {
                 console.error('Error fetching categories:', error);
@@ -117,26 +233,23 @@ export default function JobSeekerProfilePage() {
         setLoading(true);
 
         try {
-            // เตรียม Payload ให้ตรงกับ API
             const payload = {
                 userId: Number(formData.userId),
                 fullName: formData.fullName,
-                profileImage: formData.profileImage, // ส่ง Base64 string ไปเลย
+                profileImage: formData.profileImage,
                 age: formData.age ? Number(formData.age) : undefined,
                 gender: formData.gender,
                 phone: formData.phone,
                 email: formData.email,
                 address: formData.address,
-                latitude: formData.latitude, // ส่งพิกัดไปด้วย
-                longitude: formData.longitude, // ส่งพิกัดไปด้วย
-                availableDays: JSON.stringify(formData.availableDays), // แปลง Array เป็น String เก็บลง DB
+                latitude: formData.latitude,
+                longitude: formData.longitude,
+                availableDays: JSON.stringify(formData.availableDays),
                 skills: formData.skills,
                 experience: formData.experience,
-                // แปลง category เดียวที่เลือก เป็น Array [id] ตาม API ที่เขียนไว้
                 categoryIds: formData.jobCategoryId ? [Number(formData.jobCategoryId)] : [],
             };
 
-            // ยิง API
             const res = await fetch('/api/job-seeker/profile', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -156,7 +269,6 @@ export default function JobSeekerProfilePage() {
             }
 
             showAlert({ type: 'success', title: 'สำเร็จ', message: 'บันทึกข้อมูลเรียบร้อยแล้ว!' });
-            // router.push('/dashboard'); // หรือพาไปหน้าอื่น
 
         } catch (error) {
             console.error('Full error:', error);
@@ -166,15 +278,9 @@ export default function JobSeekerProfilePage() {
         }
     };
 
+    // แสดง Skeleton Loading
     if (loadingUser) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600 dark:text-gray-400">กำลังโหลดข้อมูล...</p>
-                </div>
-            </div>
-        );
+        return <ProfileSkeleton />;
     }
 
     return (
@@ -206,7 +312,7 @@ export default function JobSeekerProfilePage() {
 
                     {/* ----- Right Column: Form ----- */}
                     <div className="md:col-span-8">
-                        <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="space-y-5">
                             <InputField
                                 name="fullName"
                                 label="ชื่อ-นามสกุล"
@@ -297,17 +403,19 @@ export default function JobSeekerProfilePage() {
                                 <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
                                     ระบุตำแหน่งที่อยู่บนแผนที่
                                 </label>
-                                <LocationMap
-                                    latitude={formData.latitude}
-                                    longitude={formData.longitude}
-                                    onLocationSelect={(lat, lng) => {
-                                        setFormData(prev => ({
-                                            ...prev,
-                                            latitude: lat,
-                                            longitude: lng
-                                        }));
-                                    }}
-                                />
+                                {typeof window !== 'undefined' && (
+                                    <LocationMap
+                                        latitude={formData.latitude}
+                                        longitude={formData.longitude}
+                                        onLocationSelect={(lat, lng) => {
+                                            setFormData(prev => ({
+                                                ...prev,
+                                                latitude: lat,
+                                                longitude: lng
+                                            }));
+                                        }}
+                                    />
+                                )}
                                 {formData.latitude && formData.longitude && (
                                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                                         พิกัด: {formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)}
@@ -318,14 +426,15 @@ export default function JobSeekerProfilePage() {
                             {/* Submit Button */}
                             <div className="pt-4">
                                 <button
-                                    type="submit"
+                                    type="button"
+                                    onClick={handleSubmit}
                                     disabled={loading}
                                     className="bg-blue-600 hover:bg-blue-700 text-white w-full md:w-auto px-8 py-3 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {loading ? 'กำลังบันทึก...' : 'บันทึกโปรไฟล์'}
                                 </button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

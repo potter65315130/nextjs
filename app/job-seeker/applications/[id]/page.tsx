@@ -32,6 +32,96 @@ interface ApplicationDetail {
     };
 }
 
+// Skeleton Loading Component
+const ApplicationDetailSkeleton = () => {
+    return (
+        <div className="min-h-screen">
+            <div className="max-w-5xl mx-auto px-4 py-8">
+                {/* Header Skeleton */}
+                <div className="mb-6 animate-pulse">
+                    <div className="h-9 bg-gray-300 dark:bg-gray-700 rounded-lg w-64 mb-2"></div>
+                </div>
+
+                {/* Status Badge Skeleton */}
+                <div className="mb-6 animate-pulse">
+                    <div className="h-12 bg-gray-300 dark:bg-gray-700 rounded-full w-56"></div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Left Column - Shop Info Skeleton */}
+                    <div className="lg:col-span-1 space-y-6">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 animate-pulse">
+                            {/* Shop Image Skeleton */}
+                            <div className="w-full h-48 bg-gray-300 dark:bg-gray-700 rounded-xl mb-4"></div>
+
+                            {/* Shop Name Skeleton */}
+                            <div className="h-7 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+
+                            {/* Info Items Skeleton */}
+                            <div className="space-y-3">
+                                <div className="flex items-start gap-2">
+                                    <div className="w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded shrink-0 mt-1"></div>
+                                    <div className="flex-1">
+                                        <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full mb-1"></div>
+                                        <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-2/3"></div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded shrink-0"></div>
+                                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-32"></div>
+                                </div>
+                            </div>
+
+                            {/* Map Button Skeleton */}
+                            <div className="mt-4 h-10 bg-gray-400 dark:bg-gray-600 rounded-lg w-full"></div>
+                        </div>
+                    </div>
+
+                    {/* Right Column - Job Details Skeleton */}
+                    <div className="lg:col-span-2 space-y-6">
+                        {/* Job Info Skeleton */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 animate-pulse">
+                            {/* Category Skeleton */}
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-32 mb-2"></div>
+
+                            {/* Job Title Skeleton */}
+                            <div className="h-8 bg-gray-300 dark:bg-gray-700 rounded w-full mb-4"></div>
+
+                            {/* Grid Info Skeleton */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                {[1, 2, 3, 4].map((i) => (
+                                    <div key={i} className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                                        <div className="flex-1">
+                                            <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-20 mb-2"></div>
+                                            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-32"></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Description Skeleton */}
+                            <div>
+                                <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded w-32 mb-2"></div>
+                                <div className="space-y-2">
+                                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full"></div>
+                                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-5/6"></div>
+                                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-4/6"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Action Buttons Skeleton */}
+                        <div className="flex gap-4 animate-pulse">
+                            <div className="flex-1 h-12 bg-gray-300 dark:bg-gray-700 rounded-xl"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export default function ApplicationDetailPage() {
     const params = useParams();
     const router = useRouter();
@@ -101,12 +191,9 @@ export default function ApplicationDetailPage() {
         }
     };
 
+    // แสดง Skeleton Loading
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-        );
+        return <ApplicationDetailSkeleton />;
     }
 
     if (!application) {
@@ -130,7 +217,6 @@ export default function ApplicationDetailPage() {
             <div className="max-w-5xl mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="mb-6">
-
                     <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">

@@ -39,11 +39,126 @@ interface Job {
     };
 }
 
+// Skeleton Loading Component
+const JobDetailSkeleton = () => {
+    return (
+        <div className="min-h-screen">
+            {/* Header - แสดงจริง ไม่ Loading */}
+            <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-6">
+                <div className="max-w-7xl mx-auto px-4">
+                    <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+                        รายละเอียดงานพาร์ทไทม์
+                    </h1>
+                </div>
+            </div>
+
+            {/* Main Content Skeleton */}
+            <div className="max-w-7xl mx-auto px-4 py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Left Column - Job Card Skeleton */}
+                    <div className="lg:col-span-1">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden animate-pulse">
+                            {/* Job Image Skeleton */}
+                            <div className="w-full h-80 bg-gray-300 dark:bg-gray-700"></div>
+
+                            {/* Job Info Skeleton */}
+                            <div className="p-6">
+                                {/* Category */}
+                                <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-24 mb-2"></div>
+
+                                {/* Title */}
+                                <div className="h-8 bg-gray-300 dark:bg-gray-700 rounded w-full mb-1"></div>
+
+                                {/* Shop Name */}
+                                <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-32 mb-4"></div>
+
+                                {/* Quick Info */}
+                                <div className="space-y-3 mb-6">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                                        <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-32"></div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                                        <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-28"></div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-5 h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                                        <div className="flex-1">
+                                            <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full mb-1"></div>
+                                            <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-2/3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Buttons */}
+                                <div className="h-11 bg-gray-300 dark:bg-gray-700 rounded-lg w-full mb-3"></div>
+                                <div className="h-12 bg-gray-400 dark:bg-gray-600 rounded-lg w-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column - Detailed Information Skeleton */}
+                    <div className="lg:col-span-2 space-y-6">
+                        {/* Job Details Skeleton */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 animate-pulse">
+                            <div className="h-7 bg-gray-300 dark:bg-gray-700 rounded w-40 mb-4"></div>
+                            <div className="space-y-2">
+                                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-5/6"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-4/6"></div>
+                            </div>
+                        </div>
+
+                        {/* Work Information Skeleton */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 animate-pulse">
+                            <div className="h-7 bg-gray-300 dark:bg-gray-700 rounded w-40 mb-4"></div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {[1, 2, 3, 4].map((i) => (
+                                    <div key={i} className="flex items-start gap-3">
+                                        <div className="w-10 h-10 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                                        <div className="flex-1">
+                                            <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-20 mb-2"></div>
+                                            <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded w-32"></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Contact Information Skeleton */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 animate-pulse">
+                            <div className="h-7 bg-gray-300 dark:bg-gray-700 rounded w-32 mb-4"></div>
+                            <div className="space-y-3">
+                                {[1, 2].map((i) => (
+                                    <div key={i} className="flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+                                        <div className="flex-1">
+                                            <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-24 mb-2"></div>
+                                            <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded w-36"></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Map Skeleton */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 animate-pulse">
+                            <div className="h-7 bg-gray-300 dark:bg-gray-700 rounded w-32 mb-4"></div>
+                            <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full mb-4"></div>
+                            <div className="bg-gray-300 dark:bg-gray-700 rounded-xl h-80"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const formatAvailableDays = (daysStr: string) => {
     if (!daysStr) return 'ไม่ระบุ';
-    // Remove { } [ ] " '
     const cleaned = daysStr.replace(/[{}\[\]"']/g, '');
-    // Split by comma
     const days = cleaned.split(',').filter(d => d.trim().length > 0);
 
     const dayMap: Record<string, string> = {
@@ -82,7 +197,6 @@ export default function JobDetailPage() {
             try {
                 setLoading(true);
 
-                // Fetch job details and user's applications in parallel
                 const [jobRes, applicationsRes] = await Promise.all([
                     fetch(`/api/jobs/${params.id}`),
                     fetch('/api/job-seeker/applications')
@@ -92,7 +206,6 @@ export default function JobDetailPage() {
                 const jobData = await jobRes.json();
                 setJob(jobData);
 
-                // Check if user has already applied for this job
                 if (applicationsRes.ok) {
                     const applicationsData = await applicationsRes.json();
                     const hasUserApplied = applicationsData.applications?.some(
@@ -141,15 +254,9 @@ export default function JobDetailPage() {
         }
     };
 
+    // แสดง Skeleton Loading
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600 dark:text-gray-400 text-lg">กำลังโหลดข้อมูล...</p>
-                </div>
-            </div>
-        );
+        return <JobDetailSkeleton />;
     }
 
     if (error || !job) {
