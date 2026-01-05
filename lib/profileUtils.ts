@@ -28,3 +28,31 @@ export function isProfileComplete(profileData: { success?: boolean; data?: JobSe
         profile.address
     );
 }
+
+/**
+ * Shop profile interface
+ */
+export interface ShopProfile {
+    shopName?: string | null;
+    phone?: string | null;
+    address?: string | null;
+}
+
+/**
+ * Check if a shop profile has all required fields filled
+ * Required fields: shopName, phone, address
+ */
+export function isShopProfileComplete(shopData: { success?: boolean; shop?: ShopProfile } | null | undefined): boolean {
+    if (!shopData) return false;
+    if (!shopData.success) return false;
+
+    const shop = shopData.shop;
+    if (!shop) return false;
+
+    // ตรวจสอบฟิลด์ที่จำเป็น
+    return !!(
+        shop.shopName &&
+        shop.phone &&
+        shop.address
+    );
+}

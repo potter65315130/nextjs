@@ -42,7 +42,26 @@ export default function LoginPage() {
 
                 setTimeout(async () => {
                     if (data.user.role === 'shop_owner') {
-                        router.push('/shop-owner/dashboard');
+                        // ตรวจสอบว่ามี shop profile ครบหรือยัง
+                        try {
+                            const shopRes = await fetch(`/api/shops?userId=${data.user.id}`);
+                            if (shopRes.ok) {
+                                const shopData = await shopRes.json();
+                                // ตรวจสอบฟิลด์ที่จำเป็น
+                                if (shopData.success && shopData.shop &&
+                                    shopData.shop.shopName &&
+                                    shopData.shop.phone &&
+                                    shopData.shop.address) {
+                                    router.push('/shop-owner/dashboard');
+                                } else {
+                                    router.push('/shop-owner/profile');
+                                }
+                            } else {
+                                router.push('/shop-owner/profile');
+                            }
+                        } catch {
+                            router.push('/shop-owner/profile');
+                        }
                     } else {
                         // ตรวจสอบว่ามี profile ครบหรือยัง
                         try {
