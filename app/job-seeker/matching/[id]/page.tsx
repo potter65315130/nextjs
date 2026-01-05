@@ -197,6 +197,38 @@ export default function JobDetailPage() {
     const handleApply = async () => {
         if (!job) return;
 
+        // ตรวจสอบ profile ก่อนสมัครงาน
+        try {
+            const meRes = await fetch('/api/auth/me');
+            if (!meRes.ok) {
+                router.push('/login');
+                return;
+            }
+            const meData = await meRes.json();
+
+            const profileRes = await fetch(`/api/job-seeker/profile?userId=${meData.user.id}`);
+            const profileData = profileRes.ok ? await profileRes.json() : null;
+
+            // ตรวจสอบว่า profile ครบหรือไม่
+            const isComplete = profileData?.success && profileData?.data &&
+                profileData.data.fullName &&
+                profileData.data.phone &&
+                profileData.data.address;
+
+            if (!isComplete) {
+                showAlert({
+                    type: 'warning',
+                    title: 'กรุณากรอกข้อมูล',
+                    message: 'กรุณากรอกข้อมูลโปรไฟล์ให้ครบก่อนสมัครงาน'
+                });
+                router.push('/job-seeker/profile');
+                return;
+            }
+        } catch (error) {
+            router.push('/login');
+            return;
+        }
+
         try {
             setApplying(true);
             const response = await fetch('/api/job-seeker/applications', {
@@ -418,7 +450,7 @@ export default function JobDetailPage() {
                                         : 'bg-blue-600 hover:bg-blue-700 text-white'
                                     }`}
                             >
-                                {hasApplied ? '✓ สมัครไปแล้ว' : applying ? 'กำลังสมัคร...' : spotsLeft <= 0 ? 'ที่นั่งเต็มแล้ว' : 'สมัครงาน'}
+                                {hasApplied ? '✓ สมัครไปแล้ว' : applying ? 'กำลังสมัคร...' : spotsLeft <= 0 ? 'เต็มแล้ว' : 'สมัครงาน'}
                             </button>
                         </div>
                     </div>

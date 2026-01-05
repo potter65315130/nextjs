@@ -40,11 +40,30 @@ export default function LoginPage() {
                     message: 'กำลังนำคุณไปยังหน้าหลัก...',
                 });
 
-                setTimeout(() => {
+                setTimeout(async () => {
                     if (data.user.role === 'shop_owner') {
                         router.push('/shop-owner/dashboard');
                     } else {
-                        router.push('/job-seeker/profile');
+                        // ตรวจสอบว่ามี profile ครบหรือยัง
+                        try {
+                            const profileRes = await fetch(`/api/job-seeker/profile?userId=${data.user.id}`);
+                            if (profileRes.ok) {
+                                const profileData = await profileRes.json();
+                                // ตรวจสอบฟิลด์ที่จำเป็น
+                                if (profileData.success && profileData.data &&
+                                    profileData.data.fullName &&
+                                    profileData.data.phone &&
+                                    profileData.data.address) {
+                                    router.push('/job-seeker/matching');
+                                } else {
+                                    router.push('/job-seeker/profile');
+                                }
+                            } else {
+                                router.push('/job-seeker/profile');
+                            }
+                        } catch {
+                            router.push('/job-seeker/profile');
+                        }
                     }
                 }, 1000);
 
