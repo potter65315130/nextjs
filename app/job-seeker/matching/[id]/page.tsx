@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-    MapPin, Calendar, Phone, Users, Banknote, Briefcase, Mail, Store, Navigation,
+    MapPin, Calendar, Phone, Users, Banknote, Briefcase, Mail, Store, Navigation, Clock, Star,
 } from 'lucide-react';
 import { useAlert } from '@/components/ui/AlertContainer';
 
@@ -42,82 +42,36 @@ interface Job {
 // Skeleton Loading Component
 const JobDetailSkeleton = () => {
     return (
-        <div className="min-h-screen">
-            <div className="max-w-5xl mx-auto px-4 py-8">
-                {/* Header Skeleton */}
-                <div className="mb-6 animate-pulse">
-                    <div className="h-9 bg-gray-300 dark:bg-gray-700 rounded-lg w-64 mb-2"></div>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+            {/* Hero Banner Skeleton */}
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16 mb-8">
+                <div className="max-w-7xl mx-auto px-4">
+                    <div className="h-10 bg-white/20 rounded-lg w-96 mb-3 animate-pulse"></div>
+                    <div className="h-5 bg-white/10 rounded w-64 animate-pulse"></div>
                 </div>
+            </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {/* Left Column - Shop Info Skeleton */}
-                    <div className="lg:col-span-1 space-y-6">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 animate-pulse">
-                            {/* Shop Image Skeleton */}
-                            <div className="w-full h-48 bg-gray-300 dark:bg-gray-700 rounded-xl mb-4"></div>
-
-                            {/* Shop Name Skeleton */}
-                            <div className="h-7 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-
-                            {/* Info Items Skeleton */}
-                            <div className="space-y-3">
-                                <div className="flex items-start gap-2">
-                                    <div className="w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded shrink-0 mt-1"></div>
-                                    <div className="flex-1">
-                                        <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full mb-1"></div>
-                                        <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-2/3"></div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-4 h-4 bg-gray-300 dark:bg-gray-700 rounded shrink-0"></div>
-                                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-32"></div>
-                                </div>
-                            </div>
-
-                            {/* Map Button Skeleton */}
-                            <div className="mt-4 h-10 bg-gray-400 dark:bg-gray-600 rounded-lg w-full"></div>
+            <div className="max-w-7xl mx-auto px-4 pb-12">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Left Column Skeleton */}
+                    <div className="lg:col-span-1">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700 animate-pulse">
+                            <div className="w-full h-64 bg-gray-300 dark:bg-gray-700 rounded-xl mb-4"></div>
+                            <div className="h-7 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-3"></div>
+                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-1/2 mb-6"></div>
+                            <div className="h-12 bg-blue-300 dark:bg-blue-700 rounded-xl"></div>
                         </div>
                     </div>
 
-                    {/* Right Column - Job Details Skeleton */}
+                    {/* Right Column Skeleton */}
                     <div className="lg:col-span-2 space-y-6">
-                        {/* Job Info Skeleton */}
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 animate-pulse">
-                            {/* Category Skeleton */}
-                            <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-32 mb-2"></div>
-
-                            {/* Job Title Skeleton */}
-                            <div className="h-8 bg-gray-300 dark:bg-gray-700 rounded w-full mb-4"></div>
-
-                            {/* Grid Info Skeleton */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                {[1, 2, 3, 4].map((i) => (
-                                    <div key={i} className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex items-center gap-3">
-                                        <div className="w-10 h-10 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
-                                        <div className="flex-1">
-                                            <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-20 mb-2"></div>
-                                            <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-32"></div>
-                                        </div>
-                                    </div>
-                                ))}
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700 animate-pulse">
+                                <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-48 mb-4"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full mb-2"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-3/4"></div>
                             </div>
-
-                            {/* Description Skeleton */}
-                            <div>
-                                <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded w-32 mb-2"></div>
-                                <div className="space-y-2">
-                                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-full"></div>
-                                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-5/6"></div>
-                                    <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-4/6"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Action Buttons Skeleton */}
-                        <div className="flex gap-4 animate-pulse">
-                            <div className="flex-1 h-12 bg-gray-300 dark:bg-gray-700 rounded-xl"></div>
-                            <div className="flex-1 h-12 bg-blue-300 dark:bg-blue-700 rounded-xl"></div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -148,7 +102,19 @@ const formatAvailableDays = (daysStr: string) => {
     };
 
     const formattedDays = days.map(d => dayMap[d.trim()] || d.trim());
-    return formattedDays.join(' ');
+    return formattedDays.join(', ');
+};
+
+const parseDescription = (description: string): string[] => {
+    if (!description) return [];
+
+    // Try to split by common delimiters
+    const lines = description
+        .split(/[\n,]/)
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+
+    return lines;
 };
 
 export default function JobDetailPage() {
@@ -262,10 +228,13 @@ export default function JobDetailPage() {
 
     if (error || !job) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
                 <div className="text-center">
                     <p className="text-red-600 dark:text-red-400 text-xl mb-4">เกิดข้อผิดพลาด: {error}</p>
-                    <button onClick={() => router.push('/job-seeker/matching')} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    <button
+                        onClick={() => router.push('/job-seeker/matching')}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                    >
                         กลับไปหน้าค้นหางาน
                     </button>
                 </div>
@@ -275,64 +244,146 @@ export default function JobDetailPage() {
 
     const workDateObj = new Date(job.workDate);
     const spotsLeft = job.requiredPeople - job._count.applications;
+    const descriptionPoints = parseDescription(job.description);
 
     return (
-        <div className="min-h-screen">
-            <div className="max-w-5xl mx-auto px-4 py-8">
-                {/* Header */}
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+
+            {/* Main Content */}
+            <div className="max-w-7xl mx-auto px-4 pb-12">
                 <div className="mb-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                                รายละเอียดงานพาร์ทไทม์
-                            </h1>
-                        </div>
-                    </div>
+                    <h2 className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                        รายละเอียดงานพาร์ทไทม์
+                    </h2>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {/* Left Column - Shop Info */}
-                    <div className="lg:col-span-1 space-y-6">
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-                            {/* Shop Image */}
-                            <div className="relative w-full h-48 rounded-xl overflow-hidden mb-4 bg-blue-100 dark:bg-blue-900">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Left Column - Job Card */}
+                    <div className="lg:col-span-1">
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700 sticky top-4">
+                            {/* Job Image */}
+                            <div className="relative w-full h-64 rounded-xl overflow-hidden mb-4 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900">
                                 {job.shop.profileImage ? (
                                     <Image
                                         src={job.shop.profileImage}
-                                        alt={job.shop.shopName}
+                                        alt={job.jobName}
                                         fill
                                         className="object-cover"
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center">
-                                        <Briefcase className="w-20 h-20 text-blue-600 dark:text-blue-400" />
+                                        <Briefcase className="w-24 h-24 text-blue-600 dark:text-blue-400" />
                                     </div>
                                 )}
                             </div>
 
-                            <Link
-                                href={`/shops/${job.shop.id}`}
-                                className="text-xl font-bold text-gray-900 dark:text-white mb-4 hover:text-blue-600 dark:hover:text-blue-400 transition-colors block"
-                            >
+                            {/* Job Title */}
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                                {job.jobName}
+                            </h3>
+
+                            {/* Rating (Mock - you can implement real rating later) */}
+                            <div className="flex items-center gap-1 mb-4">
+                                {[1, 2, 3, 4].map((i) => (
+                                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                ))}
+                                <Star className="w-4 h-4 text-gray-300 dark:text-gray-600" />
+                            </div>
+
+                            {/* Shop Status */}
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
                                 {job.shop.shopName}
-                            </Link>
+                            </p>
 
-                            <div className="space-y-3 text-sm">
-                                <div className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
-                                    <MapPin className="w-4 h-4 shrink-0 mt-1" />
-                                    <span>{job.address}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                    <Phone className="w-4 h-4 shrink-0" />
-                                    <span>{job.contactPhone || job.shop.phone || 'ไม่ระบุ'}</span>
-                                </div>
-                                {job.shop.email && (
-                                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                                        <Mail className="w-4 h-4 shrink-0" />
-                                        <span>{job.shop.email}</span>
-                                    </div>
-                                )}
+                            {/* Apply Button */}
+                            <button
+                                onClick={handleApply}
+                                disabled={applying || spotsLeft <= 0 || hasApplied}
+                                className={`w-full py-3 rounded-xl font-semibold transition-all transform hover:scale-105 ${hasApplied
+                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-not-allowed'
+                                    : spotsLeft <= 0
+                                        ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                                        : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg'
+                                    }`}
+                            >
+                                {hasApplied ? '✓ สมัครไปแล้ว' : applying ? 'กำลังสมัคร...' : spotsLeft <= 0 ? 'เต็มแล้ว' : 'สมัครงาน'}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Right Column - Job Details */}
+                    <div className="lg:col-span-2 space-y-6">
+                        {/* Job Description */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                                รายละเอียดงาน
+                            </h3>
+                            {descriptionPoints.length > 0 ? (
+                                <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
+                                    {descriptionPoints.map((point, index) => (
+                                        <li key={index}>{point}</li>
+                                    ))}
+                                </ol>
+                            ) : (
+                                <p className="text-gray-600 dark:text-gray-400">
+                                    {job.description || 'ไม่มีรายละเอียด'}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Working Days */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
+                                วันทำงาน
+                            </h3>
+                            <p className="text-gray-700 dark:text-gray-300">
+                                {formatAvailableDays(job.availableDays)}
+                            </p>
+                        </div>
+
+                        {/* Application Period */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
+                                ช่วงเวลาที่รับสมัคร
+                            </h3>
+                            <p className="text-gray-700 dark:text-gray-300">
+                                {job.requiredPeople - job._count.applications} คน
+                            </p>
+                        </div>
+
+                        {/* Wage */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
+                                ค่าจ้าง
+                            </h3>
+                            <p className="text-gray-700 dark:text-gray-300 text-xl font-semibold">
+                                {job.wage.toLocaleString()} บาท/วัน
+                            </p>
+                        </div>
+
+                        {/* Location */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
+                                ที่อยู่
+                            </h3>
+                            <div className="flex items-start gap-2 text-gray-700 dark:text-gray-300 mb-4">
+                                <MapPin className="w-5 h-5 shrink-0 mt-0.5 text-red-500" />
+                                <span>{job.address}</span>
                             </div>
+
+                            {/* Map */}
+                            {job.latitude && job.longitude && (
+                                <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                                    <iframe
+                                        width="100%"
+                                        height="300"
+                                        frameBorder="0"
+                                        style={{ border: 0 }}
+                                        src={`https://www.google.com/maps?q=${job.latitude},${job.longitude}&output=embed`}
+                                        allowFullScreen
+                                    ></iframe>
+                                </div>
+                            )}
 
                             {/* Map Button */}
                             {job.latitude && job.longitude && (
@@ -340,118 +391,48 @@ export default function JobDetailPage() {
                                     href={`https://www.google.com/maps?q=${job.latitude},${job.longitude}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                                    className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
                                 >
-                                    <Navigation className="w-4 h-4" />
-                                    <span>ดูแผนที่</span>
+                                    <Navigation className="w-5 h-5" />
+                                    <span>เปิดใน Google Maps</span>
                                 </a>
                             )}
+                        </div>
 
-                            {/* View Shop Profile Button */}
+                        {/* Shop Information */}
+                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                                ข้อมูลร้านค้า
+                            </h3>
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-3">
+                                    <Store className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                    <Link
+                                        href={`/shops/${job.shop.id}`}
+                                        className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                                    >
+                                        {job.shop.shopName}
+                                    </Link>
+                                </div>
+                                <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                                    <Phone className="w-5 h-5 text-green-600 dark:text-green-400" />
+                                    <span>{job.contactPhone || job.shop.phone || 'ไม่ระบุ'}</span>
+                                </div>
+                                {job.shop.email && (
+                                    <div className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                                        <Mail className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                                        <span>{job.shop.email}</span>
+                                    </div>
+                                )}
+                            </div>
+
                             <Link
                                 href={`/shops/${job.shop.id}`}
-                                className="mt-3 w-full py-2.5 px-4 border-2 border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-400 rounded-lg font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center justify-center gap-2"
+                                className="mt-4 w-full py-3 px-4 border-2 border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-400 rounded-lg font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors flex items-center justify-center gap-2"
                             >
                                 <Store className="w-5 h-5" />
                                 <span>ดูโปรไฟล์ร้าน</span>
                             </Link>
-                        </div>
-                    </div>
-
-                    {/* Right Column - Job Details */}
-                    <div className="lg:col-span-2 space-y-6">
-                        {/* Job Info */}
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-                            <div className="text-sm text-blue-600 dark:text-blue-400 font-medium mb-2">
-                                {job.category.name}
-                            </div>
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                                {job.jobName}
-                            </h2>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                                    <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                                        <Banknote className="w-5 h-5 text-green-600 dark:text-green-400" />
-                                    </div>
-                                    <div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400">ค่าจ้าง</div>
-                                        <div className="font-semibold text-gray-900 dark:text-white">
-                                            {job.wage.toLocaleString()} บาท/วัน
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                                    <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                        <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                    </div>
-                                    <div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400">วันที่รับสมัคร</div>
-                                        <div className="font-semibold text-gray-900 dark:text-white">
-                                            {workDateObj.toLocaleDateString('th-TH', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric'
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                                    <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                        <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                                    </div>
-                                    <div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400">จำนวนที่ต้องการ</div>
-                                        <div className="font-semibold text-gray-900 dark:text-white">
-                                            {job.requiredPeople} คน (เหลือ {spotsLeft} ที่นั่ง)
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                                    <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                                        <Calendar className="w-5 h-5 text-orange-600 dark:text-orange-400" />
-                                    </div>
-                                    <div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400">วันที่ทำงาน</div>
-                                        <div className="font-semibold text-gray-900 dark:text-white">
-                                            {formatAvailableDays(job.availableDays)}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Description */}
-                            <div>
-                                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">รายละเอียดงาน</h3>
-                                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                                    {job.description || 'ไม่มีรายละเอียด'}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex gap-4">
-                            <Link
-                                href="/job-seeker/matching"
-                                className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-center"
-                            >
-                                กลับ
-                            </Link>
-                            <button
-                                onClick={handleApply}
-                                disabled={applying || spotsLeft <= 0 || hasApplied}
-                                className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-colors ${hasApplied
-                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-not-allowed'
-                                    : spotsLeft <= 0
-                                        ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
-                                    }`}
-                            >
-                                {hasApplied ? '✓ สมัครไปแล้ว' : applying ? 'กำลังสมัคร...' : spotsLeft <= 0 ? 'เต็มแล้ว' : 'สมัครงาน'}
-                            </button>
                         </div>
                     </div>
                 </div>
