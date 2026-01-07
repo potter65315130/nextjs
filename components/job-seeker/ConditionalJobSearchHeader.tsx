@@ -18,5 +18,33 @@ export default function ConditionalJobSearchHeader() {
         return null;
     }
 
-    return <JobSearchHeader />;
+    // Determine content based on path
+    let headerContent = {
+        title: 'ค้นหางาน สมัครงาน ทั้งหมด',
+        subtitle: 'ค้นหางานพาร์ทไทม์ที่ใช่สำหรับคุณได้ง่าย ๆ ไม่ยากอีกต่อไป! เลือกงานที่เหมาะกับคุณ แล้วสมัครได้ทันที'
+    };
+
+    if (pathname === '/job-seeker/applications') {
+        headerContent = {
+            title: 'ประวัติการสมัครงาน',
+            subtitle: 'ติดตามสถานะการสมัครงานของคุณได้ที่นี่'
+        };
+    } else if (pathname.startsWith('/job-seeker/applications/')) {
+        headerContent = {
+            title: 'รายละเอียดใบสมัคร',
+            subtitle: 'ดูรายละเอียดและสถานะการสมัครงานของคุณ'
+        };
+    } else if (pathname.startsWith('/job-seeker/matching/')) {
+        headerContent = {
+            title: 'รายละเอียดงาน',
+            subtitle: 'ข้อมูลเพิ่มเติมเกี่ยวกับตำแหน่งงานนี้'
+        };
+    } else if (pathname.startsWith('/job-seeker/history')) {
+        headerContent = {
+            title: 'ประวัติการเข้าชม',
+            subtitle: 'ดูรายการงานที่คุณเคยเข้าชมล่าสุด'
+        };
+    }
+
+    return <JobSearchHeader title={headerContent.title} subtitle={headerContent.subtitle} />;
 }
