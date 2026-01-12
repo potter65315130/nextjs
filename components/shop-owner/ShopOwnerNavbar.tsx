@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { User, LogOut, Settings, Menu, X, Sun, Moon } from 'lucide-react';
+import { User, LogOut, Settings, Menu, X, Sun, Moon, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 // ตรวจสอบ path ของ ThemeProvider ให้ถูกต้อง
 import { useTheme } from '@/providers/ThemeProvider';
@@ -49,6 +49,7 @@ export default function ShopOwnerNavbar() {
         { label: 'ประกาศรับสมัคร', href: '/shop-owner/dashboard' },
         { label: 'งานที่คุณลงประกาศ', href: '/shop-owner/posts' },
         { label: 'สถานะลูกจ้าง', href: '/shop-owner/applications' },
+        { label: 'แชท', href: '/shop-owner/chat', icon: MessageCircle },
         { label: 'ประวัติ', href: '/shop-owner/history' },
     ];
 

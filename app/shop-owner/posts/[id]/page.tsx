@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Edit, Calendar, MapPin, DollarSign, Users, Clock, Briefcase, User, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowLeft, Edit, Calendar, MapPin, DollarSign, Users, Clock, Briefcase, User, CheckCircle, XCircle, MessageCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useAlert } from '@/components/ui/AlertContainer';
@@ -53,6 +53,7 @@ export default function ViewJobPostPage() {
     const [applications, setApplications] = useState<Application[]>([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [chatRoomIds, setChatRoomIds] = useState<Record<number, number>>({}); // seekerId -> roomId
 
     useEffect(() => {
         if (params.id) {
@@ -78,6 +79,20 @@ export default function ViewJobPostPage() {
             if (appRes.ok) {
                 const appData = await appRes.json();
                 setApplications(appData.applications || []);
+            }
+
+            // ดึง chat rooms สำหรับ shop owner
+            const chatRes = await fetch('/api/chat/rooms');
+            if (chatRes.ok) {
+                const chatData = await chatRes.json();
+                // สร้าง map ของ seekerId -> roomId สำหรับ post นี้
+                const roomMap: Record<number, number> = {};
+                chatData.rooms?.forEach((room: any) => {
+                    if (room.postId === parseInt(id) && room.participant?.type === 'seeker') {
+                        roomMap[room.participant.id] = room.id;
+                    }
+                });
+                setChatRoomIds(roomMap);
             }
 
         } catch (error) {
@@ -306,6 +321,15 @@ export default function ViewJobPostPage() {
                                             >
                                                 โปรไฟล์ผู้สมัคร
                                             </Link>
+                                            {chatRoomIds[app.seekerId] && (
+                                                <Link
+                                                    href={`/shop-owner/chat/${chatRoomIds[app.seekerId]}`}
+                                                    className="flex items-center gap-1 text-green-500 text-sm hover:underline ml-3"
+                                                >
+                                                    <MessageCircle className="w-4 h-4" />
+                                                    แชท
+                                                </Link>
+                                            )}
                                         </div>
 
                                         {/* Actions */}

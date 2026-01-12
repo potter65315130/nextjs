@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { User, LogOut, Settings, Menu, X, Sun, Moon } from 'lucide-react';
+import { User, LogOut, Settings, Menu, X, Sun, Moon, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useTheme } from '@/providers/ThemeProvider';
 
@@ -47,6 +47,7 @@ export default function JobSeekerNavbar() {
     const navItems = [
         { label: 'ระบบจับคู่งาน', href: '/job-seeker/matching' },
         { label: 'สถานะการสมัครงาน', href: '/job-seeker/applications' },
+        { label: 'แชท', href: '/job-seeker/chat', icon: MessageCircle },
         { label: 'ประวัติการทำงาน', href: '/job-seeker/history' },
     ];
 

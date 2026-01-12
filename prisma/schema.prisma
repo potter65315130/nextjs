@@ -128,6 +128,7 @@ model JobSeekerProfile {
   matches      Match[]
   applications Application[]
   workHistory  WorkHistory[]
+  chatRooms    ChatRoom[]
 
   @@index([latitude, longitude])
   @@map("job_seeker_profiles")
@@ -171,6 +172,7 @@ model Shop {
   user        User          @relation(fields: [userId], references: [id])
   jobPosts    ShopJobPost[]
   workHistory WorkHistory[]
+  chatRooms   ChatRoom[]
 
   @@index([latitude, longitude])
   @@map("shops")
@@ -206,6 +208,7 @@ model ShopJobPost {
   matches      Match[]
   applications Application[]
   workHistory  WorkHistory[]
+  chatRooms    ChatRoom[]
 
   @@index([workDate])
   @@index([categoryId])
@@ -283,4 +286,47 @@ model WorkHistory {
   post   ShopJobPost      @relation(fields: [postId], references: [id])
 
   @@map("work_history")
+}
+
+// --------------------------------------------------------
+// 12) ChatRoom — ห้องแชท (1 สมัครงาน = 1 ห้อง)
+// --------------------------------------------------------
+model ChatRoom {
+  id       Int @id @default(autoincrement()) @map("room_id")
+  postId   Int @map("post_id")
+  shopId   Int @map("shop_id")
+  seekerId Int @map("seeker_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  post     ShopJobPost      @relation(fields: [postId], references: [id])
+  shop     Shop             @relation(fields: [shopId], references: [id])
+  seeker   JobSeekerProfile @relation(fields: [seekerId], references: [id])
+  messages ChatMessage[]
+
+  @@unique([postId, seekerId]) // 1 job + 1 seeker = 1 room
+  @@index([shopId])
+  @@index([seekerId])
+  @@map("chat_rooms")
+}
+
+// --------------------------------------------------------
+// 13) ChatMessage — ข้อความในแชท
+// --------------------------------------------------------
+model ChatMessage {
+  id       Int    @id @default(autoincrement()) @map("message_id")
+  roomId   Int    @map("room_id")
+  senderId Int    @map("sender_id") // userId (shop หรือ seeker)
+  content  String @db.Text
+
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  room ChatRoom @relation(fields: [roomId], references: [id])
+
+  @@index([roomId, createdAt])
+  @@map("chat_messages")
 }

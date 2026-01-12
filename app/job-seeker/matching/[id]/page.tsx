@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-    MapPin, Calendar, Phone, Users, Banknote, Briefcase, Mail, Store, Navigation,
+    MapPin, Calendar, Phone, Users, Banknote, Briefcase, Mail, Store, Navigation, MessageCircle,
 } from 'lucide-react';
 import { useAlert } from '@/components/ui/AlertContainer';
 
@@ -160,6 +160,7 @@ export default function JobDetailPage() {
     const [error, setError] = useState<string | null>(null);
     const [applying, setApplying] = useState(false);
     const [hasApplied, setHasApplied] = useState(false);
+    const [chatRoomId, setChatRoomId] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchJob = async () => {
@@ -181,6 +182,17 @@ export default function JobDetailPage() {
                         (app: any) => app.job.id === parseInt(params.id as string)
                     );
                     setHasApplied(hasUserApplied);
+
+                    // ถ้าสมัครแล้ว ให้หา chatRoomId
+                    if (hasUserApplied) {
+                        const chatRes = await fetch(`/api/chat/rooms/by-application?postId=${params.id}`);
+                        if (chatRes.ok) {
+                            const chatData = await chatRes.json();
+                            if (chatData.exists && chatData.roomId) {
+                                setChatRoomId(chatData.roomId);
+                            }
+                        }
+                    }
                 }
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
@@ -440,18 +452,28 @@ export default function JobDetailPage() {
                             >
                                 กลับ
                             </Link>
-                            <button
-                                onClick={handleApply}
-                                disabled={applying || spotsLeft <= 0 || hasApplied}
-                                className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-colors ${hasApplied
-                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-not-allowed'
-                                    : spotsLeft <= 0
-                                        ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
-                                    }`}
-                            >
-                                {hasApplied ? '✓ สมัครไปแล้ว' : applying ? 'กำลังสมัคร...' : spotsLeft <= 0 ? 'เต็มแล้ว' : 'สมัครงาน'}
-                            </button>
+                            {hasApplied && chatRoomId ? (
+                                <Link
+                                    href={`/job-seeker/chat/${chatRoomId}`}
+                                    className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-colors text-center flex items-center justify-center gap-2"
+                                >
+                                    <MessageCircle className="w-5 h-5" />
+                                    แชทกับร้าน
+                                </Link>
+                            ) : (
+                                <button
+                                    onClick={handleApply}
+                                    disabled={applying || spotsLeft <= 0 || hasApplied}
+                                    className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-colors ${hasApplied
+                                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-not-allowed'
+                                        : spotsLeft <= 0
+                                            ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
+                                            : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                        }`}
+                                >
+                                    {hasApplied ? '✓ สมัครไปแล้ว' : applying ? 'กำลังสมัคร...' : spotsLeft <= 0 ? 'เต็มแล้ว' : 'สมัครงาน'}
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

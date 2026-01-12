@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, Hourglass, Briefcase, Phone, Mail, User, Star, MessageSquare, Navigation } from 'lucide-react';
+import { ArrowLeft, Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, Hourglass, Briefcase, Phone, Mail, User, Star, MessageSquare, Navigation, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -128,6 +128,7 @@ export default function ApplicationDetailPage() {
     const { showAlert } = useAlert();
     const [application, setApplication] = useState<ApplicationDetail | null>(null);
     const [loading, setLoading] = useState(true);
+    const [chatRoomId, setChatRoomId] = useState<number | null>(null);
 
     useEffect(() => {
         if (params.id) {
@@ -142,6 +143,17 @@ export default function ApplicationDetailPage() {
             if (res.ok) {
                 const data = await res.json();
                 setApplication(data.application);
+
+                // หา chatRoomId จาก postId
+                if (data.application?.job?.id) {
+                    const chatRes = await fetch(`/api/chat/rooms/by-application?postId=${data.application.job.id}`);
+                    if (chatRes.ok) {
+                        const chatData = await chatRes.json();
+                        if (chatData.exists && chatData.roomId) {
+                            setChatRoomId(chatData.roomId);
+                        }
+                    }
+                }
             } else {
                 router.push('/job-seeker/applications');
             }
@@ -434,6 +446,15 @@ export default function ApplicationDetailPage() {
                             >
                                 กลับ
                             </Link>
+                            {chatRoomId && (
+                                <Link
+                                    href={`/job-seeker/chat/${chatRoomId}`}
+                                    className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-colors text-center flex items-center justify-center gap-2"
+                                >
+                                    <MessageCircle className="w-5 h-5" />
+                                    แชทกับร้าน
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>

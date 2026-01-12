@@ -127,6 +127,16 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Post ID is required' }, { status: 400 });
         }
 
+        // ดึงข้อมูล Job Post เพื่อเอา shopId
+        const jobPost = await prisma.shopJobPost.findUnique({
+            where: { id: Number(postId) },
+            select: { id: true, shopId: true },
+        });
+
+        if (!jobPost) {
+            return NextResponse.json({ message: 'Job post not found' }, { status: 404 });
+        }
+
         // Check if application already exists
         const existingApplication = await prisma.application.findFirst({
             where: {
@@ -152,10 +162,20 @@ export async function POST(req: Request) {
             },
         });
 
+        // สร้าง ChatRoom อัตโนมัติ (1 สมัครงาน = 1 ห้องแชท)
+        const chatRoom = await prisma.chatRoom.create({
+            data: {
+                postId: jobPost.id,
+                shopId: jobPost.shopId,
+                seekerId: seekerProfile.id,
+            },
+        });
+
         return NextResponse.json({
             success: true,
             message: 'Application submitted successfully',
             application,
+            chatRoomId: chatRoom.id,
         });
     } catch (error) {
         console.error('Error creating application:', error);
