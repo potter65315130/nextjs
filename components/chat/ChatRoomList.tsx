@@ -88,7 +88,7 @@ export default function ChatRoomList({
                 >
                     {/* Avatar */}
                     <div className="relative">
-                        <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex-shrink-0">
+                        <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 shrink-0">
                             {room.participant.image ? (
                                 <Image
                                     src={room.participant.image}
@@ -124,13 +124,13 @@ export default function ChatRoomList({
                                 {room.participant.name}
                             </h3>
                             {room.lastMessage && (
-                                <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-2">
+                                <span className="text-xs text-gray-500 dark:text-gray-400 shrink-0 ml-2">
                                     {formatTime(room.lastMessage.createdAt)}
                                 </span>
                             )}
                         </div>
                         <div className="flex items-center gap-2">
-                            <Briefcase className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                            <Briefcase className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                             <span className="text-xs text-gray-500 dark:text-gray-400 truncate">
                                 {room.jobName}
                             </span>

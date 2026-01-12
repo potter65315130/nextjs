@@ -11,6 +11,8 @@ export default function ShopOwnerChatRoomPage() {
         <ChatWindow
             roomId={roomId}
             backPath="/shop-owner/chat"
+            showHeader={true}
+            className="h-full"
         />
     );
 }

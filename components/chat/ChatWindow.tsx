@@ -38,9 +38,17 @@ interface ChatWindowProps {
     roomId: number;
     backPath: string;
     onNewMessage?: (message: Message) => void;
+    showHeader?: boolean;
+    className?: string;
 }
 
-export default function ChatWindow({ roomId, backPath, onNewMessage }: ChatWindowProps) {
+export default function ChatWindow({
+    roomId,
+    backPath,
+    onNewMessage,
+    showHeader = true,
+    className = ''
+}: ChatWindowProps) {
     const [room, setRoom] = useState<RoomInfo | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [newMessage, setNewMessage] = useState('');
@@ -50,6 +58,7 @@ export default function ChatWindow({ roomId, backPath, onNewMessage }: ChatWindo
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const pollingRef = useRef<NodeJS.Timeout | null>(null);
+    const shouldScrollRef = useRef(true);
 
     // Scroll to bottom
     const scrollToBottom = () => {
@@ -58,6 +67,7 @@ export default function ChatWindow({ roomId, backPath, onNewMessage }: ChatWindo
 
     // Fetch room info and messages
     useEffect(() => {
+        shouldScrollRef.current = true; // Reset scroll on room change
         const fetchData = async () => {
             try {
                 setLoading(true);
@@ -89,7 +99,10 @@ export default function ChatWindow({ roomId, backPath, onNewMessage }: ChatWindo
 
     // Scroll to bottom when messages change
     useEffect(() => {
-        scrollToBottom();
+        if (shouldScrollRef.current) {
+            scrollToBottom();
+            shouldScrollRef.current = false;
+        }
     }, [messages]);
 
     // Polling for new messages (every 3 seconds)
@@ -135,6 +148,7 @@ export default function ChatWindow({ roomId, backPath, onNewMessage }: ChatWindo
             if (!res.ok) throw new Error('Failed to send message');
 
             const data = await res.json();
+            shouldScrollRef.current = true; // Scroll when sending message
             setMessages((prev) => [...prev, data.message]);
             onNewMessage?.(data.message);
         } catch (err) {
@@ -195,48 +209,50 @@ export default function ChatWindow({ roomId, backPath, onNewMessage }: ChatWindo
     const messageGroups = groupMessagesByDate(messages);
 
     return (
-        <div className="flex flex-col h-screen bg-white dark:bg-gray-900">
+        <div className={`flex flex-col h-full bg-white dark:bg-gray-900 ${className}`}>
             {/* Header */}
-            <div className="flex-shrink-0 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3">
-                <div className="flex items-center gap-3">
-                    <Link
-                        href={backPath}
-                        className="p-2 -ml-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
-                    >
-                        <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                    </Link>
-                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex-shrink-0">
-                        {participant.image ? (
-                            <Image
-                                src={participant.image}
-                                alt={participant.name}
-                                width={40}
-                                height={40}
-                                className="w-full h-full object-cover"
-                            />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                                {room.currentUserRole === 'seeker' ? (
-                                    <Store className="w-5 h-5 text-gray-500" />
-                                ) : (
-                                    <User className="w-5 h-5 text-gray-500" />
-                                )}
+            {showHeader && (
+                <div className="shrink-0 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3">
+                    <div className="flex items-center gap-3">
+                        <Link
+                            href={backPath}
+                            className="p-2 -ml-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors md:hidden"
+                        >
+                            <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                        </Link>
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 shrink-0">
+                            {participant.image ? (
+                                <Image
+                                    src={participant.image}
+                                    alt={participant.name}
+                                    width={40}
+                                    height={40}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center">
+                                    {room.currentUserRole === 'seeker' ? (
+                                        <Store className="w-5 h-5 text-gray-500" />
+                                    ) : (
+                                        <User className="w-5 h-5 text-gray-500" />
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <h2 className="font-semibold text-gray-900 dark:text-white truncate">
+                                {participant.name}
+                            </h2>
+                            <div className="flex items-center gap-1.5">
+                                <Briefcase className="w-3 h-3 text-gray-400" />
+                                <span className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                    {room.jobName}
+                                </span>
                             </div>
-                        )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                        <h2 className="font-semibold text-gray-900 dark:text-white truncate">
-                            {participant.name}
-                        </h2>
-                        <div className="flex items-center gap-1.5">
-                            <Briefcase className="w-3 h-3 text-gray-400" />
-                            <span className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                {room.jobName}
-                            </span>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto px-4 py-4 bg-gray-50 dark:bg-gray-800/50">
@@ -278,7 +294,7 @@ export default function ChatWindow({ roomId, backPath, onNewMessage }: ChatWindo
             </div>
 
             {/* Input */}
-            <div className="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3">
+            <div className="shrink-0 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3">
                 <div className="flex items-end gap-2">
                     <div className="flex-1 relative">
                         <textarea

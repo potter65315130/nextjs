@@ -11,6 +11,8 @@ export default function JobSeekerChatRoomPage() {
         <ChatWindow
             roomId={roomId}
             backPath="/job-seeker/chat"
+            showHeader={true}
+            className="h-full"
         />
     );
 }

@@ -58,7 +58,7 @@ export default function ChatMessageItem({
             <div className="flex justify-end mb-3">
                 <div className="max-w-[75%] flex flex-col items-end">
                     <div className="bg-blue-600 text-white px-4 py-2.5 rounded-2xl rounded-br-md shadow-sm">
-                        <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                        <p className="text-sm leading-relaxed whitespace-pre-wrap wrap-break-word">
                             {message.content}
                         </p>
                     </div>
@@ -79,7 +79,7 @@ export default function ChatMessageItem({
     return (
         <div className="flex justify-start mb-3">
             {showAvatar && (
-                <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex-shrink-0 mr-2">
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 shrink-0 mr-2">
                     {participantImage ? (
                         <Image
                             src={participantImage}
@@ -97,7 +97,7 @@ export default function ChatMessageItem({
             )}
             <div className={`max-w-[75%] flex flex-col ${!showAvatar ? 'ml-10' : ''}`}>
                 <div className="bg-gray-100 dark:bg-gray-700 px-4 py-2.5 rounded-2xl rounded-bl-md shadow-sm">
-                    <p className="text-sm text-gray-900 dark:text-white leading-relaxed whitespace-pre-wrap break-words">
+                    <p className="text-sm text-gray-900 dark:text-white leading-relaxed whitespace-pre-wrap wrap-break-word">
                         {message.content}
                     </p>
                 </div>
