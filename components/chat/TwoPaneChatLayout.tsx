@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, MessageCircle, Loader2 } from 'lucide-react';
 import ChatRoomList from '@/components/chat/ChatRoomList';
+import ChatRoomListSkeleton from '@/components/chat/ChatRoomListSkeleton';
 
 interface ChatRoom {
     id: number;
@@ -119,9 +120,7 @@ export default function TwoPaneChatLayout({
                 {/* Rooms List */}
                 <div className="flex-1 overflow-y-auto">
                     {loading ? (
-                        <div className="flex items-center justify-center py-20">
-                            <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-                        </div>
+                        <ChatRoomListSkeleton />
                     ) : error ? (
                         <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
                             <p className="text-red-500 mb-2">{error}</p>

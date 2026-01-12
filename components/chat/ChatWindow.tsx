@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Send, User, Store, Briefcase, Loader2 } from 'lucide-react';
 import ChatMessageItem, { DateSeparator } from './ChatMessage';
+import ChatWindowSkeleton from './ChatWindowSkeleton';
 
 interface Message {
     id: number;
@@ -187,11 +188,7 @@ export default function ChatWindow({
     };
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-            </div>
-        );
+        return <ChatWindowSkeleton />;
     }
 
     if (error || !room) {
