@@ -6,6 +6,7 @@ import JobSearchHeader from '@/components/job-seeker/JobSearchHeader';
 // Pages where JobSearchHeader should NOT be displayed
 const EXCLUDED_PATHS = [
     '/job-seeker/profile',
+    '/job-seeker/chat',
 ];
 
 export default function ConditionalJobSearchHeader() {
