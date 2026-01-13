@@ -187,7 +187,13 @@ export default function JobSeekerProfilePage() {
                 }
                 const data = await res.json();
                 setCurrentUserId(data.user.id);
-                setFormData(prev => ({ ...prev, userId: data.user.id }));
+
+                // Pre-fill email from session first
+                setFormData(prev => ({
+                    ...prev,
+                    userId: data.user.id,
+                    email: data.user.email || ''
+                }));
 
                 // ลองดึงข้อมูล profile ที่มีอยู่แล้ว
                 const profileRes = await fetch(`/api/job-seeker/profile?userId=${data.user.id}`);
@@ -211,14 +217,9 @@ export default function JobSeekerProfilePage() {
                             availableDays: profile.availableDays ? JSON.parse(profile.availableDays) : [],
                             profileImage: profile.profileImage,
                         });
-                    } else {
-                        // If no profile yet, still pre-fill email
-                        setFormData(prev => ({
-                            ...prev,
-                            email: data.user.email || ''
-                        }));
                     }
                 }
+                // Note: If profileRes is not ok (404), we already have email from session above
             } catch (error) {
                 console.error('Error fetching user:', error);
                 router.push('/login');
