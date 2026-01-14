@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import InputField from '@/components/auth/InputField';
 import SelectField from '@/components/forms/SelectField';
+import SearchableSelect from '@/components/forms/SearchableSelect';
 import TextAreaField from '@/components/forms/TextAreaField';
 import DaySelector from '@/components/forms/DaySelector';
 import ImageUpload from '@/components/forms/ImageUpload';
@@ -230,7 +231,7 @@ export default function JobSeekerProfilePage() {
         fetchCurrentUser();
     }, [router])
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> | { target: { name: string; value: string | number | null } }) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
@@ -368,9 +369,10 @@ export default function JobSeekerProfilePage() {
                                 disabled={true}
                             />
 
-                            <SelectField
+                            <SearchableSelect
                                 name="jobCategoryId"
                                 label="ประเภทงาน"
+                                placeholder="ค้นหาประเภทงาน..."
                                 options={(Array.isArray(categories) ? categories : []).map(cat => ({
                                     label: cat.name,
                                     value: cat.id
