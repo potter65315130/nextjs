@@ -16,6 +16,7 @@ export default function JobSeekerChatLayout({
         <TwoPaneChatLayout
             basePath="/job-seeker/chat"
             backLink="/job-seeker/matching"
+            emptyMessage="สมัครงานและเริ่มการสนทนากับร้านค้าได้เลย"
             activeRoomId={roomId}
         >
             {children}

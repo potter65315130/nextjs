@@ -17,7 +17,7 @@ export default function ShopOwnerChatLayout({
             basePath="/shop-owner/chat"
             backLink="/shop-owner/dashboard"
             title="แชทกับผู้สมัครงาน"
-            emptyMessage="ยังไม่มีผู้สมัครงานแชทเข้ามา"
+            emptyMessage="รอผู้สมัครงานเริ่มการสนทนาเข้ามา"
             activeRoomId={roomId}
         >
             {children}

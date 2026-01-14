@@ -67,11 +67,14 @@ export default function ChatRoomList({
 
     if (rooms.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-16 px-4">
-                <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-                    <MessageCircle className="w-10 h-10 text-gray-400" />
+            <div className="flex flex-col items-center justify-center py-20 px-6">
+                <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center mb-6 shadow-lg">
+                    <MessageCircle className="w-12 h-12 text-blue-600 dark:text-blue-400" />
                 </div>
-                <p className="text-gray-500 dark:text-gray-400 text-center">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    เริ่มต้นแชท
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center max-w-xs">
                     {emptyMessage}
                 </p>
             </div>
