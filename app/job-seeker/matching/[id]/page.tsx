@@ -381,7 +381,7 @@ export default function JobDetailPage() {
                                 {job.jobName}
                             </h2>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div className="grid grid-cols-1 gap-4 mb-6">
                                 <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                                     <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
                                         <Banknote className="w-5 h-5 text-green-600 dark:text-green-400" />
