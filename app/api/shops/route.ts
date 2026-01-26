@@ -1,32 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import * as jwt from 'jsonwebtoken';
+import { getCurrentUser } from '@/lib/auth';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-
-// --------------------------------------------------------
-// Helper: Verify JWT and extract user info
-// --------------------------------------------------------
-interface DecodedToken {
-    userId: number;
-    role: string;
-}
-
-function verifyToken(request: NextRequest): DecodedToken | null {
-    try {
-        const authHeader = request.headers.get('Authorization');
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return null;
-        }
-
-        const token = authHeader.substring(7);
-        const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
-        return decoded;
-    } catch (error) {
-        return null;
-    }
-}
 
 // --------------------------------------------------------
 // Zod Schema for PUT validation
@@ -38,8 +14,8 @@ const shopUpdateSchema = z.object({
     address: z.string().nullable().optional(),
     description: z.string().nullable().optional(),
     imageUrl: z.string().nullable().optional(),
-    latitude: z.number().nullable().optional(),
-    longitude: z.number().nullable().optional(),
+    latitude: z.number().min(-90, 'Latitude must be between -90 and 90').max(90, 'Latitude must be between -90 and 90').nullable().optional(),
+    longitude: z.number().min(-180, 'Longitude must be between -180 and 180').max(180, 'Longitude must be between -180 and 180').nullable().optional(),
 });
 
 // --------------------------------------------------------
@@ -57,9 +33,9 @@ export async function GET(request: NextRequest) {
             // ใช้ userId จาก query params
             userId = parseInt(userIdParam);
         } else {
-            // ดึงจาก JWT token
-            const decoded = verifyToken(request);
-            if (!decoded) {
+            // ดึงจาก session
+            const user = await getCurrentUser();
+            if (!user) {
                 return NextResponse.json(
                     {
                         success: false,
@@ -68,7 +44,7 @@ export async function GET(request: NextRequest) {
                     { status: 401 }
                 );
             }
-            userId = decoded.userId;
+            userId = user.id;
         }
 
         // 2. Find shop by ownerId (userId)
@@ -130,7 +106,6 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
         // 1. Get current user from session cookie
-        const { getCurrentUser } = await import('@/lib/auth');
         const currentUser = await getCurrentUser();
 
         if (!currentUser) {

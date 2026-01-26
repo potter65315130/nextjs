@@ -14,6 +14,15 @@ export async function POST(req: Request) {
             );
         }
 
+        // เพิ่มการตรวจสอบประเภทผู้ใช้งาน (Whitelist Roles)
+        const allowedRoles = ['job_seeker', 'shop_owner'];
+        if (!allowedRoles.includes(roleName)) {
+            return NextResponse.json(
+                { message: 'ประเภทผู้ใช้งานไม่ถูกต้อง' },
+                { status: 400 }
+            );
+        }
+
         const existingUser = await prisma.user.findUnique({
             where: { email },
         });

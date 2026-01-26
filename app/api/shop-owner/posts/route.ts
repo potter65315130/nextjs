@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
-import * as jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+import { getCurrentUser } from '@/lib/auth';
 
 // --------------------------------------------------------
 // Zod Schema for POST/PUT validation
@@ -18,46 +16,23 @@ const jobPostSchema = z.object({
     available_days: z.string().optional(), // JSON string ["Mon","Tue"]
     latitude: z.number().nullable().optional(),
     longitude: z.number().nullable().optional(),
-    work_date: z.string().refine((date) => !isNaN(Date.parse(date)), {
+    work_date: z.string().refine((date: string) => !isNaN(Date.parse(date)), {
         message: 'Invalid date format, expected ISO string',
     }),
     required_people: z.number().int().positive('Required people must be a positive integer'),
-    wage: z.union([z.number(), z.string()]).refine((val) => {
+    wage: z.union([z.number(), z.string()]).refine((val: any) => {
         const num = parseFloat(val.toString());
         return !isNaN(num) && num > 0;
     }, 'Wage must be a positive number'),
     status: z.string().optional(),
 });
 
-// --------------------------------------------------------
-// Helper: Verify JWT and extract user info
-// --------------------------------------------------------
-interface DecodedToken {
-    userId: number;
-    role: string;
-}
-
-function verifyToken(request: NextRequest): DecodedToken | null {
-    try {
-        const authHeader = request.headers.get('Authorization');
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return null;
-        }
-
-        const token = authHeader.substring(7);
-        const decoded = jwt.verify(token, JWT_SECRET) as DecodedToken;
-        return decoded;
-    } catch (error) {
-        return null;
-    }
-}
 
 // --------------------------------------------------------
 // GET /api/posts — ดึงรายการประกาศทั้งหมด หรือปะกาศตาม ID (Public)
 // --------------------------------------------------------
 export async function GET(request: NextRequest) {
     try {
-        const { getCurrentUser } = await import('@/lib/auth');
         const currentUser = await getCurrentUser();
 
         if (!currentUser || currentUser.role !== 'shop_owner') {
@@ -186,7 +161,6 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     try {
         // 1. Get current user from session cookie
-        const { getCurrentUser } = await import('@/lib/auth');
         const currentUser = await getCurrentUser();
 
         if (!currentUser) {
@@ -322,7 +296,6 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
         // 1. Get current user from session cookie
-        const { getCurrentUser } = await import('@/lib/auth');
         const currentUser = await getCurrentUser();
 
         if (!currentUser) {
@@ -493,7 +466,6 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
     try {
         // 1. Get current user from session cookie
-        const { getCurrentUser } = await import('@/lib/auth');
         const currentUser = await getCurrentUser();
 
         if (!currentUser) {
@@ -564,7 +536,7 @@ export async function DELETE(request: NextRequest) {
 
         // 6. Delete related records first, then delete the job post
         // Using a transaction to ensure all deletes succeed or fail together
-        await prisma.$transaction(async (tx) => {
+        await prisma.$transaction(async (tx: any) => {
             // Delete all matches related to this post
             await tx.match.deleteMany({
                 where: { postId: parseInt(postId) },

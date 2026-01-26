@@ -22,6 +22,16 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'บัญชีนี้ถูกระงับการใช้งาน' }, { status: 403 });
         }
 
+        // ตรวจสอบว่ายืนยันอีเมลหรือยัง
+        if (!user.isVerified) {
+            return NextResponse.json({ 
+                message: 'กรุณายืนยันอีเมลของคุณก่อนเข้าสู่ระบบ',
+                unverified: true,
+                userId: user.id,
+                email: user.email 
+            }, { status: 403 });
+        }
+
         const isValid = await bcrypt.compare(password, user.passwordHash);
 
         if (!isValid) {

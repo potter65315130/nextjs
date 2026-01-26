@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-
-const prisma = new PrismaClient();
+import { getCurrentUser } from "@/lib/auth";
 
 // 1. กำหนด Schema สำหรับรับข้อมูล (Validation)
 const profileSchema = z.object({
-    userId: z.number(),
     fullName: z.string().optional().nullable(),
     profileImage: z.string().optional().nullable(),
     age: z.number().optional().nullable(),
@@ -14,8 +12,8 @@ const profileSchema = z.object({
     phone: z.string().optional().nullable(),
     email: z.string().email().optional().or(z.literal('')).nullable(),
     address: z.string().optional().nullable(),
-    latitude: z.number().optional().nullable(),
-    longitude: z.number().optional().nullable(),
+    latitude: z.number().min(-90).max(90).optional().nullable(),
+    longitude: z.number().min(-180).max(180).optional().nullable(),
     availableDays: z.string().optional().nullable(),
     skills: z.string().optional().nullable(),
     experience: z.string().optional().nullable(),
@@ -24,13 +22,16 @@ const profileSchema = z.object({
 
 export async function POST(request: Request) {
     try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const body = await request.json();
-        console.log('📥 Received profile data:', JSON.stringify(body, null, 2));
 
         // 2. Validate ข้อมูล
         const validation = profileSchema.safeParse(body);
         if (!validation.success) {
-            console.error('❌ Validation failed:', validation.error.format());
             return NextResponse.json(
                 { error: validation.error.format() },
                 { status: 400 }
@@ -38,19 +39,15 @@ export async function POST(request: Request) {
         }
 
         const data = validation.data;
-
-        // 3. เตรียมข้อมูลสำหรับ Categories (Many-to-Many)
-        // ถ้ามีการส่ง categoryIds มา เราจะแปลงให้อยู่ในรูปแบบที่ Prisma เข้าใจ
-        const categoryConnect = data.categoryIds?.map((catId) => ({
+        const categoryConnect = data.categoryIds?.map((catId: number) => ({
             categoryId: catId,
         }));
 
         // 4. ใช้คำสั่ง UPSERT (Create หรือ Update)
         const profile = await prisma.jobSeekerProfile.upsert({
             where: {
-                userId: data.userId, // ค้นหาจาก userId
+                userId: currentUser.id,
             },
-            // กรณี: อัปเดตข้อมูลเดิม
             update: {
                 fullName: data.fullName,
                 profileImage: data.profileImage,
@@ -64,17 +61,15 @@ export async function POST(request: Request) {
                 availableDays: data.availableDays,
                 skills: data.skills,
                 experience: data.experience,
-                // จัดการ Categories: ลบอันเก่าออกทั้งหมด แล้วใส่ชุดใหม่เข้าไป (Sync)
                 categories: data.categoryIds
                     ? {
-                        deleteMany: {}, // ลบความสัมพันธ์เก่าของ User นี้
-                        create: categoryConnect, // สร้างความสัมพันธ์ใหม่
+                        deleteMany: {},
+                        create: categoryConnect,
                     }
                     : undefined,
             },
-            // กรณี: สร้างใหม่
             create: {
-                userId: data.userId,
+                userId: currentUser.id,
                 fullName: data.fullName,
                 profileImage: data.profileImage,
                 age: data.age,
@@ -87,16 +82,14 @@ export async function POST(request: Request) {
                 availableDays: data.availableDays,
                 skills: data.skills,
                 experience: data.experience,
-                // สร้าง Categories
                 categories: {
                     create: categoryConnect,
                 },
             },
-            // Select เพื่อดึงข้อมูล Categories กลับไปแสดงผลด้วย
             include: {
                 categories: {
                     include: {
-                        category: true, // ดึงชื่อ Category ออกมา
+                        category: true,
                     },
                 },
             },
@@ -113,18 +106,15 @@ export async function POST(request: Request) {
     }
 }
 
-// (Optional) GET Method เพื่อดึงข้อมูลโปรไฟล์
 export async function GET(request: Request) {
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-
-    if (!userId) {
-        return NextResponse.json({ error: "userId is required" }, { status: 400 });
-    }
-
     try {
+        const currentUser = await getCurrentUser();
+        if (!currentUser) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const profile = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: Number(userId) },
+            where: { userId: currentUser.id },
             include: {
                 categories: {
                     include: {

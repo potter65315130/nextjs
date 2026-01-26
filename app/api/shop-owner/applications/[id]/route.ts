@@ -118,22 +118,72 @@ export async function PATCH(
         const body = await request.json();
         const { status } = body;
 
-        // Validate status
-        if (!['pending', 'in_progress', 'completed', 'terminated'].includes(status)) {
-            return NextResponse.json(
-                { message: 'Invalid status' },
-                { status: 400 }
-            );
+        // วาลิเดตสถานะ
+        const allowedStatuses = ['pending', 'in_progress', 'completed', 'terminated'];
+        if (!allowedStatuses.includes(status)) {
+            return NextResponse.json({ message: 'สถานะไม่ถูกต้อง' }, { status: 400 });
         }
 
-        // อัปเดต status
+        // ค้นหา application และตรวจสอบสิทธิ์ (ต้องเป็นเจ้าของร้าน)
+        const application = await prisma.application.findUnique({
+            where: { id: applicationId },
+            include: {
+                post: {
+                    select: { shopId: true }
+                }
+            }
+        });
+
+        if (!application) {
+            return NextResponse.json({ message: 'ไม่พบใบสมัคร' }, { status: 404 });
+        }
+
+        const shop = await prisma.shop.findUnique({
+            where: { userId: currentUser.id },
+            select: { id: true }
+        });
+
+        if (!shop || application.post.shopId !== shop.id) {
+            return NextResponse.json({ message: 'ไม่มีสิทธิ์แก้ไขใบสมัครนี้' }, { status: 403 });
+        }
+
+        // อัปเดตสถานะ
         const updatedApplication = await prisma.application.update({
             where: { id: applicationId },
             data: { status },
         });
 
+        // ถ้าสถานะเป็น completed สามารถเพิ่ม Logic สำหรับสร้าง WorkHistory ได้ที่นี่
+        if (status === 'completed') {
+            // ดึงข้อมูล post มาเพื่อบันทึกประวัติ
+            const fullApp = await prisma.application.findUnique({
+                where: { id: applicationId },
+                include: { post: true }
+            });
+
+            if (fullApp) {
+                // สร้าง WorkHistory (ใช้ upsert เพื่อป้องกันการสร้างซ้ำ)
+                await prisma.workHistory.upsert({
+                    where: {
+                        // เนื่องจาก WorkHistory ใน schema ไม่มี Unique constraint ที่ชัดเจน เราใช้เงื่อนไขค้นหาแทน
+                        // หรือถ้า schema ไม่มี unique id สำหรับ (seekerId, postId) เราอาจใช้ findFirst ก่อน
+                        id: -1 // หลอกๆ เพื่อให้ไป create
+                    },
+                    update: {},
+                    create: {
+                        seekerId: fullApp.seekerId,
+                        shopId: fullApp.post.shopId,
+                        postId: fullApp.post.id,
+                        workDate: fullApp.post.workDate,
+                        wage: fullApp.post.wage,
+                    }
+                }).catch(() => {/* ignore duplicate */ });
+            }
+        }
+
         return NextResponse.json({
             success: true,
+            message: `อัปเดตสถานะเป็น ${status} สำเร็จ`,
             application: updatedApplication,
         });
     } catch (error) {

@@ -812,8 +812,8 @@ Shop Owner เข้าหน้า "ประวัติการจ้าง�
               ↓
 กรอก Rating (1-5 ดาว) และ Review
               ↓
-API: PUT /api/shop-owner/applications?id=XXX
-  - อัปเดต rating และ review
+API: PATCH /api/shop-owner/applications/[id]/review
+  - อัปเดต rating และ review (id คือ applicationId)
               ↓
 Job Seeker เห็นคะแนนในหน้า "ประวัติการทำงาน"
 ```
