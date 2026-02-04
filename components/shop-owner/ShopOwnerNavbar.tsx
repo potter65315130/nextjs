@@ -139,14 +139,14 @@ export default function ShopOwnerNavbar() {
                                             <User className="w-4 h-4" />
                                             โปรไฟล์ร้าน
                                         </Link>
-                                        <Link
+                                        {/* <Link
                                             href="/shop-owner/settings"
                                             className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                             onClick={() => setShowUserMenu(false)}
                                         >
                                             <Settings className="w-4 h-4" />
                                             ตั้งค่า
-                                        </Link>
+                                        </Link> */}
                                         <hr className="my-2 border-gray-200 dark:border-gray-700" />
                                         <button
                                             onClick={handleLogout}
@@ -200,14 +200,14 @@ export default function ShopOwnerNavbar() {
                                 <User className="w-4 h-4" />
                                 โปรไฟล์ร้าน
                             </Link>
-                            <Link
+                            {/* <Link
                                 href="/shop-owner/settings"
                                 className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
                                 onClick={() => setShowMobileMenu(false)}
                             >
                                 <Settings className="w-4 h-4" />
                                 ตั้งค่า
-                            </Link>
+                            </Link> */}
                             <button
                                 onClick={handleLogout}
                                 className="flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors w-full text-left"
