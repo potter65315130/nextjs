@@ -91,7 +91,7 @@ export default function ShopOwnerDashboard() {
         <div className="min-h-screen">
             <PageHeader
                 title="ประกาศรับสมัคร"
-                subtitle="งานของคุณ"
+                subtitle="สร้างงานของคุณ"
                 action={{
                     label: "สร้างประกาศงาน",
                     href: "/shop-owner/posts/create",

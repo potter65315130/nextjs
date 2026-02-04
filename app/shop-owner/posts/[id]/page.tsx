@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Edit, Calendar, MapPin, DollarSign, Users, Clock, Briefcase, User, CheckCircle, XCircle, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Edit, Calendar, MapPin, DollarSign, Users, Clock, Briefcase, User, CheckCircle, XCircle, MessageCircle, Star } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useAlert } from '@/components/ui/AlertContainer';
@@ -226,8 +226,8 @@ export default function ViewJobPostPage() {
 
                                 {/* Rating Stars (Static/Placeholder) */}
                                 <div className="flex items-center justify-center gap-1 text-orange-400 mb-2">
-                                    {[1, 2, 3, 4].map(i => <Briefcase key={i} className="w-5 h-5 fill-current" />)}
-                                    <Briefcase className="w-5 h-5 text-gray-300" />
+                                    {[1, 2, 3, 4].map(i => <Star key={i} className="w-5 h-5 fill-current" />)}
+                                    <Star className="w-5 h-5 text-gray-300" />
                                 </div>
 
                                 <div className="text-gray-400 text-sm mb-6 cursor-pointer hover:text-gray-600">
