@@ -46,11 +46,11 @@ export default function ShopOwnerNavbar() {
     };
 
     const navItems = [
-        { label: 'ประกาศรับสมัคร', href: '/shop-owner/dashboard' },
-        { label: 'งานที่คุณลงประกาศ', href: '/shop-owner/posts' },
-        { label: 'สถานะลูกจ้าง', href: '/shop-owner/applications' },
-        { label: 'แชท', href: '/shop-owner/chat', icon: MessageCircle },
-        { label: 'ประวัติ', href: '/shop-owner/history' },
+        { label: '📢 ประกาศรับสมัคร', href: '/shop-owner/dashboard' },
+        { label: '📝 งานที่คุณลงประกาศ', href: '/shop-owner/posts' },
+        { label: '👥 สถานะลูกจ้าง', href: '/shop-owner/applications' },
+        { label: '💬 แชท', href: '/shop-owner/chat', icon: MessageCircle },
+        { label: '📚 ประวัติ', href: '/shop-owner/history' },
     ];
 
     const handleLogout = async () => {

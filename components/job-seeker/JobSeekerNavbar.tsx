@@ -45,10 +45,10 @@ export default function JobSeekerNavbar() {
     };
 
     const navItems = [
-        { label: 'ระบบจับคู่งาน', href: '/job-seeker/matching' },
-        { label: 'สถานะการสมัครงาน', href: '/job-seeker/applications' },
-        { label: 'แชท', href: '/job-seeker/chat', icon: MessageCircle },
-        { label: 'ประวัติการทำงาน', href: '/job-seeker/history' },
+        { label: '🔍 ระบบจับคู่งาน', href: '/job-seeker/matching' },
+        { label: '📋 สถานะการสมัครงาน', href: '/job-seeker/applications' },
+        { label: '💬 แชท', href: '/job-seeker/chat', icon: MessageCircle },
+        { label: '📚 ประวัติการทำงาน', href: '/job-seeker/history' },
     ];
 
     const handleLogout = async () => {
