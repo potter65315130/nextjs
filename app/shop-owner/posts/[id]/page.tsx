@@ -19,6 +19,7 @@ interface JobPost {
     categoryId: number;
     category: { name: string };
     shop?: {
+        id: number;
         profileImage: string | null;
         shopName?: string;
     };
@@ -54,6 +55,7 @@ export default function ViewJobPostPage() {
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [chatRoomIds, setChatRoomIds] = useState<Record<number, number>>({}); // seekerId -> roomId
+    const [shopRating, setShopRating] = useState<{ average: number; count: number }>({ average: 0, count: 0 });
 
     useEffect(() => {
         if (params.id) {
@@ -74,6 +76,20 @@ export default function ViewJobPostPage() {
             if (postRes.ok) {
                 const data = await postRes.json();
                 setPost(data.data);
+
+                // Fetch shop reviews if we have shop data
+                if (data.data?.shop?.id) {
+                    const reviewsRes = await fetch(`/api/shops/${data.data.shop.id}/reviews`);
+                    if (reviewsRes.ok) {
+                        const reviewsData = await reviewsRes.json();
+                        const reviews = reviewsData.reviews || [];
+                        if (reviews.length > 0) {
+                            const sum = reviews.reduce((acc: number, review: any) => acc + review.rating, 0);
+                            const average = sum / reviews.length;
+                            setShopRating({ average, count: reviews.length });
+                        }
+                    }
+                }
             }
 
             if (appRes.ok) {
@@ -224,11 +240,27 @@ export default function ViewJobPostPage() {
                                     {post.jobName}
                                 </h2>
 
-                                {/* Rating Stars (Static/Placeholder) */}
-                                <div className="flex items-center justify-center gap-1 text-orange-400 mb-2">
-                                    {[1, 2, 3, 4].map(i => <Star key={i} className="w-5 h-5 fill-current" />)}
-                                    <Star className="w-5 h-5 text-gray-300" />
-                                </div>
+                                {/* Rating Stars (From Real Data) */}
+                                {shopRating.count > 0 ? (
+                                    <div className="mb-2">
+                                        <div className="flex items-center justify-center gap-1 text-orange-400 mb-1">
+                                            {[1, 2, 3, 4, 5].map(star => (
+                                                <Star
+                                                    key={star}
+                                                    className={`w-5 h-5 ${star <= Math.round(shopRating.average)
+                                                        ? 'fill-current'
+                                                        : 'text-gray-300'
+                                                        }`}
+                                                />
+                                            ))}
+                                        </div>
+                                        <p className="text-xs text-gray-500">
+                                            {shopRating.average.toFixed(1)} ดาว ({shopRating.count} รีวิว)
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-gray-400 mb-2">ยังไม่มีรีวิว</p>
+                                )}
 
                                 <div className="text-gray-400 text-sm mb-6 cursor-pointer hover:text-gray-600">
                                     ดูข้อมูลของร้านนี้
