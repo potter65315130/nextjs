@@ -388,8 +388,8 @@ export default function ApplicationDetailPage() {
                             </div>
                         </div>
 
-                        {/* Review Section - Only show for completed applications */}
-                        {application.status === 'completed' && (
+                        {/* Review Section - Show for completed or terminated applications with review */}
+                        {(application.status === 'completed' || application.status === 'terminated' || application.rating || application.review) && (
                             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                                 <div className="flex items-center gap-2 mb-4">
                                     <Star className="w-5 h-5 text-yellow-500" />

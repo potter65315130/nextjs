@@ -46,10 +46,30 @@ export async function GET(
             return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
         }
 
+        // ตรวจสอบข้อมูลรีวิวจาก WorkHistory ด้วย หากใน Application ไม่มี
+        let review = application.review;
+        let rating = application.rating;
+
+        if (!review && !rating) {
+            const workHistory = await prisma.workHistory.findFirst({
+                where: {
+                    seekerId: seekerProfile.id,
+                    postId: application.post.id,
+                },
+            });
+
+            if (workHistory) {
+                review = workHistory.review;
+                rating = workHistory.rating;
+            }
+        }
+
         const formattedApplication = {
             id: application.id,
             applicationDate: application.applicationDate.toISOString(),
             status: application.status,
+            review: review,
+            rating: rating,
             job: {
                 id: application.post.id,
                 jobName: application.post.jobName,
