@@ -101,9 +101,21 @@ export default function JobMatchingPage() {
                     currentFilter={filter}
                     onFilterChange={setFilter}
                     tabs={[
-                        { key: 'all', label: 'ทั้งหมด' },
-                        { key: 'nearby', label: 'ใกล้ฉัน' },
-                        { key: 'high-match', label: 'เหมาะกับฉัน' }
+                        {
+                            key: 'all',
+                            label: 'ทั้งหมด',
+                            count: jobs.length
+                        },
+                        {
+                            key: 'nearby',
+                            label: 'ใกล้ฉัน',
+                            count: jobs.filter(job => (job.distanceKm ?? 999) <= 10).length
+                        },
+                        {
+                            key: 'high-match',
+                            label: 'เหมาะกับฉัน',
+                            count: jobs.filter(job => (job.matchScore ?? 0) >= 70).length
+                        }
                     ]}
                 />
 

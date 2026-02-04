@@ -1,6 +1,7 @@
 interface Tab {
     key: string;
     label: string;
+    count?: number;
 }
 
 interface JobFilterTabsProps {
@@ -26,6 +27,9 @@ export default function JobFilterTabs({
                         }`}
                 >
                     {tab.label}
+                    {tab.count !== undefined && (
+                        <span className="ml-2 opacity-70">({tab.count})</span>
+                    )}
                 </button>
             ))}
         </div>
