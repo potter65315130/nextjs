@@ -330,3 +330,28 @@ model ChatMessage {
   @@index([roomId, createdAt])
   @@map("chat_messages")
 }
+
+// --------------------------------------------------------
+// 14) Notifications — ระบบแจ้งเตือน
+// --------------------------------------------------------
+model Notification {
+  id     Int @id @default(autoincrement()) @map("notification_id")
+  userId Int @map("user_id")
+
+  type    String // application, message, system, match
+  title   String
+  message String  @db.Text
+  link    String? // URL to redirect when clicked
+
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Optional: link to related entities
+  applicationId Int? @map("application_id")
+  postId        Int? @map("post_id")
+  chatRoomId    Int? @map("chat_room_id")
+
+  @@index([userId, createdAt])
+  @@index([userId, isRead])
+  @@map("notifications")
+}

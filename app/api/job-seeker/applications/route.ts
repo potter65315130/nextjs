@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/auth';
+import { notifyNewApplication } from '@/lib/notifications';
 
 export async function GET(req: Request) {
     try {
@@ -170,6 +171,29 @@ export async function POST(req: Request) {
                 seekerId: seekerProfile.id,
             },
         });
+
+        // 🔔 แจ้งเตือน Shop Owner ว่ามีผู้สมัครงานใหม่
+        const jobPostDetail = await prisma.shopJobPost.findUnique({
+            where: { id: jobPost.id },
+            include: {
+                shop: {
+                    select: {
+                        userId: true,
+                        shopName: true,
+                    },
+                },
+            },
+        });
+
+        if (jobPostDetail && seekerProfile.fullName) {
+            await notifyNewApplication(
+                jobPostDetail.shop.userId,
+                application.id,
+                jobPost.id,
+                seekerProfile.fullName,
+                jobPostDetail.jobName
+            );
+        }
 
         return NextResponse.json({
             success: true,

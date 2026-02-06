@@ -7,6 +7,7 @@ import { User, LogOut, Settings, Menu, X, Sun, Moon, MessageCircle } from 'lucid
 import Image from 'next/image';
 // ตรวจสอบ path ของ ThemeProvider ให้ถูกต้อง
 import { useTheme } from '@/providers/ThemeProvider';
+import NotificationDropdown from '@/components/ui/NotificationDropdown';
 
 interface ShopProfile {
     profileImage: string | null;
@@ -105,6 +106,9 @@ export default function ShopOwnerNavbar() {
                                 <Moon className="w-5 h-5" />
                             )}
                         </button>
+
+                        {/* Notification Dropdown */}
+                        <NotificationDropdown />
 
                         {/* Desktop User Menu */}
                         <div className="hidden md:block relative">

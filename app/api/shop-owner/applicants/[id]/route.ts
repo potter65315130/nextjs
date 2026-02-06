@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import {
+    notifyApplicationAccepted,
+    notifyApplicationRejected,
+    notifyApplicationStatusChange
+} from '@/lib/notifications';
 
 // GET - Fetch applicant detail by ID
 export async function GET(
@@ -30,6 +35,7 @@ export async function GET(
                 seeker: {
                     select: {
                         id: true,
+                        userId: true,
                         fullName: true,
                         profileImage: true,
                         phone: true,
@@ -141,6 +147,13 @@ export async function PATCH(
         const application = await prisma.application.findUnique({
             where: { id: applicationId },
             include: {
+                seeker: {
+                    select: {
+                        id: true,
+                        userId: true,
+                        fullName: true,
+                    },
+                },
                 post: {
                     include: {
                         shop: true,
@@ -161,11 +174,52 @@ export async function PATCH(
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
+        const oldStatus = application.status;
+
         // Update status
         const updatedApplication = await prisma.application.update({
             where: { id: applicationId },
             data: { status },
         });
+
+        // 🔔 Send notifications based on status change
+        const seekerUserId = application.seeker.userId;
+        const shopName = application.post.shop.shopName;
+        const jobName = application.post.jobName;
+
+        // Notify when pending -> in_progress (Accepted)
+        if (oldStatus === 'pending' && status === 'in_progress') {
+            await notifyApplicationAccepted(
+                seekerUserId,
+                applicationId,
+                application.post.id,
+                shopName,
+                jobName
+            );
+        }
+
+        // Notify when pending -> terminated (Rejected)
+        else if (oldStatus === 'pending' && status === 'terminated') {
+            await notifyApplicationRejected(
+                seekerUserId,
+                applicationId,
+                application.post.id,
+                shopName,
+                jobName
+            );
+        }
+
+        // Notify for other status changes
+        else if (status !== oldStatus) {
+            await notifyApplicationStatusChange(
+                seekerUserId,
+                applicationId,
+                application.post.id,
+                status,
+                shopName,
+                jobName
+            );
+        }
 
         return NextResponse.json({ application: updatedApplication });
     } catch (error) {

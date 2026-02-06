@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { User, LogOut, Settings, Menu, X, Sun, Moon, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useTheme } from '@/providers/ThemeProvider';
+import NotificationDropdown from '@/components/ui/NotificationDropdown';
 
 interface UserProfile {
     profileImage: string | null;
@@ -104,6 +105,9 @@ export default function JobSeekerNavbar() {
                                 <Moon className="w-5 h-5" />
                             )}
                         </button>
+
+                        {/* Notification Dropdown */}
+                        <NotificationDropdown />
 
                         {/* Desktop User Menu */}
                         <div className="hidden md:block relative">
