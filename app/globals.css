@@ -3,53 +3,52 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* สีพื้นหลังของทั้งเว็บ */
-  --background: #F8FAFC;
+  /* สีพื้นหลังของทั้งเว็บ - สีฟ้าอ่อนมาก */
+  --background: #F0F9FF;
   /* สีตัวหนังสือหลักของทั้งเว็บ */
-  --foreground: #171717;
+  --foreground: #0F172A;
 
-  /* --- BRAND COLOR --- */
-  --brand-primary: #5D87FF;
+  /* --- BRAND COLOR: Sky Blue --- */
+  --brand-primary: #38BDF8;
+  --brand-primary-light: #7DD3FC;
+  --brand-primary-dark: #0EA5E9;
 
-  /* Button Colors */
-  --button-primary: #5D87FF;
-  --button-primary-hover: #1d4ed8;
-  /* ปุ่มรอง */
-  --button-secondary: #e5e7eb;
-  --button-secondary-hover: #d1d5db;
-  --button-secondary-text: #374151;
-
-
+  /* Button Colors - ใช้เฉพาะสีฟ้า */
+  --button-primary: #38BDF8;
+  --button-primary-hover: #0EA5E9;
+  /* ปุ่มรอง - สีเทา */
+  --button-secondary: #F1F5F9;
+  --button-secondary-hover: #E2E8F0;
+  --button-secondary-text: #475569;
 }
 
 .dark {
-  /* สีพื้นหลังของทั้งเว็บ */
-  --background: #020617;
+  /* สีพื้นหลังของทั้งเว็บ - เทาเข้ม */
+  --background: #0F172A;
   /* สีตัวหนังสือหลักของทั้งเว็บ */
-  --foreground: #ededed;
+  --foreground: #F1F5F9;
 
-  /* --- BRAND COLOR DARK --- */
-  --brand-primary: #5D87FF;
-  /* ใช้สีเดิมเพื่อความสม่ำเสมอ */
+  /* --- BRAND COLOR DARK: Sky Blue --- */
+  --brand-primary: #38BDF8;
+  --brand-primary-light: #7DD3FC;
+  --brand-primary-dark: #0EA5E9;
 
   /* Button Colors Dark */
-  --button-primary: #3b82f6;
-  --button-primary-hover: #2563eb;
+  --button-primary: #38BDF8;
+  --button-primary-hover: #0EA5E9;
   /* ปุ่มรอง */
-  --button-secondary: #374151;
-  --button-secondary-hover: #4b5563;
-  --button-secondary-text: #d1d5db;
-
-
+  --button-secondary: #334155;
+  --button-secondary-hover: #475569;
+  --button-secondary-text: #CBD5E1;
 }
 
 /* ------------------------- Auth Background Colors ------------------------- */
 .auth-bg {
-  background-color: #5D87FF;
+  background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%);
 }
 
 .dark .auth-bg {
-  background-color: #111827;
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
 }
 
 html,
@@ -63,45 +62,55 @@ body {
 .btn-primary {
   background-color: var(--button-primary);
   color: white;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2);
 }
 
 .btn-primary:hover {
   background-color: var(--button-primary-hover);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
   background-color: var(--button-secondary);
   color: var(--button-secondary-text);
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .btn-secondary:hover {
   background-color: var(--button-secondary-hover);
 }
 
-/* ------------------------- Gradient Text Utility ------------------------- */
+/* ------------------------- Gradient Utilities ------------------------- */
+.gradient-sky {
+  background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%);
+}
 
+.gradient-sky-light {
+  background: linear-gradient(135deg, #7DD3FC 0%, #38BDF8 100%);
+}
 
 /* ------------------------- Role Button ------------------------- */
-
-/* Role Button */
 .role-btn {
   background-color: var(--button-secondary);
   color: var(--button-secondary-text);
   transition: all 0.2s ease;
+  border: 2px solid transparent;
 }
 
 .role-btn:hover {
   background-color: var(--button-secondary-hover);
+  border-color: var(--brand-primary);
 }
 
 /* ปุ่ม Role ที่ ถูกเลือกอยู่ตอนนี้ */
 .role-btn-active {
-  background-color: var(--button-primary);
+  background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%);
   color: white;
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4);
+  border-color: transparent;
 }
 
 /* Dark Mode Support */
@@ -112,4 +121,27 @@ body {
 
 .dark .role-btn:hover {
   background-color: var(--button-secondary-hover);
+  border-color: var(--brand-primary);
+}
+
+/* ------------------------- Card Utilities ------------------------- */
+.card-sky {
+  background: white;
+  border: 1px solid #E0F2FE;
+  transition: all 0.3s ease;
+}
+
+.card-sky:hover {
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+  border-color: #38BDF8;
+}
+
+.dark .card-sky {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+.dark .card-sky:hover {
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.25);
+  border-color: #38BDF8;
 }

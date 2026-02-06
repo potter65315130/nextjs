@@ -45,6 +45,7 @@ export default function JobSeekerNavbar() {
     };
 
     const navItems = [
+        { label: '📊 แดชบอร์ด', href: '/job-seeker/dashboard' },
         { label: '🔍 ระบบจับคู่งาน', href: '/job-seeker/matching' },
         { label: '📋 สถานะการสมัครงาน', href: '/job-seeker/applications' },
         { label: '💬 แชท', href: '/job-seeker/chat', icon: MessageCircle },
@@ -65,7 +66,7 @@ export default function JobSeekerNavbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
-                    <Link href="/job-seeker/matching" className="flex items-center">
+                    <Link href="/job-seeker/dashboard" className="flex items-center">
                         {/* ใช้ text-brand-primary ที่ตั้งค่าใน tailwind.config.ts และ globals.css */}
                         <span className="text-2xl font-bold text-brand-primary">
                             MatchWork
