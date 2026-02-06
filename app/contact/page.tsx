@@ -37,14 +37,14 @@ export default function ContactPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
             <Navbar />
 
             {/* Hero Section */}
             <section className="pt-32 pb-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto text-center">
                     <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-                        ติดต่อ<span className="text-blue-600 dark:text-blue-400">เรา</span>
+                        ติดต่อ<span className="text-sky-600 dark:text-sky-400">เรา</span>
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                         มีคำถามหรือข้อเสนอแนะ? เรายินดีรับฟังและช่วยเหลือคุณ
@@ -58,30 +58,30 @@ export default function ContactPage() {
                     <div className="grid md:grid-cols-3 gap-6">
                         {/* Email */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all text-center">
-                            <div className="bg-blue-100 dark:bg-blue-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Mail className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                            <div className="bg-sky-100 dark:bg-sky-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Mail className="w-7 h-7 text-sky-600 dark:text-sky-400" />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">อีเมล</h3>
-                            <a href="mailto:contact@matchwork.com" className="text-blue-600 dark:text-blue-400 hover:underline">
+                            <a href="mailto:contact@matchwork.com" className="text-sky-600 dark:text-sky-400 hover:underline">
                                 contact@matchwork.com
                             </a>
                         </div>
 
                         {/* Phone */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all text-center">
-                            <div className="bg-green-100 dark:bg-green-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Phone className="w-7 h-7 text-green-600 dark:text-green-400" />
+                            <div className="bg-sky-100 dark:bg-sky-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Phone className="w-7 h-7 text-sky-600 dark:text-sky-400" />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">โทรศัพท์</h3>
-                            <a href="tel:+66123456789" className="text-blue-600 dark:text-blue-400 hover:underline">
+                            <a href="tel:+66123456789" className="text-sky-600 dark:text-sky-400 hover:underline">
                                 02-123-4567
                             </a>
                         </div>
 
                         {/* Address */}
                         <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all text-center">
-                            <div className="bg-purple-100 dark:bg-purple-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <MapPin className="w-7 h-7 text-purple-600 dark:text-purple-400" />
+                            <div className="bg-sky-100 dark:bg-sky-900/30 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <MapPin className="w-7 h-7 text-sky-600 dark:text-sky-400" />
                             </div>
                             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">ที่อยู่</h3>
                             <p className="text-gray-600 dark:text-gray-400">
@@ -102,9 +102,9 @@ export default function ContactPage() {
 
                         {/* Success Message */}
                         {isSubmitted && (
-                            <div className="mb-6 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-xl p-4 flex items-center gap-3">
-                                <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400 shrink-0" />
-                                <p className="text-green-700 dark:text-green-400 font-medium">
+                            <div className="mb-6 bg-sky-100 dark:bg-sky-900/30 border border-sky-300 dark:border-sky-700 rounded-xl p-4 flex items-center gap-3">
+                                <CheckCircle className="w-6 h-6 text-sky-600 dark:text-sky-400 shrink-0" />
+                                <p className="text-sky-700 dark:text-sky-400 font-medium">
                                     ส่งข้อความสำเร็จ! เราจะติดต่อกลับโดยเร็วที่สุด
                                 </p>
                             </div>
@@ -123,7 +123,7 @@ export default function ContactPage() {
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
                                     placeholder="กรอกชื่อของคุณ"
                                 />
                             </div>
@@ -140,7 +140,7 @@ export default function ContactPage() {
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
                                     placeholder="your@email.com"
                                 />
                             </div>
@@ -157,7 +157,7 @@ export default function ContactPage() {
                                     value={formData.subject}
                                     onChange={handleChange}
                                     required
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
                                     placeholder="เรื่องที่ต้องการติดต่อ"
                                 />
                             </div>
@@ -174,7 +174,7 @@ export default function ContactPage() {
                                     onChange={handleChange}
                                     required
                                     rows={6}
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all resize-none"
                                     placeholder="รายละเอียดที่ต้องการสอบถาม..."
                                 />
                             </div>
@@ -183,7 +183,7 @@ export default function ContactPage() {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="w-full bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {isSubmitting ? (
                                     <>
@@ -210,16 +210,16 @@ export default function ContactPage() {
                     </h3>
                     <div className="flex gap-4 justify-center">
                         <a href="#" className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg hover:shadow-2xl hover:scale-110 transition-all group">
-                            <Facebook className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                            <Facebook className="w-8 h-8 text-sky-600 dark:text-sky-400" />
                         </a>
                         <a href="#" className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg hover:shadow-2xl hover:scale-110 transition-all group">
-                            <Twitter className="w-8 h-8 text-blue-400 dark:text-blue-300" />
+                            <Twitter className="w-8 h-8 text-sky-500 dark:text-sky-400" />
                         </a>
                         <a href="#" className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg hover:shadow-2xl hover:scale-110 transition-all group">
-                            <Instagram className="w-8 h-8 text-pink-600 dark:text-pink-400" />
+                            <Instagram className="w-8 h-8 text-sky-600 dark:text-sky-400" />
                         </a>
                         <a href="#" className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg hover:shadow-2xl hover:scale-110 transition-all group">
-                            <Linkedin className="w-8 h-8 text-blue-700 dark:text-blue-500" />
+                            <Linkedin className="w-8 h-8 text-sky-700 dark:text-sky-500" />
                         </a>
                     </div>
                 </div>

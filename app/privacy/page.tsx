@@ -4,14 +4,14 @@ import Navbar from '@/components/home/Navbar';
 
 export default function PrivacyPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
             <Navbar />
 
             {/* Hero Section */}
             <section className="pt-32 pb-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto text-center">
-                    <div className="bg-green-100 dark:bg-green-900/30 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Shield className="w-10 h-10 text-green-600 dark:text-green-400" />
+                    <div className="bg-sky-100 dark:bg-sky-900/30 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Shield className="w-10 h-10 text-sky-600 dark:text-sky-400" />
                     </div>
                     <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
                         นโยบายความเป็นส่วนตัว
@@ -41,7 +41,7 @@ export default function PrivacyPage() {
                             {/* Section 1 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                                    <Database className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                                    <Database className="w-7 h-7 text-sky-600 dark:text-sky-400" />
                                     ข้อมูลที่เราเก็บรวบรวม
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
@@ -75,7 +75,7 @@ export default function PrivacyPage() {
                             {/* Section 2 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                                    <Eye className="w-7 h-7 text-purple-600 dark:text-purple-400" />
+                                    <Eye className="w-7 h-7 text-sky-600 dark:text-sky-400" />
                                     การใช้ข้อมูลของคุณ
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
@@ -93,15 +93,15 @@ export default function PrivacyPage() {
                             {/* Section 3 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                                    <Lock className="w-7 h-7 text-green-600 dark:text-green-400" />
+                                    <Lock className="w-7 h-7 text-sky-600 dark:text-sky-400" />
                                     การปกป้องข้อมูลของคุณ
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
                                     เราใช้มาตรการรักษาความปลอดภัยหลายระดับเพื่อปกป้องข้อมูลของคุณ:
                                 </p>
-                                <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-6 space-y-3">
+                                <div className="bg-sky-50 dark:bg-sky-900/20 rounded-xl p-6 space-y-3">
                                     <div className="flex items-start gap-3">
-                                        <div className="bg-green-600 rounded-full p-1 mt-1">
+                                        <div className="bg-sky-600 rounded-full p-1 mt-1">
                                             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                             </svg>
@@ -109,7 +109,7 @@ export default function PrivacyPage() {
                                         <p className="text-gray-700 dark:text-gray-300">การเข้ารหัสข้อมูล SSL/TLS</p>
                                     </div>
                                     <div className="flex items-start gap-3">
-                                        <div className="bg-green-600 rounded-full p-1 mt-1">
+                                        <div className="bg-sky-600 rounded-full p-1 mt-1">
                                             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                             </svg>
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
                                         <p className="text-gray-700 dark:text-gray-300">การเข้ารหัสรหัสผ่านด้วย Bcrypt</p>
                                     </div>
                                     <div className="flex items-start gap-3">
-                                        <div className="bg-green-600 rounded-full p-1 mt-1">
+                                        <div className="bg-sky-600 rounded-full p-1 mt-1">
                                             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                             </svg>
@@ -125,7 +125,7 @@ export default function PrivacyPage() {
                                         <p className="text-gray-700 dark:text-gray-300">การตรวจสอบสิทธิ์หลายระดับ</p>
                                     </div>
                                     <div className="flex items-start gap-3">
-                                        <div className="bg-green-600 rounded-full p-1 mt-1">
+                                        <div className="bg-sky-600 rounded-full p-1 mt-1">
                                             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                             </svg>
@@ -133,7 +133,7 @@ export default function PrivacyPage() {
                                         <p className="text-gray-700 dark:text-gray-300">การสำรองข้อมูลอย่างสม่ำเสมอ</p>
                                     </div>
                                     <div className="flex items-start gap-3">
-                                        <div className="bg-green-600 rounded-full p-1 mt-1">
+                                        <div className="bg-sky-600 rounded-full p-1 mt-1">
                                             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                             </svg>
@@ -167,19 +167,19 @@ export default function PrivacyPage() {
                                     คุณมีสิทธิ์ในการ:
                                 </p>
                                 <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                                    <div className="bg-sky-50 dark:bg-sky-900/20 rounded-lg p-4">
                                         <p className="font-semibold text-gray-900 dark:text-white mb-1">เข้าถึงข้อมูล</p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">ขอดูข้อมูลส่วนบุคคลของคุณ</p>
                                     </div>
-                                    <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
+                                    <div className="bg-sky-50 dark:bg-sky-900/20 rounded-lg p-4">
                                         <p className="font-semibold text-gray-900 dark:text-white mb-1">แก้ไขข้อมูล</p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">ปรับปรุงข้อมูลที่ไม่ถูกต้อง</p>
                                     </div>
-                                    <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
+                                    <div className="bg-sky-50 dark:bg-sky-900/20 rounded-lg p-4">
                                         <p className="font-semibold text-gray-900 dark:text-white mb-1">ลบข้อมูล</p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">ขอให้ลบข้อมูลของคุณ</p>
                                     </div>
-                                    <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4">
+                                    <div className="bg-sky-50 dark:bg-sky-900/20 rounded-lg p-4">
                                         <p className="font-semibold text-gray-900 dark:text-white mb-1">ยกเลิกความยินยอม</p>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">หยุดรับอีเมลการตลาด</p>
                                     </div>
