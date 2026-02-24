@@ -7,7 +7,7 @@ import { prisma } from '@/lib/prisma';
 const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key-change-it');
 
 // 1. สร้าง Token และฝัง Cookie (ใช้ตอน Login)
-export async function createSession(userId: number, role: string) {
+export async function createSession(userId: string, role: string) {
     const token = await new SignJWT({ userId, role })
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
@@ -37,7 +37,7 @@ export async function validateUser(requiredRole: 'job_seeker' | 'shop_owner') {
 
     try {
         const { payload } = await jwtVerify(token, SECRET_KEY);
-        const userId = Number(payload.userId);
+        const userId = payload.userId as string;
 
         const user = await prisma.user.findUnique({
             where: { id: userId },
@@ -77,7 +77,7 @@ export async function getCurrentUser() {
         }
 
         const { payload } = await jwtVerify(token, SECRET_KEY);
-        const userId = Number(payload.userId);
+        const userId = payload.userId as string;
 
         const user = await prisma.user.findUnique({
             where: { id: userId },

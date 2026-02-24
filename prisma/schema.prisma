@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -12,7 +12,7 @@ datasource db {
 // 1) Roles — ประเภทผู้ใช้งาน (เหลือแค่ 2 แบบ)
 // --------------------------------------------------------
 model Role {
-  id   Int    @id @default(autoincrement()) @map("role_id")
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique @map("role_name") // job_seeker / shop_owner
 
   // Relations
@@ -25,8 +25,8 @@ model Role {
 // 2) Users — บัญชีผู้ใช้พื้นฐาน
 // --------------------------------------------------------
 model User {
-  id     Int @id @default(autoincrement()) @map("user_id")
-  roleId Int @map("role_id")
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  roleId String @map("role_id") @db.ObjectId
 
   email        String @unique
   passwordHash String @map("password_hash")
@@ -43,7 +43,6 @@ model User {
   jobSeekerProfile JobSeekerProfile?
   shop             Shop?
 
-  @@index([email])
   @@map("users")
 }
 
@@ -51,8 +50,8 @@ model User {
 // 3) Password Reset — ระบบ OTP
 // --------------------------------------------------------
 model PasswordReset {
-  id     Int @id @default(autoincrement())
-  userId Int @map("user_id")
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @map("user_id") @db.ObjectId
 
   otpCode   String   @map("otp_code")
   otpExpiry DateTime @map("otp_expiry")
@@ -71,8 +70,8 @@ model PasswordReset {
 // 3.5) User Verification — ระบบยืนยันตัวตน (OTP)
 // --------------------------------------------------------
 model UserVerification {
-  id     Int @id @default(autoincrement())
-  userId Int @unique @map("user_id")
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @map("user_id") @db.ObjectId
 
   otpCode   String   @map("otp_code")
   otpExpiry DateTime @map("otp_expiry")
@@ -88,7 +87,7 @@ model UserVerification {
 // 4) Work Categories
 // --------------------------------------------------------
 model Category {
-  id   Int    @id @default(autoincrement()) @map("category_id")
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique @map("category_name")
 
   jobSeekerCategories JobSeekerCategory[]
@@ -101,8 +100,8 @@ model Category {
 // 5) Job Seeker Profiles
 // --------------------------------------------------------
 model JobSeekerProfile {
-  id     Int @id @default(autoincrement()) @map("seeker_id")
-  userId Int @unique @map("user_id")
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @map("user_id") @db.ObjectId
 
   fullName     String? @map("full_name")
   profileImage String? @map("profile_image")
@@ -115,9 +114,9 @@ model JobSeekerProfile {
   latitude  Float?
   longitude Float?
 
-  availableDays String? @map("available_days") @db.Text
-  skills        String? @db.Text
-  experience    String? @db.Text
+  availableDays String? @map("available_days")
+  skills        String?
+  experience    String?
 
   createdAt DateTime? @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
@@ -138,9 +137,9 @@ model JobSeekerProfile {
 // 6) JobSeekerCategory — Many-to-Many Link
 // --------------------------------------------------------
 model JobSeekerCategory {
-  id         Int @id @default(autoincrement())
-  seekerId   Int @map("seeker_id")
-  categoryId Int @map("category_id")
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  seekerId   String @map("seeker_id") @db.ObjectId
+  categoryId String @map("category_id") @db.ObjectId
 
   seeker   JobSeekerProfile @relation(fields: [seekerId], references: [id])
   category Category         @relation(fields: [categoryId], references: [id])
@@ -153,11 +152,11 @@ model JobSeekerCategory {
 // 7) Shops — ข้อมูลร้านค้า
 // --------------------------------------------------------
 model Shop {
-  id     Int @id @default(autoincrement()) @map("shop_id")
-  userId Int @unique @map("user_id")
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @map("user_id") @db.ObjectId
 
   shopName     String  @map("shop_name")
-  description  String? @db.Text
+  description  String?
   phone        String?
   email        String?
   address      String?
@@ -182,22 +181,22 @@ model Shop {
 // 8) ShopJobPost — โพสต์งาน
 // --------------------------------------------------------
 model ShopJobPost {
-  id         Int @id @default(autoincrement()) @map("post_id")
-  shopId     Int @map("shop_id")
-  categoryId Int @map("category_id")
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  shopId     String @map("shop_id") @db.ObjectId
+  categoryId String @map("category_id") @db.ObjectId
 
   jobName       String  @map("job_name")
-  description   String? @db.Text
+  description   String?
   contactPhone  String? @map("contact_phone")
   address       String?
-  availableDays String? @map("available_days") @db.Text
+  availableDays String? @map("available_days")
 
   latitude  Float?
   longitude Float?
 
-  workDate       DateTime @map("work_date") @db.Date
+  workDate       DateTime @map("work_date")
   requiredPeople Int      @map("required_people")
-  wage           Decimal  @db.Decimal(10, 2)
+  wage           Float
 
   status    String   @default("open")
   createdAt DateTime @default(now()) @map("created_at")
@@ -221,9 +220,9 @@ model ShopJobPost {
 // 9) Matches — ระบบจับคู่
 // --------------------------------------------------------
 model Match {
-  id       Int @id @default(autoincrement()) @map("match_id")
-  seekerId Int @map("seeker_id")
-  postId   Int @map("post_id")
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  seekerId String @map("seeker_id") @db.ObjectId
+  postId   String @map("post_id") @db.ObjectId
 
   matchDate DateTime @default(now()) @map("match_date")
 
@@ -248,15 +247,15 @@ model Match {
 // 10) Applications — การสมัครงาน
 // --------------------------------------------------------
 model Application {
-  id       Int @id @default(autoincrement()) @map("application_id")
-  seekerId Int @map("seeker_id")
-  postId   Int @map("post_id")
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  seekerId String @map("seeker_id") @db.ObjectId
+  postId   String @map("post_id") @db.ObjectId
 
   applicationDate DateTime @default(now()) @map("application_date")
   status          String   @default("pending") // pending, in_progress, completed, terminated
 
   // Review fields for shop owners to review job seekers
-  review String? @db.Text
+  review String?
   rating Int?
 
   seeker JobSeekerProfile @relation(fields: [seekerId], references: [id])
@@ -270,15 +269,15 @@ model Application {
 // 11) Work History — ประวัติการทำงาน
 // --------------------------------------------------------
 model WorkHistory {
-  id       Int @id @default(autoincrement())
-  seekerId Int @map("seeker_id")
-  shopId   Int @map("shop_id")
-  postId   Int @map("post_id")
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  seekerId String @map("seeker_id") @db.ObjectId
+  shopId   String @map("shop_id") @db.ObjectId
+  postId   String @map("post_id") @db.ObjectId
 
-  workDate  DateTime @map("work_date") @db.Date
-  wage      Decimal  @db.Decimal(10, 2)
+  workDate  DateTime @map("work_date")
+  wage      Float
   createdAt DateTime @default(now()) @map("created_at")
-  review    String?  @db.Text
+  review    String?
   rating    Int?
 
   seeker JobSeekerProfile @relation(fields: [seekerId], references: [id])
@@ -292,10 +291,10 @@ model WorkHistory {
 // 12) ChatRoom — ห้องแชท (1 สมัครงาน = 1 ห้อง)
 // --------------------------------------------------------
 model ChatRoom {
-  id       Int @id @default(autoincrement()) @map("room_id")
-  postId   Int @map("post_id")
-  shopId   Int @map("shop_id")
-  seekerId Int @map("seeker_id")
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  postId   String @map("post_id") @db.ObjectId
+  shopId   String @map("shop_id") @db.ObjectId
+  seekerId String @map("seeker_id") @db.ObjectId
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -316,10 +315,10 @@ model ChatRoom {
 // 13) ChatMessage — ข้อความในแชท
 // --------------------------------------------------------
 model ChatMessage {
-  id       Int    @id @default(autoincrement()) @map("message_id")
-  roomId   Int    @map("room_id")
-  senderId Int    @map("sender_id") // userId (shop หรือ seeker)
-  content  String @db.Text
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  roomId   String @map("room_id") @db.ObjectId
+  senderId String @map("sender_id") @db.ObjectId // userId (shop หรือ seeker)
+  content  String
 
   isRead    Boolean  @default(false) @map("is_read")
   createdAt DateTime @default(now()) @map("created_at")
@@ -335,21 +334,21 @@ model ChatMessage {
 // 14) Notifications — ระบบแจ้งเตือน
 // --------------------------------------------------------
 model Notification {
-  id     Int @id @default(autoincrement()) @map("notification_id")
-  userId Int @map("user_id")
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @map("user_id") @db.ObjectId
 
   type    String // application, message, system, match
   title   String
-  message String  @db.Text
+  message String
   link    String? // URL to redirect when clicked
 
   isRead    Boolean  @default(false) @map("is_read")
   createdAt DateTime @default(now()) @map("created_at")
 
   // Optional: link to related entities
-  applicationId Int? @map("application_id")
-  postId        Int? @map("post_id")
-  chatRoomId    Int? @map("chat_room_id")
+  applicationId String? @map("application_id") @db.ObjectId
+  postId        String? @map("post_id") @db.ObjectId
+  chatRoomId    String? @map("chat_room_id") @db.ObjectId
 
   @@index([userId, createdAt])
   @@index([userId, isRead])

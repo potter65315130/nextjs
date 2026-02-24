@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
         // ค้นหา OTP ที่ยังไม่หมดอายุ
         const verification = await prisma.userVerification.findUnique({
-            where: { userId: parseInt(userId) },
+            where: { userId },
         });
 
         if (!verification) {
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         // ตรวจสอบว่า OTP หมดอายุหรือไม่
         if (new Date() > verification.otpExpiry) {
             await prisma.userVerification.delete({
-                where: { userId: parseInt(userId) },
+                where: { userId },
             });
             return NextResponse.json(
                 { message: 'รหัส OTP หมดอายุแล้ว กรุณาขอรหัสใหม่' },
@@ -47,14 +47,14 @@ export async function POST(req: Request) {
 
         // อัปเดตสถานะ User เป็น verified
         const user = await prisma.user.update({
-            where: { id: parseInt(userId) },
+            where: { id: userId },
             data: { isVerified: true },
             include: { role: true },
         });
 
         // ลบ OTP ที่ใช้แล้ว
         await prisma.userVerification.delete({
-            where: { userId: parseInt(userId) },
+            where: { userId },
         });
 
         // สร้าง Session (Login)

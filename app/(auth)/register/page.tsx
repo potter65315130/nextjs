@@ -24,7 +24,7 @@ export default function RegisterPage() {
         password: '',
         confirmPassword: '',
     });
-    const [userId, setUserId] = useState<number | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
     const [otp, setOtp] = useState('');
     const [loading, setLoading] = useState(false);
 
