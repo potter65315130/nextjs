@@ -9,9 +9,9 @@ export async function GET(
 ) {
     try {
         const { id } = await params;
-        const userId = Number(id);
+        const userId = id;
 
-        if (isNaN(userId)) {
+        if (!userId) {
             return NextResponse.json(
                 { message: 'Invalid ID' },
                 { status: 400 }
@@ -62,11 +62,11 @@ export async function PUT(
 ) {
     try {
         const { id } = await params;
-        const userId = Number(id);
+        const userId = id;
         const body = await req.json();
         const { fullName, phone, email, roleId, isActive, password } = body;
 
-        if (isNaN(userId)) {
+        if (!userId) {
             return NextResponse.json(
                 { message: 'Invalid ID' },
                 { status: 400 }
@@ -82,7 +82,7 @@ export async function PUT(
         };
 
         if (roleId) {
-            updateData.roleId = Number(roleId);
+            updateData.roleId = roleId;
         }
 
         // ถ้ามีการส่ง password มา ให้ hash ใหม่
@@ -125,9 +125,9 @@ export async function DELETE(
 ) {
     try {
         const { id } = await params;
-        const userId = Number(id);
+        const userId = id;
 
-        if (isNaN(userId)) {
+        if (!userId) {
             return NextResponse.json(
                 { message: 'Invalid ID' },
                 { status: 400 }
@@ -137,7 +137,7 @@ export async function DELETE(
         // ลบ user (Cascade จะทำงานตามที่ตั้งค่าไว้ใน DB หรือ Prisma Schema ถ้ามี)
         // ใน Schema ที่ให้มา ไม่ได้ระบุ onDelete: Cascade ไว้ชัดเจนใน relation ฝั่ง User
         // แต่โดยปกติ Prisma จะแจ้ง error ถ้ามี foreign key constraint
-        // อย่างไรก็ตาม โจทย์บอก "พร้อม cascade relation ตาม schema"
+        // อย่างเราก็ตาม โจทย์บอก "พร้อม cascade relation ตาม schema"
         // ถ้า schema ไม่ได้ใส่ onDelete: Cascade ไว้ใน @relation อาจจะต้องลบ manual หรือปล่อยให้ db จัดการถ้า db set ไว้
         // ลองลบตรงๆ ดู ถ้าติด constraint ต้องมาแก้
 

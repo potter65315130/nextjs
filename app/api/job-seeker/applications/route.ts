@@ -130,7 +130,7 @@ export async function POST(req: Request) {
 
         // ดึงข้อมูล Job Post เพื่อเอา shopId
         const jobPost = await prisma.shopJobPost.findUnique({
-            where: { id: Number(postId) },
+            where: { id: postId },
             select: { id: true, shopId: true },
         });
 
@@ -142,7 +142,7 @@ export async function POST(req: Request) {
         const existingApplication = await prisma.application.findFirst({
             where: {
                 seekerId: seekerProfile.id,
-                postId: Number(postId),
+                postId: postId,
             },
         });
 
@@ -157,7 +157,7 @@ export async function POST(req: Request) {
         const application = await prisma.application.create({
             data: {
                 seekerId: seekerProfile.id,
-                postId: Number(postId),
+                postId: postId,
                 status: 'pending',
                 applicationDate: new Date(),
             },

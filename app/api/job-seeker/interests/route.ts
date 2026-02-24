@@ -13,7 +13,7 @@ export async function GET(req: Request) {
 
         // Find Seeker ID from User ID first
         const seeker = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: parseInt(userId) },
+            where: { userId: userId },
         });
 
         if (!seeker) {
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
         }
 
         const seeker = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: parseInt(userId) },
+            where: { userId: userId },
         });
 
         if (!seeker) {
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
             where: {
                 seekerId_categoryId: {
                     seekerId: seeker.id,
-                    categoryId: parseInt(categoryId),
+                    categoryId: categoryId,
                 },
             },
         });
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
         const newInterest = await prisma.jobSeekerCategory.create({
             data: {
                 seekerId: seeker.id,
-                categoryId: parseInt(categoryId),
+                categoryId: categoryId,
             },
             include: { category: true }
         });
@@ -93,7 +93,7 @@ export async function DELETE(req: Request) {
         }
 
         const seeker = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: parseInt(userId) },
+            where: { userId: userId },
         });
 
         if (!seeker) {
@@ -104,7 +104,7 @@ export async function DELETE(req: Request) {
             where: {
                 seekerId_categoryId: {
                     seekerId: seeker.id,
-                    categoryId: parseInt(categoryId),
+                    categoryId: categoryId,
                 },
             },
         });

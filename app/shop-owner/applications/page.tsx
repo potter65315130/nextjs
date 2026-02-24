@@ -8,8 +8,8 @@ import { useAlert } from '@/components/ui/AlertContainer';
 import PageHeader from '@/components/shop-owner/PageHeader';
 
 interface Application {
-    id: number;
-    seekerId: number;
+    id: string;
+    seekerId: string;
     seekerName: string;
     seekerImage: string | null;
     jobName: string;
@@ -42,7 +42,7 @@ export default function ShopOwnerApplicationsPage() {
         }
     };
 
-    const handleStatusChange = async (applicationId: number, newStatus: string) => {
+    const handleStatusChange = async (applicationId: string, newStatus: string) => {
         try {
             const res = await fetch(`/api/shop-owner/applications/${applicationId}`, {
                 method: 'PATCH',

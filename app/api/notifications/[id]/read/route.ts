@@ -18,7 +18,7 @@ export async function POST(
 
         const userId = currentUser.id;
         const { id } = await params;
-        const notificationId = parseInt(id);
+        const notificationId = id;
 
         // Verify notification belongs to user and update
         const notification = await prisma.notification.findFirst({

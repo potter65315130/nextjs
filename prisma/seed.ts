@@ -145,7 +145,6 @@ async function main() {
             { name: "คนร่วมงานวิจัย / ตอบแบบสอบถาม" },
             { name: "รับจ้างทั่วไป" }
         ],
-        skipDuplicates: true,
     });
     console.log("✔ 100+ Categories seeded");
 

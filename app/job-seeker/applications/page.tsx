@@ -9,11 +9,11 @@ import JobListSkeleton from '@/components/job-seeker/JobListSkeleton';
 import JobListEmpty from '@/components/job-seeker/JobListEmpty';
 
 interface Application {
-    id: number;
+    id: string;
     applicationDate: string;
     status: 'pending' | 'in_progress' | 'completed' | 'terminated';
     job: {
-        id: number;
+        id: string;
         jobName: string;
         categoryName: string;
         shopName: string;

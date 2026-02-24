@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
         if (shopIdParam) {
             // Public access - anyone can view shop's work history/reviews
             shop = await prisma.shop.findUnique({
-                where: { id: parseInt(shopIdParam) },
+                where: { id: shopIdParam },
             });
         } else {
             // Shop owner access - must be authenticated

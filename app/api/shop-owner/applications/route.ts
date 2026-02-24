@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
             where: {
                 post: {
                     shopId: shop.id,
-                    ...(postId ? { id: parseInt(postId) } : {}),
+                    ...(postId ? { id: postId } : {}),
                 },
                 status: {
                     in: ['pending', 'in_progress'],

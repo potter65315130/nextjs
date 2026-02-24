@@ -22,7 +22,7 @@ const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
 });
 
 interface Category {
-    id: number;
+    id: string;
     name: string;
 }
 
@@ -140,11 +140,11 @@ export default function JobSeekerProfilePage() {
     const { showAlert } = useAlert();
     const [loading, setLoading] = useState(false);
     const [loadingUser, setLoadingUser] = useState(true);
-    const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+    const [currentUserId, setCurrentUserId] = useState<string | null>(null);
     const [categories, setCategories] = useState<Category[]>([]);
 
     const [formData, setFormData] = useState({
-        userId: 0,
+        userId: '',
         fullName: '',
         gender: '',
         phone: '',
@@ -242,7 +242,7 @@ export default function JobSeekerProfilePage() {
 
         try {
             const payload = {
-                userId: Number(formData.userId),
+                userId: formData.userId,
                 fullName: formData.fullName,
                 profileImage: formData.profileImage,
                 age: formData.age ? Number(formData.age) : undefined,
@@ -255,7 +255,7 @@ export default function JobSeekerProfilePage() {
                 availableDays: JSON.stringify(formData.availableDays),
                 skills: formData.skills,
                 experience: formData.experience,
-                categoryIds: formData.jobCategoryId ? [Number(formData.jobCategoryId)] : [],
+                categoryIds: formData.jobCategoryId ? [formData.jobCategoryId] : [],
             };
 
             const res = await fetch('/api/job-seeker/profile', {

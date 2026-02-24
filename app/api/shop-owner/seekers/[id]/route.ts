@@ -14,9 +14,9 @@ export async function GET(
         }
 
         const { id } = await params;
-        const seekerId = parseInt(id);
+        const seekerId = id;
 
-        if (isNaN(seekerId)) {
+        if (!seekerId) {
             return NextResponse.json({ error: 'Invalid seeker ID' }, { status: 400 });
         }
 

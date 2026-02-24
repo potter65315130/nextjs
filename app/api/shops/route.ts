@@ -27,11 +27,11 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const userIdParam = searchParams.get('userId');
 
-        let userId: number;
+        let userId: string;
 
         if (userIdParam) {
             // ใช้ userId จาก query params
-            userId = parseInt(userIdParam);
+            userId = userIdParam;
         } else {
             // ดึงจาก session
             const user = await getCurrentUser();

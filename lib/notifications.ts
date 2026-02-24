@@ -1,14 +1,14 @@
 import prisma from '@/lib/prisma';
 
 interface CreateNotificationParams {
-    userId: number;
+    userId: string;
     type: 'application' | 'message' | 'system' | 'match';
     title: string;
     message: string;
     link?: string;
-    applicationId?: number;
-    postId?: number;
-    chatRoomId?: number;
+    applicationId?: string;
+    postId?: string;
+    chatRoomId?: string;
 }
 
 /**
@@ -40,9 +40,9 @@ export async function createNotification(params: CreateNotificationParams) {
  * แจ้งเตือนเมื่อใบสมัครได้รับการตอบรับ
  */
 export async function notifyApplicationAccepted(
-    seekerId: number,
-    applicationId: number,
-    postId: number,
+    seekerId: string,
+    applicationId: string,
+    postId: string,
     shopName: string,
     jobName: string
 ) {
@@ -61,9 +61,9 @@ export async function notifyApplicationAccepted(
  * แจ้งเตือนเมื่อใบสมัครถูกปฏิเสธ
  */
 export async function notifyApplicationRejected(
-    seekerId: number,
-    applicationId: number,
-    postId: number,
+    seekerId: string,
+    applicationId: string,
+    postId: string,
     shopName: string,
     jobName: string
 ) {
@@ -82,9 +82,9 @@ export async function notifyApplicationRejected(
  * แจ้งเตือนเมื่อมีข้อความใหม่
  */
 export async function notifyNewMessage(
-    recipientUserId: number,
+    recipientUserId: string,
     senderName: string,
-    chatRoomId: number,
+    chatRoomId: string,
     messagePreview: string
 ) {
     return createNotification({
@@ -101,7 +101,7 @@ export async function notifyNewMessage(
  * แจ้งเตือนเมื่อพบงานที่เหมาะสม
  */
 export async function notifyNewMatches(
-    seekerId: number,
+    seekerId: string,
     matchCount: number,
     topJobName?: string
 ) {
@@ -120,9 +120,9 @@ export async function notifyNewMatches(
  * แจ้งเตือนเมื่อมีผู้สมัครงานใหม่ (สำหรับ Shop Owner)
  */
 export async function notifyNewApplication(
-    shopOwnerId: number,
-    applicationId: number,
-    postId: number,
+    shopOwnerId: string,
+    applicationId: string,
+    postId: string,
     seekerName: string,
     jobName: string
 ) {
@@ -141,7 +141,7 @@ export async function notifyNewApplication(
  * แจ้งเตือนระบบ (อัพเดทโปรไฟล์, การเปลี่ยนแปลงต่างๆ)
  */
 export async function notifySystemUpdate(
-    userId: number,
+    userId: string,
     title: string,
     message: string,
     link?: string
@@ -159,9 +159,9 @@ export async function notifySystemUpdate(
  * แจ้งเตือนเมื่อใบสมัครมีการเปลี่ยนสถานะ
  */
 export async function notifyApplicationStatusChange(
-    seekerId: number,
-    applicationId: number,
-    postId: number,
+    seekerId: string,
+    applicationId: string,
+    postId: string,
     status: string,
     shopName: string,
     jobName: string

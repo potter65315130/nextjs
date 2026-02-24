@@ -7,7 +7,7 @@ export async function GET(
 ) {
     try {
         const { id } = await params;
-        const shopId = parseInt(id);
+        const shopId = id;
         console.log('📊 Dashboard API called for shopId:', shopId);
 
         // นับจำนวน job posts

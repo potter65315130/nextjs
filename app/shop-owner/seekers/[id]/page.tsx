@@ -27,13 +27,13 @@ import { useAlert } from '@/components/ui/AlertContainer';
 import PageHeader from '@/components/shop-owner/PageHeader';
 
 interface Category {
-    id: number;
+    id: string;
     name: string;
 }
 
 interface Application {
-    id: number;
-    postId: number;
+    id: string;
+    postId: string;
     jobName: string;
     shopName: string;
     categoryName: string;
@@ -44,7 +44,7 @@ interface Application {
 }
 
 interface WorkHistory {
-    id: number;
+    id: string;
     shopName: string;
     jobName: string;
     workDate: string;
@@ -55,8 +55,8 @@ interface WorkHistory {
 }
 
 interface JobSeeker {
-    id: number;
-    userId: number;
+    id: string;
+    userId: string;
     fullName: string | null;
     profileImage: string | null;
     age: number | null;

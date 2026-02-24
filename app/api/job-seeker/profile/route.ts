@@ -17,7 +17,7 @@ const profileSchema = z.object({
     availableDays: z.string().optional().nullable(),
     skills: z.string().optional().nullable(),
     experience: z.string().optional().nullable(),
-    categoryIds: z.array(z.number()).optional(),
+    categoryIds: z.array(z.string()).optional(),
 });
 
 export async function POST(request: Request) {
@@ -39,8 +39,8 @@ export async function POST(request: Request) {
         }
 
         const data = validation.data;
-        const categoryConnect = data.categoryIds?.map((catId: number) => ({
-            categoryId: catId,
+        const categoryConnect = data.categoryIds?.map((catId: string) => ({
+            category: { connect: { id: catId } }
         }));
 
         // 4. ใช้คำสั่ง UPSERT (Create หรือ Update)

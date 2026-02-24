@@ -7,8 +7,8 @@ import { getCurrentUser } from '@/lib/auth';
 // Zod Schema for POST/PUT validation
 // --------------------------------------------------------
 const jobPostSchema = z.object({
-    shop_id: z.number().int().positive('Shop ID must be a positive integer'),
-    category_id: z.number().int().positive('Category ID must be a positive integer'),
+    shop_id: z.string().min(1, 'Shop ID is required'),
+    category_id: z.string().min(1, 'Category ID is required'),
     job_name: z.string().min(1, 'Job name is required'),
     description: z.string().optional(),
     contact_phone: z.string().optional(),
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
         if (postId) {
             const post = await prisma.shopJobPost.findUnique({
                 where: {
-                    id: parseInt(postId),
+                    id: postId,
                 },
                 include: {
                     shop: {
@@ -243,7 +243,7 @@ export async function POST(request: NextRequest) {
                 longitude: validatedData.longitude,
                 workDate: new Date(validatedData.work_date),
                 requiredPeople: validatedData.required_people,
-                wage: validatedData.wage.toString(),
+                wage: parseFloat(validatedData.wage.toString()),
                 status: validatedData.status || 'open',
             },
             include: {
@@ -335,7 +335,7 @@ export async function PUT(request: NextRequest) {
 
         // 4. Find the post and verify ownership
         const existingPost = await prisma.shopJobPost.findUnique({
-            where: { id: parseInt(postId) },
+            where: { id: postId },
             include: {
                 shop: {
                     select: { userId: true },
@@ -403,7 +403,7 @@ export async function PUT(request: NextRequest) {
 
         // 9. Update job post
         const updatedPost = await prisma.shopJobPost.update({
-            where: { id: parseInt(postId) },
+            where: { id: postId },
             data: {
                 shopId: validatedData.shop_id,
                 categoryId: validatedData.category_id,
@@ -416,7 +416,7 @@ export async function PUT(request: NextRequest) {
                 longitude: validatedData.longitude,
                 workDate: new Date(validatedData.work_date),
                 requiredPeople: validatedData.required_people,
-                wage: validatedData.wage.toString(),
+                wage: parseFloat(validatedData.wage.toString()),
                 status: validatedData.status || existingPost.status,
             },
             include: {
@@ -505,7 +505,7 @@ export async function DELETE(request: NextRequest) {
 
         // 4. Find the post and verify ownership
         const existingPost = await prisma.shopJobPost.findUnique({
-            where: { id: parseInt(postId) },
+            where: { id: postId },
             include: {
                 shop: {
                     select: { userId: true },
@@ -539,22 +539,22 @@ export async function DELETE(request: NextRequest) {
         await prisma.$transaction(async (tx: any) => {
             // Delete all matches related to this post
             await tx.match.deleteMany({
-                where: { postId: parseInt(postId) },
+                where: { postId: postId },
             });
 
             // Delete all applications related to this post
             await tx.application.deleteMany({
-                where: { postId: parseInt(postId) },
+                where: { postId: postId },
             });
 
             // Delete all work history related to this post
             await tx.workHistory.deleteMany({
-                where: { postId: parseInt(postId) },
+                where: { postId: postId },
             });
 
             // Finally, delete the job post itself
             await tx.shopJobPost.delete({
-                where: { id: parseInt(postId) },
+                where: { id: postId },
             });
         });
 

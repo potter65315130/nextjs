@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
         if (postId) {
             const post = await prisma.shopJobPost.findUnique({
                 where: {
-                    id: parseInt(postId),
+                    id: postId,
                 },
                 include: {
                     shop: {
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
         const where: any = {};
 
         if (shopId) {
-            where.shopId = parseInt(shopId);
+            where.shopId = shopId;
         }
 
         if (status) {

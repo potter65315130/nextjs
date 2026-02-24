@@ -14,7 +14,7 @@ export async function POST(
         }
 
         const { id } = await params;
-        const roomId = parseInt(id);
+        const roomId = id;
 
         // ตรวจสอบ room และสิทธิ์
         const room = await prisma.chatRoom.findUnique({

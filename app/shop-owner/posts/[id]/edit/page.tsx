@@ -17,7 +17,7 @@ const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
 });
 
 interface Category {
-    id: number;
+    id: string;
     name: string;
 }
 
@@ -28,7 +28,7 @@ export default function EditJobPostPage() {
     const [loading, setLoading] = useState(false);
     const [loadingData, setLoadingData] = useState(true);
     const [categories, setCategories] = useState<Category[]>([]);
-    const [shopId, setShopId] = useState<number | null>(null);
+    const [shopId, setShopId] = useState<string | null>(null);
 
     const [formData, setFormData] = useState({
         jobName: '',
@@ -139,7 +139,7 @@ export default function EditJobPostPage() {
             const payload = {
                 shop_id: shopId, // Use existing shop_id
                 job_name: formData.jobName,
-                category_id: parseInt(formData.categoryId),
+                category_id: formData.categoryId,
                 description: formData.description,
                 contact_phone: formData.contactPhone,
                 address: formData.address,

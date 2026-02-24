@@ -160,7 +160,7 @@ export async function DELETE(request: NextRequest) {
         // Delete category
         await prisma.category.delete({
             where: {
-                id: parseInt(id),
+                id: id,
             },
         });
 

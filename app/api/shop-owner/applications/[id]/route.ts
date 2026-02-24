@@ -13,7 +13,7 @@ export async function GET(
         }
 
         const { id } = await params;
-        const applicationId = parseInt(id);
+        const applicationId = id;
 
         // ดึงข้อมูล application พร้อมข้อมูลเกี่ยวข้อง
         const application = await prisma.application.findUnique({
@@ -114,7 +114,7 @@ export async function PATCH(
         }
 
         const { id } = await params;
-        const applicationId = parseInt(id);
+        const applicationId = id;
         const body = await request.json();
         const { status } = body;
 
@@ -167,7 +167,7 @@ export async function PATCH(
                     where: {
                         // เนื่องจาก WorkHistory ใน schema ไม่มี Unique constraint ที่ชัดเจน เราใช้เงื่อนไขค้นหาแทน
                         // หรือถ้า schema ไม่มี unique id สำหรับ (seekerId, postId) เราอาจใช้ findFirst ก่อน
-                        id: -1 // หลอกๆ เพื่อให้ไป create
+                        id: 'nonexistent' // หลอกๆ เพื่อให้ไป create
                     },
                     update: {},
                     create: {

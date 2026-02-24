@@ -12,8 +12,7 @@ export async function GET(
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const { id } = await params;
-        const applicationId = parseInt(id);
+        const { id: applicationId } = await params;
 
         // ตรวจสอบว่า seeker profile มีหรือไม่
         const seekerProfile = await prisma.jobSeekerProfile.findUnique({

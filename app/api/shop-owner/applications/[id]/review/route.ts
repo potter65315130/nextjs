@@ -13,7 +13,7 @@ export async function PATCH(
         }
 
         const { id } = await params;
-        const applicationId = parseInt(id);
+        const applicationId = id;
         const body = await request.json();
         const { review, rating } = body;
 

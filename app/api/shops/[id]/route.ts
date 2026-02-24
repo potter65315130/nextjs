@@ -8,11 +8,11 @@ export async function GET(
     try {
         // Support both Next.js 14 and 15
         const params = await Promise.resolve(context.params);
-        const shopId = parseInt(params.id);
+        const shopId = params.id;
 
-        console.log('Shop API - Requested ID:', params.id, 'Parsed:', shopId);
+        console.log('Shop API - Requested ID:', params.id);
 
-        if (isNaN(shopId)) {
+        if (!shopId) {
             console.error('Shop API - Invalid ID:', params.id);
             return NextResponse.json(
                 { success: false, message: 'Invalid shop ID' },

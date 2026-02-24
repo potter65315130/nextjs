@@ -12,7 +12,7 @@ export async function GET(req: Request) {
         }
 
         const seeker = await prisma.jobSeekerProfile.findUnique({
-            where: { userId: parseInt(userId) },
+            where: { userId: userId },
         });
 
         if (!seeker) {

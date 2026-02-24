@@ -18,7 +18,7 @@ export async function PATCH(req: Request) {
         }
 
         const updatedMatch = await prisma.match.update({
-            where: { id: parseInt(matchId) },
+            where: { id: matchId },
             data: { status },
         });
 

@@ -18,7 +18,7 @@ export async function DELETE(
 
         const userId = currentUser.id;
         const { id } = await params;
-        const notificationId = parseInt(id);
+        const notificationId = id;
 
         // Verify notification belongs to user before deleting
         const notification = await prisma.notification.findFirst({

@@ -30,7 +30,7 @@ export async function GET(req: Request) {
         const chatRoom = await prisma.chatRoom.findUnique({
             where: {
                 postId_seekerId: {
-                    postId: parseInt(postId),
+                    postId: postId,
                     seekerId: seekerProfile.id,
                 },
             },

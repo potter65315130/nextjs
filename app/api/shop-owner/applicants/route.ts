@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
         }
 
         if (postId) {
-            filter.postId = parseInt(postId);
+            filter.postId = postId;
         }
 
         // Fetch applications

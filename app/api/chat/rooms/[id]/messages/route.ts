@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getCurrentUser } from '@/lib/auth';
 
 // Helper function to check room access
-async function checkRoomAccess(roomId: number, userId: number) {
+async function checkRoomAccess(roomId: string, userId: string) {
     const room = await prisma.chatRoom.findUnique({
         where: { id: roomId },
         include: {
@@ -30,7 +30,7 @@ export async function GET(
         }
 
         const { id } = await params;
-        const roomId = parseInt(id);
+        const roomId = id;
 
         // ตรวจสอบสิทธิ์
         const { room, hasAccess } = await checkRoomAccess(roomId, currentUser.id);
@@ -104,7 +104,7 @@ export async function POST(
         }
 
         const { id } = await params;
-        const roomId = parseInt(id);
+        const roomId = id;
 
         // ตรวจสอบสิทธิ์
         const { room, hasAccess } = await checkRoomAccess(roomId, currentUser.id);

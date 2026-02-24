@@ -23,13 +23,13 @@ import {
 import { useAlert } from '@/components/ui/AlertContainer';
 
 interface ApplicationDetail {
-    id: number;
+    id: string;
     applicationDate: string;
     status: 'pending' | 'in_progress' | 'completed' | 'terminated';
     review: string | null;
     rating: number | null;
     seeker: {
-        id: number;
+        id: string;
         fullName: string | null;
         profileImage: string | null;
         phone: string | null;
@@ -42,7 +42,7 @@ interface ApplicationDetail {
         experience: string | null;
     };
     post: {
-        id: number;
+        id: string;
         jobName: string;
         description: string | null;
         wage: number;

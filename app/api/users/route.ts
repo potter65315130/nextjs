@@ -78,7 +78,7 @@ export async function POST(req: Request) {
                 email,
                 passwordHash: hashedPassword,
                 //phone,
-                roleId: Number(roleId), // Ensure roleId is a number
+                roleId: roleId, // String ID for MongoDB
             },
             include: {
                 role: true, // Include role in response if needed, or just return basic info

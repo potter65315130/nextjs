@@ -9,13 +9,13 @@ import Link from 'next/link';
 import { useAlert } from '@/components/ui/AlertContainer';
 
 interface ApplicationDetail {
-    id: number;
+    id: string;
     applicationDate: string;
     status: 'pending' | 'in_progress' | 'completed' | 'terminated';
     review: string | null;
     rating: number | null;
     job: {
-        id: number;
+        id: string;
         jobName: string;
         description: string;
         categoryName: string;
@@ -128,7 +128,7 @@ export default function ApplicationDetailPage() {
     const { showAlert } = useAlert();
     const [application, setApplication] = useState<ApplicationDetail | null>(null);
     const [loading, setLoading] = useState(true);
-    const [chatRoomId, setChatRoomId] = useState<number | null>(null);
+    const [chatRoomId, setChatRoomId] = useState<string | null>(null);
 
     useEffect(() => {
         if (params.id) {

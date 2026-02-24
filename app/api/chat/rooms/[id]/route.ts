@@ -14,7 +14,7 @@ export async function GET(
         }
 
         const { id } = await params;
-        const roomId = parseInt(id);
+        const roomId = id;
 
         const room = await prisma.chatRoom.findUnique({
             where: { id: roomId },

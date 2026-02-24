@@ -20,9 +20,9 @@ export async function GET(
         }
 
         const { id } = await params;
-        const applicationId = parseInt(id);
+        const applicationId = id;
 
-        if (isNaN(applicationId)) {
+        if (!applicationId) {
             return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
         }
 
@@ -130,9 +130,9 @@ export async function PATCH(
         }
 
         const { id } = await params;
-        const applicationId = parseInt(id);
+        const applicationId = id;
 
-        if (isNaN(applicationId)) {
+        if (!applicationId) {
             return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
         }
 

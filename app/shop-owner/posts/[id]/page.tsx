@@ -14,12 +14,12 @@ const LocationMap = dynamic(() => import('@/components/forms/LocationMap'), {
 });
 
 interface JobPost {
-    id: number;
+    id: string;
     jobName: string;
-    categoryId: number;
+    categoryId: string;
     category: { name: string };
     shop?: {
-        id: number;
+        id: string;
         profileImage: string | null;
         shopName?: string;
     };
@@ -36,8 +36,8 @@ interface JobPost {
 }
 
 interface Application {
-    id: number;
-    seekerId: number;
+    id: string;
+    seekerId: string;
     seekerName: string;
     seekerImage: string | null;
     jobName: string;
@@ -54,7 +54,7 @@ export default function ViewJobPostPage() {
     const [applications, setApplications] = useState<Application[]>([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
-    const [chatRoomIds, setChatRoomIds] = useState<Record<number, number>>({}); // seekerId -> roomId
+    const [chatRoomIds, setChatRoomIds] = useState<Record<string, string>>({}); // seekerId -> roomId
     const [shopRating, setShopRating] = useState<{ average: number; count: number }>({ average: 0, count: 0 });
 
     useEffect(() => {
@@ -102,9 +102,9 @@ export default function ViewJobPostPage() {
             if (chatRes.ok) {
                 const chatData = await chatRes.json();
                 // สร้าง map ของ seekerId -> roomId สำหรับ post นี้
-                const roomMap: Record<number, number> = {};
+                const roomMap: Record<string, string> = {};
                 chatData.rooms?.forEach((room: any) => {
-                    if (room.postId === parseInt(id) && room.participant?.type === 'seeker') {
+                    if (room.postId === id && room.participant?.type === 'seeker') {
                         roomMap[room.participant.id] = room.id;
                     }
                 });
@@ -119,7 +119,7 @@ export default function ViewJobPostPage() {
         }
     };
 
-    const handleStatusChange = async (applicationId: number, newStatus: string) => {
+    const handleStatusChange = async (applicationId: string, newStatus: string) => {
         if (submitting) return;
 
         try {

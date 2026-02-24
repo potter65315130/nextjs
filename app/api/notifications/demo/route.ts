@@ -30,8 +30,8 @@ export async function POST(request: NextRequest) {
             // 1. Application Accepted
             notifyApplicationAccepted(
                 userId,
-                1,
-                1,
+                "1",
+                "1",
                 "Coffee House",
                 "พนักงานเสิร์ฟ"
             ),
@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
             // 2. Application Rejected
             notifyApplicationRejected(
                 userId,
-                2,
-                2,
+                "2",
+                "2",
                 "Book Cafe",
                 "พนักงานชงกาแฟ"
             ),
@@ -63,8 +63,8 @@ export async function POST(request: NextRequest) {
             // 5. Application Status Change - In Progress
             notifyApplicationStatusChange(
                 userId,
-                3,
-                3,
+                "3",
+                "3",
                 "in_progress",
                 "Bakery Shop",
                 "พนักงานทำขนมปัง"
@@ -73,8 +73,8 @@ export async function POST(request: NextRequest) {
             // 6. Application Status Change - Completed
             notifyApplicationStatusChange(
                 userId,
-                4,
-                4,
+                "4",
+                "4",
                 "completed",
                 "Restaurant ABC",
                 "พนักงานล้างจาน"

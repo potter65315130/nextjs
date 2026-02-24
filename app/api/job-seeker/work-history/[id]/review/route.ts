@@ -8,7 +8,7 @@ export async function POST(
     try {
         const { id } = await params;
         const { rating, review } = await request.json();
-        const applicationId = parseInt(id);
+        const applicationId = id;
 
         // Validate rating
         if (rating && (rating < 1 || rating > 5)) {
