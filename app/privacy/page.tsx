@@ -4,7 +4,7 @@ import Navbar from '@/components/home/Navbar';
 
 export default function PrivacyPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+        <div className="min-h-screen bg-white dark:bg-gray-900">
             <Navbar />
 
             {/* Hero Section */}
@@ -210,7 +210,7 @@ export default function PrivacyPage() {
                             </div>
 
                             {/* Contact Section */}
-                            <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-8">
+                            <div className="mt-12 bg-gray-50 dark:bg-gray-800/60 rounded-2xl p-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                                     มีคำถามเกี่ยวกับนโยบายความเป็นส่วนตัว?
                                 </h2>
@@ -234,7 +234,7 @@ export default function PrivacyPage() {
                             </p>
                             <Link
                                 href="/terms"
-                                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-2xl"
+                                className="inline-block bg-[#5D87FF] hover:bg-[#3b5fc0] text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-2xl"
                             >
                                 ข้อกำหนดการใช้งาน
                             </Link>

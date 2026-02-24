@@ -426,7 +426,7 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
                                     {availableDays.map((day) => (
                                         <span
                                             key={day}
-                                            className="px-4 py-2 bg-linear-gradient-to-r from-blue-100 to-blue-100 dark:from-blue-900/30 dark:to-blue-900/30 text-blue-700 dark:text-blue-400 rounded-xl font-semibold border border-blue-200 dark:border-blue-700"
+                                            className="px-4 py-2 bg-[#eef2ff] dark:bg-blue-900/30 text-[#5D87FF] dark:text-blue-400 rounded-xl font-semibold border border-blue-200 dark:border-blue-700"
                                         >
                                             {translateDay(day)}
                                         </span>

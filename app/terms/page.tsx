@@ -4,7 +4,7 @@ import Navbar from '@/components/home/Navbar';
 
 export default function TermsPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+        <div className="min-h-screen bg-white dark:bg-gray-900">
             <Navbar />
 
             {/* Hero Section */}
@@ -41,7 +41,7 @@ export default function TermsPage() {
                             {/* Section 1 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
                                     การยอมรับข้อกำหนด
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
@@ -53,7 +53,7 @@ export default function TermsPage() {
                             {/* Section 2 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
                                     การสมัครสมาชิกและบัญชีผู้ใช้
                                 </h2>
                                 <ul className="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
@@ -68,7 +68,7 @@ export default function TermsPage() {
                             {/* Section 3 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
                                     การใช้งานบริการ
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
@@ -86,7 +86,7 @@ export default function TermsPage() {
                             {/* Section 4 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
                                     ความรับผิดชอบของผู้ใช้
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
@@ -102,7 +102,7 @@ export default function TermsPage() {
                             {/* Section 5 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
                                     ค่าธรรมเนียมและการชำระเงิน
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -114,7 +114,7 @@ export default function TermsPage() {
                             {/* Section 6 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
                                     ทรัพย์สินทางปัญญา
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -126,7 +126,7 @@ export default function TermsPage() {
                             {/* Section 7 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">7</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">7</span>
                                     ข้อจำกัดความรับผิด
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -139,7 +139,7 @@ export default function TermsPage() {
                             {/* Section 8 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">8</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">8</span>
                                     การแก้ไขข้อกำหนด
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -151,7 +151,7 @@ export default function TermsPage() {
                             {/* Section 9 */}
                             <div className="mb-8">
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                    <span className="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">9</span>
+                                    <span className="bg-[#5D87FF] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">9</span>
                                     ติดต่อเรา
                                 </h2>
                                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -174,7 +174,7 @@ export default function TermsPage() {
                             </p>
                             <Link
                                 href="/privacy"
-                                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-2xl"
+                                className="inline-block bg-[#5D87FF] hover:bg-[#3b5fc0] text-white px-8 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-2xl"
                             >
                                 อ่านนโยบายความเป็นส่วนตัว
                             </Link>

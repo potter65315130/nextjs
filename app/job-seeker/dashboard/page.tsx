@@ -147,7 +147,7 @@ export default function JobSeekerDashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+        <div className="min-h-screen bg-white dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 py-8">
 
                 {/* Header */}
@@ -219,7 +219,7 @@ export default function JobSeekerDashboard() {
                 {/* Quick Actions */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <Link href="/job-seeker/matching"
-                        className="bg-gradient-to-r from-sky-500 to-sky-600 dark:from-sky-600 dark:to-sky-700 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all group">
+                        className="bg-[#5D87FF] dark:bg-[#3b5fc0] rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all group">
                         <div className="flex items-center justify-between text-white">
                             <div>
                                 <h3 className="text-lg font-bold mb-2">หางาน</h3>
@@ -230,7 +230,7 @@ export default function JobSeekerDashboard() {
                     </Link>
 
                     <Link href="/job-seeker/applications"
-                        className="bg-gradient-to-r from-sky-400 to-sky-500 dark:from-sky-500 dark:to-sky-600 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all group">
+                        className="bg-[#4a70e8] dark:bg-[#3b5fc0] rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all group">
                         <div className="flex items-center justify-between text-white">
                             <div>
                                 <h3 className="text-lg font-bold mb-2">ใบสมัครของฉัน</h3>
@@ -241,7 +241,7 @@ export default function JobSeekerDashboard() {
                     </Link>
 
                     <Link href="/job-seeker/history"
-                        className="bg-gradient-to-r from-sky-600 to-sky-700 dark:from-sky-700 dark:to-sky-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all group">
+                        className="bg-[#3b5fc0] dark:bg-[#2a4590] rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all group">
                         <div className="flex items-center justify-between text-white">
                             <div>
                                 <h3 className="text-lg font-bold mb-2">ประวัติการทำงาน</h3>

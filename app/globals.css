@@ -9,12 +9,12 @@
   --foreground: #0F172A;
 
   /* --- BRAND COLOR: Sky Blue --- */
-  --brand-primary: #38BDF8;
+  --brand-primary: #5D87FF;
   --brand-primary-light: #7DD3FC;
   --brand-primary-dark: #0EA5E9;
 
   /* Button Colors - ใช้เฉพาะสีฟ้า */
-  --button-primary: #38BDF8;
+  --button-primary: #5D87FF;
   --button-primary-hover: #0EA5E9;
   /* ปุ่มรอง - สีเทา */
   --button-secondary: #F1F5F9;
@@ -29,12 +29,12 @@
   --foreground: #F1F5F9;
 
   /* --- BRAND COLOR DARK: Sky Blue --- */
-  --brand-primary: #38BDF8;
+  --brand-primary: #5D87FF;
   --brand-primary-light: #7DD3FC;
   --brand-primary-dark: #0EA5E9;
 
   /* Button Colors Dark */
-  --button-primary: #38BDF8;
+  --button-primary: #5D87FF;
   --button-primary-hover: #0EA5E9;
   /* ปุ่มรอง */
   --button-secondary: #334155;
@@ -44,11 +44,11 @@
 
 /* ------------------------- Auth Background Colors ------------------------- */
 .auth-bg {
-  background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%);
+  background: #5D87FF;
 }
 
 .dark .auth-bg {
-  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  background: #1E293B;
 }
 
 html,
@@ -63,12 +63,12 @@ body {
   background-color: var(--button-primary);
   color: white;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 2px 8px rgba(93, 135, 255, 0.2);
 }
 
 .btn-primary:hover {
   background-color: var(--button-primary-hover);
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 4px 12px rgba(93, 135, 255, 0.3);
   transform: translateY(-1px);
 }
 
@@ -84,11 +84,11 @@ body {
 
 /* ------------------------- Gradient Utilities ------------------------- */
 .gradient-sky {
-  background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%);
+  background: #5D87FF;
 }
 
 .gradient-sky-light {
-  background: linear-gradient(135deg, #7DD3FC 0%, #38BDF8 100%);
+  background: #a8c0ff;
 }
 
 /* ------------------------- Role Button ------------------------- */
@@ -106,10 +106,10 @@ body {
 
 /* ปุ่ม Role ที่ ถูกเลือกอยู่ตอนนี้ */
 .role-btn-active {
-  background: linear-gradient(135deg, #38BDF8 0%, #0EA5E9 100%);
+  background: #5D87FF;
   color: white;
   transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 16px rgba(93, 135, 255, 0.4);
   border-color: transparent;
 }
 
@@ -132,8 +132,8 @@ body {
 }
 
 .card-sky:hover {
-  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
-  border-color: #38BDF8;
+  box-shadow: 0 8px 24px rgba(93, 135, 255, 0.15);
+  border-color: #5D87FF;
 }
 
 .dark .card-sky {
@@ -142,6 +142,6 @@ body {
 }
 
 .dark .card-sky:hover {
-  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.25);
-  border-color: #38BDF8;
+  box-shadow: 0 8px 24px rgba(93, 135, 255, 0.25);
+  border-color: #5D87FF;
 }

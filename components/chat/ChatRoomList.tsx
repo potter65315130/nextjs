@@ -68,7 +68,7 @@ export default function ChatRoomList({
     if (rooms.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-20 px-6">
-                <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center mb-6 shadow-lg">
+                <div className="w-24 h-24 bg-linear-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-full flex items-center justify-center mb-6 shadow-lg">
                     <MessageCircle className="w-12 h-12 text-blue-600 dark:text-blue-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">

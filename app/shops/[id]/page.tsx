@@ -153,7 +153,7 @@ export default function ShopProfilePage() {
                         {/* 1. Shop Logo / Image (Square Rounded) */}
                         <div className="w-full md:w-auto flex justify-center md:justify-start">
                             <div className="relative w-32 h-32 md:w-40 md:h-40 shrink-0">
-                                <div className="absolute inset-0 bg-linear-to-tr from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 rounded-2xl transform rotate-3"></div>
+                                <div className="absolute inset-0 bg-[#eef2ff] dark:from-gray-700 dark:to-gray-600 rounded-2xl transform rotate-3"></div>
                                 <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white dark:bg-gray-700 shadow-md ring-1 ring-gray-100 dark:ring-gray-600">
                                     {shop.imageUrl ? (
                                         <Image

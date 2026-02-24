@@ -21,9 +21,9 @@ const config: Config = {
                 // กำหนดสีหลักของแอป
                 brand: {
                     // Primary gradient colors
-                    'primary-from': '#2563eb',    // blue-600
+                    'primary-from': '#5D87FF',    // brand blue
                     'primary-to': '#9333ea',      // purple-600
-                    'primary-from-dark': '#60a5fa',  // blue-400
+                    'primary-from-dark': '#a8c0ff',  // brand blue light
                     'primary-to-dark': '#c084fc',    // purple-400
                 },
                 // Background & Surface colors
@@ -34,26 +34,26 @@ const config: Config = {
                 },
                 // Badge/Tag colors
                 badge: {
-                    bg: '#dbeafe',           // blue-100
-                    'bg-dark': '#1e3a8a',    // blue-900/30 approximation
-                    text: '#1d4ed8',         // blue-700
-                    'text-dark': '#93c5fd',  // blue-300
+                    bg: '#dde8ff',           // brand blue-100
+                    'bg-dark': '#1a2f66',    // brand blue dark
+                    text: '#3b5fc0',         // brand blue darker
+                    'text-dark': '#a8c0ff',  // brand blue light
                 },
                 // Button colors
                 button: {
-                    primary: '#2563eb',           // blue-600
-                    'primary-hover': '#1d4ed8',   // blue-700
-                    'primary-dark': '#3b82f6',    // blue-500
-                    'primary-dark-hover': '#2563eb', // blue-600
+                    primary: '#5D87FF',           // brand blue
+                    'primary-hover': '#3b5fc0',   // brand blue darker
+                    'primary-dark': '#7ba0ff',    // brand blue lighter
+                    'primary-dark-hover': '#5D87FF', // brand blue
                 },
                 // Feature card colors (6 variations)
                 feature: {
                     blue: {
-                        from: '#eff6ff',
-                        to: '#dbeafe',
-                        icon: '#2563eb',
-                        'from-dark': '#1e3a8a',
-                        'to-dark': '#1e40af',
+                        from: '#eef2ff',
+                        to: '#dde8ff',
+                        icon: '#5D87FF',
+                        'from-dark': '#1a2f66',
+                        'to-dark': '#1e3a8a',
                     },
                     purple: {
                         from: '#faf5ff',

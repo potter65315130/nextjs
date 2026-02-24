@@ -4,7 +4,7 @@ import Navbar from '@/components/home/Navbar';
 
 export default function AboutPage() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+        <div className="min-h-screen bg-white dark:bg-gray-900">
             <Navbar />
 
             {/* Hero Section */}
@@ -51,7 +51,7 @@ export default function AboutPage() {
                 <div className="max-w-7xl mx-auto">
                     <div className="grid md:grid-cols-2 gap-12">
                         {/* Mission */}
-                        <div className="bg-gradient-to-br from-sky-50 to-sky-100 dark:from-sky-900/20 dark:to-sky-800/20 rounded-2xl p-8 shadow-lg">
+                        <div className="bg-[#eef2ff] dark:bg-[#1a2f66]/20 rounded-2xl p-8 shadow-lg">
                             <div className="bg-sky-600 dark:bg-sky-500 w-14 h-14 rounded-full flex items-center justify-center mb-6">
                                 <Target className="w-7 h-7 text-white" />
                             </div>
@@ -63,7 +63,7 @@ export default function AboutPage() {
                         </div>
 
                         {/* Vision */}
-                        <div className="bg-gradient-to-br from-sky-100 to-sky-200 dark:from-sky-800/20 dark:to-sky-700/20 rounded-2xl p-8 shadow-lg">
+                        <div className="bg-[#dde8ff] dark:bg-[#1a2f66]/30 rounded-2xl p-8 shadow-lg">
                             <div className="bg-sky-500 dark:bg-sky-400 w-14 h-14 rounded-full flex items-center justify-center mb-6">
                                 <Eye className="w-7 h-7 text-white" />
                             </div>
@@ -118,7 +118,7 @@ export default function AboutPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-sky-500 to-sky-600 dark:from-sky-600 dark:to-sky-700">
+            <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#5D87FF] dark:bg-[#3b5fc0]">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-4xl font-bold text-white mb-6">
                         พร้อมที่จะเริ่มต้นแล้วหรือยัง?

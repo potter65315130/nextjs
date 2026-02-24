@@ -130,7 +130,7 @@ export default function NotificationsPage() {
     const unreadCount = notifications.filter(n => !n.isRead).length;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+        <div className="min-h-screen bg-white dark:bg-gray-900">
             <JobSeekerNavbar />
 
             <div className="max-w-4xl mx-auto px-4 py-8">
@@ -162,8 +162,8 @@ export default function NotificationsPage() {
                             <button
                                 onClick={() => setFilter('all')}
                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'all'
-                                        ? 'bg-sky-600 text-white'
-                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                    ? 'bg-sky-600 text-white'
+                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                                     }`}
                             >
                                 ทั้งหมด ({notifications.length})
@@ -171,8 +171,8 @@ export default function NotificationsPage() {
                             <button
                                 onClick={() => setFilter('unread')}
                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'unread'
-                                        ? 'bg-sky-600 text-white'
-                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                                    ? 'bg-sky-600 text-white'
+                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                                     }`}
                             >
                                 ยังไม่อ่าน ({unreadCount})
@@ -224,16 +224,16 @@ export default function NotificationsPage() {
                             <div
                                 key={notification.id}
                                 className={`bg-white dark:bg-gray-800 rounded-2xl shadow-lg border transition-all hover:shadow-xl ${!notification.isRead
-                                        ? 'border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-900/10'
-                                        : 'border-gray-200 dark:border-gray-700'
+                                    ? 'border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-900/10'
+                                    : 'border-gray-200 dark:border-gray-700'
                                     }`}
                             >
                                 <div className="p-6">
                                     <div className="flex gap-4">
                                         {/* Icon */}
                                         <div className={`shrink-0 p-3 rounded-xl ${!notification.isRead
-                                                ? 'bg-sky-100 dark:bg-sky-900/30'
-                                                : 'bg-gray-100 dark:bg-gray-700'
+                                            ? 'bg-sky-100 dark:bg-sky-900/30'
+                                            : 'bg-gray-100 dark:bg-gray-700'
                                             }`}>
                                             {getIcon(notification.type)}
                                         </div>
