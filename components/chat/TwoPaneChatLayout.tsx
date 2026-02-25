@@ -7,11 +7,11 @@ import ChatRoomList from '@/components/chat/ChatRoomList';
 import ChatRoomListSkeleton from '@/components/chat/ChatRoomListSkeleton';
 
 interface ChatRoom {
-    id: number;
-    postId: number;
+    id: string;
+    postId: string;
     jobName: string;
     participant: {
-        id: number;
+        id: string;
         name: string;
         image: string | null;
         type: 'shop' | 'seeker';
@@ -19,7 +19,7 @@ interface ChatRoom {
     lastMessage: {
         content: string;
         createdAt: string;
-        senderId: number;
+        senderId: string;
         isRead: boolean;
     } | null;
     unreadCount: number;
@@ -32,7 +32,7 @@ interface TwoPaneChatLayoutProps {
     apiPath?: string; // /api/chat/rooms by default
     title?: string;
     backLink?: string; // Link for the back arrow in the sidebar header
-    activeRoomId?: number;
+    activeRoomId?: string;
     emptyMessage?: string;
 }
 
@@ -48,7 +48,7 @@ export default function TwoPaneChatLayout({
     const [rooms, setRooms] = useState<ChatRoom[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [currentUserId, setCurrentUserId] = useState<number | undefined>();
+    const [currentUserId, setCurrentUserId] = useState<string | undefined>();
 
     useEffect(() => {
         const fetchData = async () => {

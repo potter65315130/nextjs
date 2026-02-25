@@ -6,11 +6,11 @@ import Image from 'next/image';
 import { MessageCircle, User, Store, Briefcase } from 'lucide-react';
 
 interface ChatRoom {
-    id: number;
-    postId: number;
+    id: string;
+    postId: string;
     jobName: string;
     participant: {
-        id: number;
+        id: string;
         name: string;
         image: string | null;
         type: 'shop' | 'seeker';
@@ -18,7 +18,7 @@ interface ChatRoom {
     lastMessage: {
         content: string;
         createdAt: string;
-        senderId: number;
+        senderId: string;
         isRead: boolean;
     } | null;
     unreadCount: number;
@@ -28,7 +28,7 @@ interface ChatRoom {
 interface ChatRoomListProps {
     rooms: ChatRoom[];
     basePath: string; // '/job-seeker/chat' or '/shop-owner/chat'
-    currentUserId?: number;
+    currentUserId?: string;
     emptyMessage?: string;
 }
 

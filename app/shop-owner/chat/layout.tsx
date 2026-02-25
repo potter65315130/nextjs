@@ -10,7 +10,7 @@ export default function ShopOwnerChatLayout({
     children: React.ReactNode;
 }) {
     const params = useParams();
-    const roomId = params.roomId ? parseInt(params.roomId as string) : undefined;
+    const roomId = params.roomId as string | undefined;
 
     return (
         <TwoPaneChatLayout
