@@ -42,8 +42,8 @@ export default function ConditionalJobSearchHeader() {
         };
     } else if (pathname.startsWith('/job-seeker/history')) {
         headerContent = {
-            title: 'ประวัติการเข้าชม',
-            subtitle: 'ดูรายการงานที่คุณเคยเข้าชมล่าสุด'
+            title: 'ประวัติการทำงาน',
+            subtitle: 'ดูรายการงานที่คุณเคยสมัครและทำงานมาแล้ว'
         };
     }
 
