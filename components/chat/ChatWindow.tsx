@@ -8,8 +8,8 @@ import ChatMessageItem, { DateSeparator } from './ChatMessage';
 import ChatWindowSkeleton from './ChatWindowSkeleton';
 
 interface Message {
-    id: number;
-    senderId: number;
+    id: string;
+    senderId: string;
     content: string;
     isRead: boolean;
     createdAt: string;
@@ -36,7 +36,7 @@ interface RoomInfo {
 }
 
 interface ChatWindowProps {
-    roomId: number;
+    roomId: string;
     backPath: string;
     onNewMessage?: (message: Message) => void;
     showHeader?: boolean;
@@ -68,13 +68,17 @@ export default function ChatWindow({
 
     // Fetch room info and messages
     useEffect(() => {
+        if (!roomId) return;
         shouldScrollRef.current = true; // Reset scroll on room change
+        const controller = new AbortController();
+        const { signal } = controller;
+
         const fetchData = async () => {
             try {
                 setLoading(true);
                 const [roomRes, messagesRes] = await Promise.all([
-                    fetch(`/api/chat/rooms/${roomId}`),
-                    fetch(`/api/chat/rooms/${roomId}/messages`),
+                    fetch(`/api/chat/rooms/${roomId}`, { signal }),
+                    fetch(`/api/chat/rooms/${roomId}/messages`, { signal }),
                 ]);
 
                 if (!roomRes.ok) throw new Error('Failed to load room');
@@ -87,15 +91,18 @@ export default function ChatWindow({
                 setMessages(messagesData.messages);
 
                 // Mark messages as read
-                await fetch(`/api/chat/rooms/${roomId}/read`, { method: 'POST' });
+                await fetch(`/api/chat/rooms/${roomId}/read`, { method: 'POST', signal });
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'เกิดข้อผิดพลาด');
+                if ((err as Error).name !== 'AbortError') {
+                    setError(err instanceof Error ? err.message : 'เกิดข้อผิดพลาด');
+                }
             } finally {
-                setLoading(false);
+                if (!signal.aborted) setLoading(false);
             }
         };
 
         fetchData();
+        return () => controller.abort();
     }, [roomId]);
 
     // Scroll to bottom when messages change
@@ -108,17 +115,28 @@ export default function ChatWindow({
 
     // Polling for new messages (every 3 seconds)
     useEffect(() => {
+        if (!roomId) return;
+        let abortController: AbortController | null = null;
+
         const pollMessages = async () => {
+            abortController = new AbortController();
             try {
-                const res = await fetch(`/api/chat/rooms/${roomId}/messages`);
+                const res = await fetch(`/api/chat/rooms/${roomId}/messages`, {
+                    signal: abortController.signal,
+                });
                 if (res.ok) {
                     const data = await res.json();
                     setMessages(data.messages);
                     // Mark as read
-                    await fetch(`/api/chat/rooms/${roomId}/read`, { method: 'POST' });
+                    await fetch(`/api/chat/rooms/${roomId}/read`, {
+                        method: 'POST',
+                        signal: abortController.signal,
+                    });
                 }
             } catch (err) {
-                console.error('Polling error:', err);
+                if ((err as Error).name !== 'AbortError') {
+                    console.error('Polling error:', err);
+                }
             }
         };
 
@@ -128,6 +146,7 @@ export default function ChatWindow({
             if (pollingRef.current) {
                 clearInterval(pollingRef.current);
             }
+            abortController?.abort();
         };
     }, [roomId]);
 
@@ -150,7 +169,11 @@ export default function ChatWindow({
 
             const data = await res.json();
             shouldScrollRef.current = true; // Scroll when sending message
-            setMessages((prev) => [...prev, data.message]);
+            setMessages((prev) => {
+                // Prevent duplicate if polling already fetched it
+                if (prev.find((m) => m.id === data.message.id)) return prev;
+                return [...prev, data.message];
+            });
             onNewMessage?.(data.message);
         } catch (err) {
             setNewMessage(content); // Restore message if failed

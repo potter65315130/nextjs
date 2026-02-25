@@ -5,8 +5,8 @@ import Image from 'next/image';
 import { MessageCircle, User } from 'lucide-react';
 
 interface ChatMessage {
-    id: number;
-    senderId: number;
+    id: string;
+    senderId: string;
     content: string;
     isRead: boolean;
     createdAt: string;

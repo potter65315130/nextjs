@@ -5,7 +5,7 @@ import ChatWindow from '@/components/chat/ChatWindow';
 
 export default function JobSeekerChatRoomPage() {
     const params = useParams();
-    const roomId = parseInt(params.roomId as string);
+    const roomId = params.roomId as string;
 
     return (
         <ChatWindow
