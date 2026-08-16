@@ -2,5 +2,6 @@
     "css.lint.unknownAtRules": "ignore",
     "scss.lint.unknownAtRules": "ignore",
     "less.lint.unknownAtRules": "ignore",
-    "glassit.alpha": 255
+    "glassit.alpha": 255,
+    "prisma.pinToPrisma6": true
 }

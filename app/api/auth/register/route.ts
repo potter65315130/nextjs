@@ -28,11 +28,23 @@ export async function POST(req: Request) {
         });
 
         if (existingUser) {
-            return NextResponse.json(
-                { message: 'อีเมลนี้ถูกใช้งานแล้ว' },
-                { status: 400 }
-            );
+            if (existingUser.isVerified) {
+                // ผู้ใช้ยืนยันตัวตนแล้ว — ไม่อนุญาตให้สมัครซ้ำ
+                return NextResponse.json(
+                    { message: 'อีเมลนี้ถูกใช้งานแล้ว' },
+                    { status: 400 }
+                );
+            }
+
+            // ผู้ใช้ยังไม่ยืนยัน OTP — ลบข้อมูลเก่าเพื่อให้สมัครใหม่ได้
+            await prisma.userVerification.deleteMany({
+                where: { userId: existingUser.id },
+            });
+            await prisma.user.delete({
+                where: { id: existingUser.id },
+            });
         }
+
 
         let role = await prisma.role.findUnique({
             where: { name: roleName },
@@ -80,7 +92,22 @@ export async function POST(req: Request) {
         });
 
         // ส่ง OTP ทางอีเมล
-        await sendVerificationOTP(email, otpCode);
+        console.log(`📧 กำลังส่ง OTP ไปยัง: ${email}, OTP: ${otpCode}`);
+        const mailResult = await sendVerificationOTP(email, otpCode);
+
+        if (!mailResult.success) {
+            console.error('❌ ส่งอีเมล OTP ไม่สำเร็จ:', mailResult.error);
+            // ยังคงให้สมัครสำเร็จ แต่แจ้งว่าส่งอีเมลไม่ได้
+            return NextResponse.json(
+                {
+                    message: 'สมัครสมาชิกสำเร็จ แต่ส่ง OTP ไม่ได้ กรุณากดขอรหัส OTP ใหม่',
+                    userId: newUser.id,
+                    email: newUser.email,
+                },
+                { status: 201 }
+            );
+        }
+        console.log(`✅ ส่ง OTP สำเร็จไปยัง: ${email}`);
 
         return NextResponse.json(
             {

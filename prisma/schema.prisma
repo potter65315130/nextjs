@@ -4,15 +4,16 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // --------------------------------------------------------
 // 1) Roles — ประเภทผู้ใช้งาน (เหลือแค่ 2 แบบ)
 // --------------------------------------------------------
 model Role {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  id   String @id @default(uuid())
   name String @unique @map("role_name") // job_seeker / shop_owner
 
   // Relations
@@ -25,8 +26,8 @@ model Role {
 // 2) Users — บัญชีผู้ใช้พื้นฐาน
 // --------------------------------------------------------
 model User {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  roleId String @map("role_id") @db.ObjectId
+  id     String @id @default(uuid())
+  roleId String @map("role_id")
 
   email        String @unique
   passwordHash String @map("password_hash")
@@ -50,8 +51,8 @@ model User {
 // 3) Password Reset — ระบบ OTP
 // --------------------------------------------------------
 model PasswordReset {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @map("user_id") @db.ObjectId
+  id     String @id @default(uuid())
+  userId String @map("user_id")
 
   otpCode   String   @map("otp_code")
   otpExpiry DateTime @map("otp_expiry")
@@ -70,8 +71,8 @@ model PasswordReset {
 // 3.5) User Verification — ระบบยืนยันตัวตน (OTP)
 // --------------------------------------------------------
 model UserVerification {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @unique @map("user_id") @db.ObjectId
+  id     String @id @default(uuid())
+  userId String @unique @map("user_id")
 
   otpCode   String   @map("otp_code")
   otpExpiry DateTime @map("otp_expiry")
@@ -87,7 +88,7 @@ model UserVerification {
 // 4) Work Categories
 // --------------------------------------------------------
 model Category {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  id   String @id @default(uuid())
   name String @unique @map("category_name")
 
   jobSeekerCategories JobSeekerCategory[]
@@ -100,8 +101,8 @@ model Category {
 // 5) Job Seeker Profiles
 // --------------------------------------------------------
 model JobSeekerProfile {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @unique @map("user_id") @db.ObjectId
+  id     String @id @default(uuid())
+  userId String @unique @map("user_id")
 
   fullName     String? @map("full_name")
   profileImage String? @map("profile_image")
@@ -137,9 +138,9 @@ model JobSeekerProfile {
 // 6) JobSeekerCategory — Many-to-Many Link
 // --------------------------------------------------------
 model JobSeekerCategory {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  seekerId   String @map("seeker_id") @db.ObjectId
-  categoryId String @map("category_id") @db.ObjectId
+  id         String @id @default(uuid())
+  seekerId   String @map("seeker_id")
+  categoryId String @map("category_id")
 
   seeker   JobSeekerProfile @relation(fields: [seekerId], references: [id])
   category Category         @relation(fields: [categoryId], references: [id])
@@ -152,8 +153,8 @@ model JobSeekerCategory {
 // 7) Shops — ข้อมูลร้านค้า
 // --------------------------------------------------------
 model Shop {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @unique @map("user_id") @db.ObjectId
+  id     String @id @default(uuid())
+  userId String @unique @map("user_id")
 
   shopName     String  @map("shop_name")
   description  String?
@@ -181,9 +182,9 @@ model Shop {
 // 8) ShopJobPost — โพสต์งาน
 // --------------------------------------------------------
 model ShopJobPost {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  shopId     String @map("shop_id") @db.ObjectId
-  categoryId String @map("category_id") @db.ObjectId
+  id         String @id @default(uuid())
+  shopId     String @map("shop_id")
+  categoryId String @map("category_id")
 
   jobName       String  @map("job_name")
   description   String?
@@ -220,9 +221,9 @@ model ShopJobPost {
 // 9) Matches — ระบบจับคู่
 // --------------------------------------------------------
 model Match {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  seekerId String @map("seeker_id") @db.ObjectId
-  postId   String @map("post_id") @db.ObjectId
+  id       String @id @default(uuid())
+  seekerId String @map("seeker_id")
+  postId   String @map("post_id")
 
   matchDate DateTime @default(now()) @map("match_date")
 
@@ -247,9 +248,9 @@ model Match {
 // 10) Applications — การสมัครงาน
 // --------------------------------------------------------
 model Application {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  seekerId String @map("seeker_id") @db.ObjectId
-  postId   String @map("post_id") @db.ObjectId
+  id       String @id @default(uuid())
+  seekerId String @map("seeker_id")
+  postId   String @map("post_id")
 
   applicationDate DateTime @default(now()) @map("application_date")
   status          String   @default("pending") // pending, in_progress, completed, terminated
@@ -269,10 +270,10 @@ model Application {
 // 11) Work History — ประวัติการทำงาน
 // --------------------------------------------------------
 model WorkHistory {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  seekerId String @map("seeker_id") @db.ObjectId
-  shopId   String @map("shop_id") @db.ObjectId
-  postId   String @map("post_id") @db.ObjectId
+  id       String @id @default(uuid())
+  seekerId String @map("seeker_id")
+  shopId   String @map("shop_id")
+  postId   String @map("post_id")
 
   workDate  DateTime @map("work_date")
   wage      Float
@@ -291,10 +292,10 @@ model WorkHistory {
 // 12) ChatRoom — ห้องแชท (1 สมัครงาน = 1 ห้อง)
 // --------------------------------------------------------
 model ChatRoom {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  postId   String @map("post_id") @db.ObjectId
-  shopId   String @map("shop_id") @db.ObjectId
-  seekerId String @map("seeker_id") @db.ObjectId
+  id       String @id @default(uuid())
+  postId   String @map("post_id")
+  shopId   String @map("shop_id")
+  seekerId String @map("seeker_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -315,9 +316,9 @@ model ChatRoom {
 // 13) ChatMessage — ข้อความในแชท
 // --------------------------------------------------------
 model ChatMessage {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  roomId   String @map("room_id") @db.ObjectId
-  senderId String @map("sender_id") @db.ObjectId // userId (shop หรือ seeker)
+  id       String @id @default(uuid())
+  roomId   String @map("room_id")
+  senderId String @map("sender_id") // userId (shop หรือ seeker)
   content  String
 
   isRead    Boolean  @default(false) @map("is_read")
@@ -334,8 +335,8 @@ model ChatMessage {
 // 14) Notifications — ระบบแจ้งเตือน
 // --------------------------------------------------------
 model Notification {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @map("user_id") @db.ObjectId
+  id     String @id @default(uuid())
+  userId String @map("user_id")
 
   type    String // application, message, system, match
   title   String
@@ -346,9 +347,9 @@ model Notification {
   createdAt DateTime @default(now()) @map("created_at")
 
   // Optional: link to related entities
-  applicationId String? @map("application_id") @db.ObjectId
-  postId        String? @map("post_id") @db.ObjectId
-  chatRoomId    String? @map("chat_room_id") @db.ObjectId
+  applicationId String? @map("application_id")
+  postId        String? @map("post_id")
+  chatRoomId    String? @map("chat_room_id")
 
   @@index([userId, createdAt])
   @@index([userId, isRead])
